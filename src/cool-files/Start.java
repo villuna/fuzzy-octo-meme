@@ -1,6 +1,10 @@
 import processing.core.*;
 
 public class Start extends PApplet {
+    boolean cencored = false;
+    boolean mouseDown = false;
+    boolean mousePressed = false;
+    boolean mouseReleased = false;
     // Important function: don't delete or everything will break
     // I'm not sure why
     public static void bruh_momentum() {
@@ -18,14 +22,28 @@ public class Start extends PApplet {
     }
 
     public void draw() {
-        Screen srn = new Screen();
+
+	Screen srn = new Screen();
         srn.drawScreen();
         fill(random(255), random(255), random(255));
         ellipse(mouseX, mouseY, 50, 50);
+
+	mousePressed = false;
+	mouseReleased = false;
     }
 
     public void keyReleased() {
         exit();
+    }
+
+    public void mousePressed() {
+	mousePressed = true;
+	mouseDown = true;
+    }
+
+    public void mouseReleased() {
+	mouseReleased = true;
+	mouseDown = false;
     }
 
     public class Screen {
@@ -44,13 +62,44 @@ public class Start extends PApplet {
         }
     }
 
-    public abstract class Bruh {
-        
+    public class Button {
+	public int x, y, width, height;
+	public Button(int x, int y, int width, int height) {
+	    this.x = x;
+	    this.y = y;
+	    this.width = width;
+	    this.height = height;
+	}
+
+	public boolean mouseOver() {
+	    if ((mouseX < x + width) && (mouseY < y + height)) {
+		if (mouseX > x && mouseY < y) {
+		    return true;
+		}
+	    }
+	    return false;
+	}
+
+	public boolean clicked() {
+	    return (mouseOver() && mouseReleased);
+	}
+
+    }
+    public static abstract class Bruh {
+        // Empty class, just so we can all extend the same class in our respective files
     }
 
-    public abstract class Event {
+    public static abstract class Event {
         // Blueprint type for the Events (things that happen lol)
         // foo() will execute the event and return the next event based on what happens
         public abstract Event foo();
+        public abstract void draw();
     }
+
+    public class Ishy {
+      // Ishy Storyline:
+    }
+    
+    
 }
+
