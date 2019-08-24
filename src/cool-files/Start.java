@@ -85,10 +85,6 @@ public class Start extends PApplet {
     public class Button {
         public int x, y, width, height;
 
-	public boolean mouseOver() {
-	    if ((mouseX < x + width) && (mouseY < y + height)) {
-            if (mouseX > x && mouseY > y) {
-                return true;
         public Button(int x, int y, int width, int height) {
             this.x = x;
             this.y = y;
@@ -122,63 +118,12 @@ public class Start extends PApplet {
 
     public class Ishy extends Bruh {
         // Ishy Storyline:
-	//  Refer to /story.
         public class Yeetus extends Event {
-	  boolean clicked = false;
             public Event foo() {
-                background(0);
-		PFont f;
-		f = createFont("Arial", 16, true);
-		textFont(f, 16);
-
-		// QUESTION TEXTBOX Setup
-
-		textAlign(CENTER);
-		textFont(f, 30);
-		fill(255);
-		text("You meet a new friend named Jaxon. It is lunch time now, what do you want to talk about?", 1920/5, 100, 3*(1920/5), 500);
-
-		// Question A SETUP
-		Button choice_A = new Button(100,400,800,600);
-
-		// Fix sizing, left side button not equally far to the lefthand
-		// side.
-		fill(255);
-		rect(100,400,1600/2,600);
-		fill(0);
-		textAlign(CENTER);
-		textFont(f, 40);
-		// This took wayyyyy too long lol.
-		text("Hey do you want to establish \n world communism?", 500, 700);
-		
-		// Question B SETUP
-		Button choice_B = new Button(1000, 400, 1600/2, 600);
-		fill(255);
-		rect(1000, 400, 1600/2, 600);
-
-		textAlign(CENTER);
-		textFont(f, 40);
-		fill(0);
-		text("So...\n Have you heard about Fortnite?", 1400, 700); 
-
-		if (choice_A.clicked()) {
-		  clicked = true;
-		}
-
-		if (clicked) {
-		  textAlign(CENTER);
-		  clear();
-		  text("This has been clicked", width/2, height/2);
-		}	
+                background(200, 100, 0);
 
                 return this;
             }
-
-	    public class Playground extends Event {
-
-	    }
-
-	    }
         }
     }
 
