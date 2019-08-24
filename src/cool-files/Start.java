@@ -318,7 +318,7 @@ public class Start extends PApplet {
             private BackgroundGen bg;
             public Crawl() {
                 bg = new BackgroundGen();
-                bg.newGoal(0, 360);
+                bg.newGoal(0, 360, 99);
             }
             public Event foo() {
                 image(bg.goal, 0, 0);
@@ -500,7 +500,7 @@ public class Start extends PApplet {
             public Event foo() {
                 clear();
                 image(bg.goal, 0, 0 );
-                
+
 
 
             }
@@ -536,10 +536,10 @@ public class Start extends PApplet {
         public BackgroundGen() {
             goal = new PImage(width, height);
             newPollynomial(5);
-            newGoal(0, 360);
+            newGoal(0, 360, 99);
         }
 
-        void newGoal(int huemin, int huemax) {
+        void newGoal(int huemin, int huemax, int lightness) {
           goal.loadPixels();
             for (int i = 0; i<goal.pixels.length; i++) {
               float rin = map(i % goal.width, 0, goal.width, xcenter - xradius, xcenter + xradius);
@@ -548,7 +548,7 @@ public class Start extends PApplet {
               float hue = map(atan2(num.i, num.r) + PI, 0, 2*PI, huemin, huemax);
               float sat = sqrt(num.i * num.i + num.r * num.r)*50;
               colorMode(HSB, 100);
-              goal.pixels[i] = color(hue, sat, 99);
+              goal.pixels[i] = color(hue, sat, lightness);
               colorMode(RGB, 255);
             }
           goal.updatePixels();
