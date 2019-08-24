@@ -9,7 +9,6 @@ public class Start extends PApplet {
     boolean keyReleased = false;
 
     String playerName = "";
-
     Event currentEvent;
     Boreee b;
 
@@ -21,7 +20,7 @@ public class Start extends PApplet {
     }
 
     public static void main(String[] args) {
-        String[] appletArgs = new String[] { "Start" };
+        String[] appletArgs = new String[]{"Start"};
         PApplet.main(appletArgs);
     }
 
@@ -49,13 +48,13 @@ public class Start extends PApplet {
     }
 
     public void mousePressed() {
-	mousePressed = true;
-	mouseDown = true;
+        mousePressed = true;
+        mouseDown = true;
     }
 
     public void mouseReleased() {
-	mouseReleased = true;
-	mouseDown = false;
+        mouseReleased = true;
+        mouseDown = false;
     }
 
 
@@ -76,7 +75,7 @@ public class Start extends PApplet {
 
         public void drawScreen() {
             background(colA);
-            int s = width/border;
+            int s = width / border;
             fill(colB);
             noStroke();
             rect(s, s, width - s * 2, height - s * 2);
@@ -84,26 +83,27 @@ public class Start extends PApplet {
     }
 
     public class Button {
-	public int x, y, width, height;
-	public Button(int x, int y, int width, int height) {
-	    this.x = x;
-	    this.y = y;
-	    this.width = width;
-	    this.height = height;
-	}
+        public int x, y, width, height;
 
-	public boolean mouseOver() {
-	    if ((mouseX < x + width) && (mouseY < y + height)) {
-            if (mouseX > x && mouseY < y) {
-                return true;
+        public Button(int x, int y, int width, int height) {
+            this.x = x;
+            this.y = y;
+            this.width = width;
+            this.height = height;
+        }
+
+        public boolean mouseOver() {
+            if ((mouseX < x + width) && (mouseY < y + height)) {
+                if (mouseX > x && mouseY < y) {
+                    return true;
+                }
             }
-	    }
-	    return false;
-	}
+            return false;
+        }
 
-	public boolean clicked() {
-	    return (mouseOver() && mouseReleased);
-	}
+        public boolean clicked() {
+            return (mouseOver() && mouseReleased);
+        }
 
     }
 
@@ -133,8 +133,17 @@ public class Start extends PApplet {
 
         public class FadeIn extends Event {
             int bg = 0;
+            boolean debug = false;
+
 
             public Event foo() {
+                if (debug == true) {
+                    // jump to point in story;
+
+                    AlStory s = new AlStory();
+                    return s.new First();
+                }
+
                 background(bg);
 
                 bg++;
@@ -153,15 +162,14 @@ public class Start extends PApplet {
                 background(100, 100, 125);
                 textAlign(CENTER);
                 textSize(40);
-                text("You are born", width/2, height/2);
+                text("You are born", width / 2, height / 2);
 
                 if (mousePressed) {
 //                   Boreee is = new Start();
                     return new AfterBorn();
-                }
-
-                else
+                } else {
                     return this;
+                }
             }
         }
 
@@ -241,7 +249,6 @@ public class Start extends PApplet {
                 textAlign(CENTER);
                 textSize(40);
                 text("Did you mean: " + name, width/2, height/2);
-
                 textSize(20);
                 text("Press ENTER to confirm", width/2, 3*height/4);
 
@@ -266,10 +273,6 @@ public class Start extends PApplet {
 
                 text("Yes", width/4, height/2);
                 text("No", 3*width/4, height/2);
-
-                stroke(255);
-                strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
 
                 if (mouseReleased) {
                     if (mouseX < width/2) {
@@ -303,6 +306,7 @@ public class Start extends PApplet {
 
                 if (mouseReleased) {
                     if (mouseX < width/2) {
+
                     }
                 }
 
@@ -311,11 +315,23 @@ public class Start extends PApplet {
         }
 
         public class Crawl extends Event {
+            private BackgroundGen bg;
+            public Crawl() {
+                bg = new BackgroundGen();
+                bg.newGoal(0, 360);
+            }
             public Event foo() {
-                background(200, 60, 0);
+                image(bg.goal, 0, 0);
+                fill(255, 255, 255, 150);
+                noStroke();
+                rect(0, 0, width, height);
                 textAlign(CENTER);
-                textSize(40);
-                text("Wait 15 years?", width/2, height/10);
+                textSize(50);
+                fill(255, 255, 255);
+                text("YOU ARE BORN TO LOVING PARENTS", width/2, height/5);
+                text("\nUNFORTUNATELY THEY LIVE IN DARWIN", width/2, height/5);
+                text("\n\nEVEN SO YOUR LIFE IS IN ALL CAPS", width/2, height/5);
+                text("\n\n\nCRAWL TO THE LEFT OR TO THE RIGHT?", width/2, height/5);
 
                 text("Yes", width/4, height/2);
                 text("No", 3*width/4, height/2);
@@ -333,88 +349,268 @@ public class Start extends PApplet {
             }
         }
 
-
-        // branch to boree
-
-
-        // branch to al
-
-
-
-        // brnach to j0
-
-
-        // branch to j1
     }
 
-    // shitty rain with lightning
-    // use as background with
-    //private RainField bg = new RainField(5, (float)0.2, 10);
-    public class RainField {
+    public class AlStory extends Bruh {
 
-        private float[][] rain = new float[100][3];
-        private boolean light = false;
-        private float vel = 0;
-        private float variance = 0;
+        // shitty rain with lightning
+        // use as background with
+        //private RainField bg = new RainField(5, (float)0.2, 10);
+        public class RainField {
+
+            private float[][] rain = new float[100][3];
+            private boolean light = false;
+            private float vel = 0;
+            private float variance = 0;
 
 
-        public RainField(float direction, float vari, float velocity) {
-            vel = velocity;
-            variance = vari;
+            public RainField(float direction, float vari, float velocity) {
+                vel = velocity;
+                variance = vari;
 
-            rain_field_init(direction);
-        }
-
-        private void rain_field_init(float direction) {
-            for (int x = 0; x < 100; x++) {
-                rain[x][0] = random(0, width);
-                rain[x][1] = random(0, height);
-                rain[x][2] = direction + random(-1*variance, variance);
+                rain_field_init(direction);
             }
-        }
 
-        private void rain_field() {
-            for (int x = 0; x < 100; x++) {
-                if (rain[x][0] >= width || rain[x][1] >= height) {
-                    rain[x][0] = random(width + 200) -100;
-                    continue;
-                }
-
-                float direction = rain[x][2];
-                rain[x][0] = rain[x][0] + (vel * cos(direction)) + random(-20, 20);
-                rain[x][1] = rain[x][1] + (-1 * vel * sin(direction)) + random(-20, 20);
-                if (random(100) > 80) {
-                    rain[x][2] += random(-1 * variance, variance);
+            private void rain_field_init(float direction) {
+                for (int x = 0; x < 100; x++) {
+                    rain[x][0] = random(0, width);
+                    rain[x][1] = random(0, height);
+                    rain[x][2] = direction + random(-1 * variance, variance);
                 }
             }
-        }
 
-        public void draw() {
-            rain_field();
+            private void rain_field() {
+                for (int x = 0; x < 100; x++) {
+                    if (rain[x][0] >= width || rain[x][1] >= height) {
+                        rain[x][0] = random(width + 200) - 100;
+                        continue;
+                    }
 
-            strokeWeight(4);
-            stroke(0, 100, 200);
-            background(0);
-            if (light) {
-                if (random(10) > 2) {
+                    float direction = rain[x][2];
+                    rain[x][0] = rain[x][0] + (vel * cos(direction)) + random(-20, 20);
+                    rain[x][1] = rain[x][1] + (-1 * vel * sin(direction)) + random(-20, 20);
+                    if (random(100) > 80) {
+                        rain[x][2] += random(-1 * variance, variance);
+                    }
+                }
+            }
+
+            public void draw() {
+                rain_field();
+
+                strokeWeight(4);
+                stroke(0, 100, 200);
+                background(0);
+                if (light) {
+                    if (random(10) > 2) {
+                        background(255);
+                    }
+                    if (random(10) > 8) {
+                        background(0);
+                        light = false;
+                    }
+                } else if (random(10) > 9.8) {
                     background(255);
+                    light = true;
                 }
-                if (random(10) > 8) {
-                    background(0);
-                    light = false;
+
+                for (int x = 0; x < 100; x++) {
+                    float direction = rain[x][2];
+                    float x2x = rain[x][0] + (vel * cos(direction));
+                    float y2x = rain[x][1] + (-1 * vel * sin(direction));
+                    line(rain[x][0], rain[x][1], x2x, y2x);
                 }
-            } else
-            if (random(10) > 9.8) {
-                background(255);
-                light = true;
+            }
+        }
+
+        public void draw_event(String textone, String texttwo, String textthree, int background) {
+            // background
+//            background(background);
+            textSize(40);
+            textAlign(CENTER);
+            stroke(255);
+            strokeWeight(5);
+            line(width/2, height/4, width/2, 3*height/4);
+            text(textone, width / 2, 50);
+            text(texttwo, width / 4, height/2);
+            text(textthree, (width * 3 / 4), height/2);
+        }
+
+        public void draw_context(String textone, int background) {
+            // background
+//            background(background);
+            textSize(40);
+            textAlign(CENTER);
+            text(textone, width / 2, height/3);
+        }
+
+        public int get_mouse() {
+            if (mousePressed && (mouseX > width / 2)) {
+                return(1);
+            }
+            if (mousePressed && (mouseX <= width / 2)) {
+                return(0);
+            }
+            return(-1);
+        }
+
+        public class School extends Event {
+            public Event foo() {
+                clear();
+                draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.");
+            }
+            if (mousePressed) {
+                return(new Dog());
+            }
+            return(this);
+        }
+
+        public class Dog extends Event {
+            public Event foo() {
+                clear();
+                RainField rain = new RainField(5, (float)0.2, 10);
+                rain.draw();
+                draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.")
+                if (mousePressed) {
+                    return(new blank_rain_1());
+                }
+
+                return this;
             }
 
-            for (int x = 0; x < 100; x++) {
-                float direction = rain[x][2];
-                float x2x = rain[x][0] + (vel * cos(direction));
-                float y2x = rain[x][1] + (-1 * vel * sin(direction));
-                line(rain[x][0], rain[x][1], x2x, y2x);
+        }
+
+        public class blank_rain_1 extends Event {
+            public Event foo() {
+                clear();
+                RainField rain = new RainField(5, (float)0.2, 10);
+                rain.draw();
+                if (mousePressed) {
+                    return(new later())
+                }
+
+                return this;
             }
+
+        }
+
+        public class later extends Event {
+            BackgroundGen bg;
+            public later() {
+                bg = new BackgroundGen();
+
+            }
+
+            public Event foo() {
+                clear();
+                image(bg.goal, 0, 0 );
+                
+
+
+            }
+
+        }
+
+        public class First extends Event {
+
+            public Event foo() {
+                clear();
+                RainField rain = new RainField(5, (float)0.2, 10);
+                rain.draw();
+
+                draw_event("You feel a tense baseline dissatisfaction\n with your success in life so far.\n You tell yourself it's not selfhatred\nbut actually you feel undeserving of\nall you have but regretful that you don't\n have more. But life is good, or as good as\nyou make it.",
+                        "Take a sabattical in the\nmountains of South America",
+                        "Enrol at UQ", 100);
+
+                return this;
+
+            }
+        }
+
+    }
+
+    public class BackgroundGen {
+        complx[] mz = new complx[5];
+        PImage goal;
+        float xcenter = 0;
+        float ycenter = 0;
+        float xradius = 2;
+        float yradius = 2;
+
+        public BackgroundGen() {
+            goal = new PImage(width, height);
+            newPollynomial(5);
+            newGoal(0, 360);
+        }
+
+        void newGoal(int huemin, int huemax) {
+          goal.loadPixels();
+            for (int i = 0; i<goal.pixels.length; i++) {
+              float rin = map(i % goal.width, 0, goal.width, xcenter - xradius, xcenter + xradius);
+              float iin = map(floor(i/goal.width), 0, goal.height, ycenter - yradius, ycenter + yradius);
+              complx num = fz(new complx(rin, iin));
+              float hue = map(atan2(num.i, num.r) + PI, 0, 2*PI, huemin, huemax);
+              float sat = sqrt(num.i * num.i + num.r * num.r)*50;
+              colorMode(HSB, 100);
+              goal.pixels[i] = color(hue, sat, 99);
+              colorMode(RGB, 255);
+            }
+          goal.updatePixels();
+
+          image(goal, 0, 0, width, height);
+        }
+
+        float sign(float in) {
+          if (in > 0) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+
+        void newPollynomial(int order) {
+          mz = new complx[order];
+          for (int i = 0; i<mz.length; i++) {
+            mz[i] = new complx(randomGaussian(), randomGaussian());
+          }
+        }
+
+        complx fz(complx num) {
+          complx out = new complx(0, 0);
+          for (int i = 0; i<mz.length; i++) {
+            complx temp = num;
+            temp = powComplx(temp, i);
+            temp = multiComplx(mz[i], temp);
+            out = addComplx(temp, out);
+          }
+          return out;
+        }
+
+        class complx {
+          float i;
+          float r;
+          complx(float real, float imag) {
+            i = imag;
+            r = real;
+          }
+        }
+
+        complx powComplx(complx one, int num) {
+          complx temp = new complx(1, 0);
+          for (int i = 0; i<num; i++) {
+            temp = multiComplx(one, temp);
+          }
+          return temp;
+        }
+
+        complx multiComplx(complx one, complx two) {
+          float r = one.r * two.r - one.i * two.i;
+          float i = one.i * two.r + one.r * two.i;
+          return new complx(i, r);
+        }
+
+        complx addComplx(complx one, complx two) {
+          return new complx(one.r + two.r, one.i + two.r);
         }
     }
 
