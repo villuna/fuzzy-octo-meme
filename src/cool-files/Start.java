@@ -133,7 +133,7 @@ public class Start extends PApplet {
 
         public class FadeIn extends Event {
             int bg = 0;
-            boolean debug = true;
+            boolean debug = false;
 
 
             public Event foo() {
@@ -322,12 +322,16 @@ public class Start extends PApplet {
             }
             public Event foo() {
                 image(bg.goal, 0, 0);
-                fill(255, 255, 255, 40);
+                fill(255, 255, 255, 150);
                 noStroke();
                 rect(0, 0, width, height);
                 textAlign(CENTER);
-                textSize(40);
-                text("Wait 15 years?", width/2, height/10);
+                textSize(50);
+                fill(255, 255, 255);
+                text("YOU ARE BORN TO LOVING PARENTS", width/2, height/5);
+                text("\nUNFORTUNATELY THEY LIVE IN DARWIN", width/2, height/5);
+                text("\n\nEVEN SO YOUR LIFE IS IN ALL CAPS", width/2, height/5);
+                text("\n\n\nCRAWL TO THE LEFT OR TO THE RIGHT?", width/2, height/5);
 
                 text("Yes", width/4, height/2);
                 text("No", 3*width/4, height/2);
