@@ -274,10 +274,6 @@ public class Start extends PApplet {
                 text("Yes", width/4, height/2);
                 text("No", 3*width/4, height/2);
 
-                stroke(255);
-                strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
-
                 if (mouseReleased) {
                     if (mouseX < width/2) {
                         return new FourChan();
@@ -310,6 +306,7 @@ public class Start extends PApplet {
 
                 if (mouseReleased) {
                     if (mouseX < width/2) {
+
                     }
                 }
 
@@ -427,6 +424,9 @@ public class Start extends PApplet {
 //            background(background);
             textSize(40);
             textAlign(CENTER);
+            stroke(255);
+            strokeWeight(5);
+            line(width/2, height/4, width/2, 3*height/4);
             text(textone, width / 2, 50);
             text(texttwo, width / 4, height/2);
             text(textthree, (width * 3 / 4), height/2);
@@ -448,6 +448,63 @@ public class Start extends PApplet {
                 return(0);
             }
             return(-1);
+        }
+
+        public class School extends Event {
+            public Event foo() {
+                clear();
+                draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.");
+            }
+            if (mousePressed) {
+                return(new Dog());
+            }
+            return(this);
+        }
+
+        public class Dog extends Event {
+            public Event foo() {
+                clear();
+                RainField rain = new RainField(5, (float)0.2, 10);
+                rain.draw();
+                draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.")
+                if (mousePressed) {
+                    return(new blank_rain_1());
+                }
+
+                return this;
+            }
+
+        }
+
+        public class blank_rain_1 extends Event {
+            public Event foo() {
+                clear();
+                RainField rain = new RainField(5, (float)0.2, 10);
+                rain.draw();
+                if (mousePressed) {
+                    return(new later())
+                }
+
+                return this;
+            }
+
+        }
+
+        public class later extends Event {
+            BackgroundGen bg;
+            public later() {
+                bg = new BackgroundGen();
+
+            }
+
+            public Event foo() {
+                clear();
+                image(bg.goal, 0, 0 );
+                
+
+
+            }
+
         }
 
         public class First extends Event {
@@ -479,6 +536,7 @@ public class Start extends PApplet {
         public BackgroundGen() {
             goal = new PImage(width, height);
             newPollynomial(5);
+            newGoal(0, 360);
         }
 
         void newGoal(int huemin, int huemax) {
