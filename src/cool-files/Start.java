@@ -1,7 +1,7 @@
 import processing.core.*;
 
 public class Start extends PApplet {
-    boolean cencored = false;
+    boolean censored = true;
     boolean mouseDown = false;
     boolean mousePressed = false;
     boolean mouseReleased = false;
@@ -772,7 +772,11 @@ public class Start extends PApplet {
 
                 draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.");
                 if (mousePressed) {
-                    return new Dog();
+                    if (censored) {
+                        return new blank_rain_1();
+                    } else {
+                        return new Dog();
+                    }
                 }
                 return(this);
             }
@@ -787,7 +791,6 @@ public class Start extends PApplet {
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
                 draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.");
-
                 if (i > 40) {
                     return(new blank_rain_1());
                 }
@@ -808,10 +811,8 @@ public class Start extends PApplet {
                 if (mousePressed) {
                     red = true;
                 }
-
                 return this;
             }
-
         }
 
         public class blank_rain_1 extends Event {
@@ -824,7 +825,6 @@ public class Start extends PApplet {
                 }
                 return this;
             }
-
         }
 
         public class later extends Event {
