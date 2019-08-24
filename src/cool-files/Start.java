@@ -54,4 +54,10 @@ public class Start extends PApplet {
         public abstract Event foo();
         public abstract void draw();
     }
+
+    public class Ishy {
+      // Ishy Storyline:
+    }
+    
+    
 }
