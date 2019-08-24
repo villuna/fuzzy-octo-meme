@@ -133,7 +133,7 @@ public class Start extends PApplet {
 
         public class FadeIn extends Event {
             int bg = 0;
-            boolean debug = true;
+            boolean debug = false;
 
 
             public Event foo() {
@@ -348,6 +348,7 @@ public class Start extends PApplet {
 
     public class AlStory extends Bruh {
 
+
         // shitty rain with lightning
         // use as background with
         //private RainField bg = new RainField(5, (float)0.2, 10);
@@ -434,6 +435,18 @@ public class Start extends PApplet {
             textSize(40);
             textAlign(CENTER);
             text(textone, width / 2, height/3);
+        }
+
+        public boolean dysentery() {
+            if (random(0, 500) == 1) {
+                background(0);
+                draw_context("You have died of dysentery.", 0);
+                if (mousePressed) {
+                    exit();
+                }
+            }
+
+            return false;
         }
 
         public int get_mouse() {
