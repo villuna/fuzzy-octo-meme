@@ -318,7 +318,7 @@ public class Start extends PApplet {
             private BackgroundGen bg;
             public Crawl() {
                 bg = new BackgroundGen();
-                bg.newGoal(0, 360);
+                bg.newGoal(0, 360, 99);
             }
             public Event foo() {
                 image(bg.goal, 0, 0);
@@ -333,15 +333,11 @@ public class Start extends PApplet {
                 text("\n\nEVEN SO YOUR LIFE IS IN ALL CAPS", width/2, height/5);
                 text("\n\n\nCRAWL TO THE LEFT OR TO THE RIGHT?", width/2, height/5);
 
-                text("Yes", width/4, height/2);
-                text("No", 3*width/4, height/2);
-
-                stroke(255);
-                strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
-
                 if (mouseReleased) {
-                    if (mouseX < width/2) {
+                    if (mouseButton == LEFT) {
+                        //crawl left
+                    } else {
+                        //crawl right
                     }
                 }
 
@@ -446,10 +442,10 @@ public class Start extends PApplet {
 
         public int get_mouse() {
             if (mousePressed && (mouseX > width / 2)) {
-                return(1);
+                return (1);
             }
             if (mousePressed && (mouseX <= width / 2)) {
-                return(0);
+                return (0);
             }
             return(-1);
         }
@@ -457,12 +453,12 @@ public class Start extends PApplet {
         public class School extends Event {
             public Event foo() {
                 clear();
-                draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.");
+                draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.", 0);
+                if (mousePressed) {
+                    return new Dog();
+                }
+                return(this);
             }
-            if (mousePressed) {
-                return(new Dog());
-            }
-            return(this);
         }
 
         public class Dog extends Event {
@@ -470,7 +466,7 @@ public class Start extends PApplet {
                 clear();
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
-                draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.")
+                draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.", 0);
                 if (mousePressed) {
                     return(new blank_rain_1());
                 }
@@ -486,7 +482,7 @@ public class Start extends PApplet {
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
                 if (mousePressed) {
-                    return(new later())
+                    //return(new later())
                 }
 
                 return this;
@@ -504,8 +500,7 @@ public class Start extends PApplet {
             public Event foo() {
                 clear();
                 image(bg.goal, 0, 0 );
-                
-
+                return this;
 
             }
 
@@ -540,10 +535,10 @@ public class Start extends PApplet {
         public BackgroundGen() {
             goal = new PImage(width, height);
             newPollynomial(5);
-            newGoal(0, 360);
+            newGoal(0, 360, 99);
         }
 
-        void newGoal(int huemin, int huemax) {
+        void newGoal(int huemin, int huemax, int lightness) {
           goal.loadPixels();
             for (int i = 0; i<goal.pixels.length; i++) {
               float rin = map(i % goal.width, 0, goal.width, xcenter - xradius, xcenter + xradius);
@@ -552,7 +547,7 @@ public class Start extends PApplet {
               float hue = map(atan2(num.i, num.r) + PI, 0, 2*PI, huemin, huemax);
               float sat = sqrt(num.i * num.i + num.r * num.r)*50;
               colorMode(HSB, 100);
-              goal.pixels[i] = color(hue, sat, 99);
+              goal.pixels[i] = color(hue, sat, lightness);
               colorMode(RGB, 255);
             }
           goal.updatePixels();
