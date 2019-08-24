@@ -231,11 +231,11 @@ public class Start extends PApplet {
                 textAlign(CENTER);
                 textSize(40);
                 text("You are currently being arrested. Do you resist? Press Y/N.", width/2, height/2);
-                if (keyPressed()) {
-                    if (key == y) {
+                if (keyPressed) {
+                    if (key == 'y') {
                         return new Death();
                     }
-                    else if (key == n) {
+                    else if (key == 'n') {
                         return new courtCase();
                     }
                 }
@@ -246,7 +246,7 @@ public class Start extends PApplet {
         public class courtCase extends Event {
             private boolean success;
             public Event foo() {
-
+                return new courtCase();
             }
         }
 
@@ -259,12 +259,14 @@ public class Start extends PApplet {
                 line(80, 0, 80, height);
                 textAlign(CENTER);
                 textSize(40);
-                text("You have been sentenced for your crimes. Now serve two years in jail. Press Space", width/2, height/2);
-                if (keyPressed()) {
-                    if (key == SPACE) {
+                text("You have been sentenced for your crimes. Now serve two years in jail. Press Enter", width/2, height/2);
+                if (keyPressed) {
+                    if (key == ENTER) {
                         return new Attacked();
                     }
                 }
+
+                return this;
             }
         }
 
@@ -282,8 +284,8 @@ public class Start extends PApplet {
                 textAlign(CENTER);
                 textSize(40);
                 text("You are being attacked. Quickly mash d.", width/2, height/2);
-                if (keyPressed()) {
-                    if (key == SPACE) {
+                if (keyPressed) {
+                    if (key == ENTER) {
                         success = success + 1;
                         timer = 0;
                     }
@@ -303,15 +305,19 @@ public class Start extends PApplet {
         public class Death extends Event {
             public Event foo() {
                 exit();
+                return new Death();
             }
         }
 
         public class Released extends Event {
-
+            public Event foo() {
+                exit();
+                return new Attacked();
+            }
         }
 
 
-    }	
+    }
 
     public class Boreee extends Bruh {
         // Borella story
