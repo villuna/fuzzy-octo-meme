@@ -306,6 +306,9 @@ public class Start extends PApplet {
 
                 if (mouseReleased) {
                     if (mouseX < width/2) {
+                        AlStart al = new AlStart();
+                        return al.new School();
+                    } else {
 
                     }
                 }
