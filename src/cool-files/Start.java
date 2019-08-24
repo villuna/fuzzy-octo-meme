@@ -26,8 +26,10 @@ public class Start extends PApplet {
 
     public void settings() {
         fullScreen();
+        // b = new Boreee();
+        // currentEvent = b.new FadeIn();
         b = new Boreee();
-        currentEvent = b.new FadeIn();
+        currentEvent = b.new Crawl();
     }
 
     public void draw_question(String question, int r, int g, int b) {
@@ -108,7 +110,7 @@ public class Start extends PApplet {
 
         public boolean mouseOver() {
             if ((mouseX < x + width) && (mouseY < y + height)) {
-                if (mouseX > x && mouseY < y) {
+                if (mouseX > x && mouseY > y) {
                     return true;
                 }
             }
@@ -944,14 +946,15 @@ public class Start extends PApplet {
             BackgroundGen bg;
             public DropOut() {
                 bg = new BackgroundGen();
-                bg.newPollynomial(2);
+                bg.newPollynomial(4);
                 bg.newGoal(120, 165, 70);
             }
             public Event foo() {
-                background(200, 100, 0);
-                textAlign(CENTER);
+                image(bg.goal, 0, 0);
+                //background(200, 100, 0);
+                textAlign(CENTER, CENTER);
                 textSize(40);
-                text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/2);
+                text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/5);
                 if (keyPressed) {
                     if (key == 'y') {
                     }
