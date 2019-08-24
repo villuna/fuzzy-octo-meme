@@ -374,15 +374,32 @@ public class Start extends PApplet {
         //private RainField bg = new RainField(5, (float)0.2, 10);
         public class RainField {
 
+            boolean lightning = true;
             private float[][] rain = new float[100][3];
             private boolean light = false;
             private float vel = 0;
             private float variance = 0;
+            int colour = 0;
+            int bgColour = 0;
 
+            public RainField(boolean lightn, float direction, float vari, float velocity, int col_our, int bg_Colour) {
+                vel = velocity;
+                variance = vari;
+
+                bgColour = bg_Colour;
+                colour = col_our;
+
+                rain_field_init(direction);
+                lightning = lightn;
+            }
 
             public RainField(float direction, float vari, float velocity) {
                 vel = velocity;
                 variance = vari;
+
+                bgColour = 0;
+                colour = color(0, 100, 200);
+
 
                 rain_field_init(direction);
             }
@@ -403,8 +420,8 @@ public class Start extends PApplet {
                     }
 
                     float direction = rain[x][2];
-                    rain[x][0] = rain[x][0] + (vel * cos(direction)) + random(-20, 20);
-                    rain[x][1] = rain[x][1] + (-1 * vel * sin(direction)) + random(-20, 20);
+                    rain[x][0] = rain[x][0] + (vel * (float)0.5 * cos(direction));
+                    rain[x][1] = rain[x][1] + (-1 * vel * (float)0.5 * sin(direction));
                     if (random(100) > 80) {
                         rain[x][2] += random(-1 * variance, variance);
                     }
@@ -415,7 +432,7 @@ public class Start extends PApplet {
                 rain_field();
 
                 strokeWeight(4);
-                stroke(0, 100, 200);
+                stroke(colour);
                 //background(0);
                 if (light) {
                     if (random(10) > 2) {
@@ -425,7 +442,7 @@ public class Start extends PApplet {
                         background(0);
                         light = false;
                     }
-                } else if (random(10) > 9.8) {
+                } else if (random(10) > 9.8 && lightning) {
                     background(255);
                     light = true;
                 }
@@ -595,6 +612,9 @@ public class Start extends PApplet {
 
             public Event foo() {
                 clear();
+                background(200);
+                RainField rain = new RainField(false, 5, (float)1, (float)0.001, color(255, 255, 255), color(255,255,255));
+                rain.draw();
                 draw_event("While you are in North America, on a \n stop-over before flying to Brazil,\n canada annexes the United States",
                         "Run to the Australian Embassy",
                         "Accept your fate as you are\nforced to join the Canadian Imperial Forces");
@@ -604,13 +624,15 @@ public class Start extends PApplet {
 
         }
 
+
         public class UQ extends Event {
+            BackgroundGen bg;
+
             public UQ() {
                 bg = new BackgroundGen();
                 bg.newPollynomial(3);
                 bg.newGoal(70, 80,20);
             }
-
 
             public Event foo() {
                 clear();
@@ -843,6 +865,10 @@ public class Start extends PApplet {
     }
 
     public class SnowField {
+
+        private int snow_no = 0;
+        private Snow[] snow;
+
         public class Snow {
             float x;
             float y;
@@ -852,9 +878,9 @@ public class Start extends PApplet {
             float wiggle;
             float wiggle_chance;
 
-            public Snow(float wiggle, float wiggle_chance) {
-                this.wiggle = wiggle;
-                this.wiggle_chance = wiggle_chance;
+            public Snow() {
+                this.wiggle = 5; //wiggle;
+                this.wiggle_chance = 10; //wiggle_chance;
 
                 this.x = random(width);
                 this.y = random(height);
@@ -870,10 +896,9 @@ public class Start extends PApplet {
             }
         }
 
-        Snow[] snow;
-
         public SnowField(int snowNo) {
             snow = new Snow[snowNo];
+            snow_no = snowNo;
         }
 
         public void update() {
@@ -882,9 +907,10 @@ public class Start extends PApplet {
             textSize(20);
             fill(255);
 
-            for (int i = 0; i < snow.length; i++) {
+            for (int i = 0; i < snow_no; i++) {
                 snow[i].update();
-                text("*", snow[i].x, snow[i].y);
+                float wiggle = snow[i].wiggle;
+                text("*", snow[i].x + random(-1 * wiggle, wiggle), snow[i].y);
             }
         }
     }
