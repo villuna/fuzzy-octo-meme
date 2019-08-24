@@ -1,5 +1,5 @@
 make:
 	javac -cp "src" -d "src" src/cool-files/Start.java
 
-run:
+run: make
 	java -cp "src" Start
