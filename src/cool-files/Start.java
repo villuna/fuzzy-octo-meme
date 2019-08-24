@@ -417,4 +417,51 @@ public class Start extends PApplet {
             }
         }
     }
+
+    public class SnowField {
+        public class Snow {
+            float x;
+            float y;
+            float velx;
+            float vely = 10;
+
+            float wiggle;
+            float wiggle_chance;
+
+            public Snow(float wiggle, float wiggle_chance) {
+                this.wiggle = wiggle;
+                this.wiggle_chance = wiggle_chance;
+
+                this.x = random(width);
+                this.y = random(height);
+            }
+
+            public void update() {
+                if (random(1) < wiggle_chance) {
+                    velx += random(-wiggle, wiggle);
+                }
+                
+                x += velx;
+                y += vely;
+            }
+        }
+
+        Snow[] snow;
+
+        public SnowField(int snowNo) {
+            snow = new Snow[snowNo];
+        }
+
+        public void update() {
+            background(51, 51, 255);
+            textAlign(CENTER);
+            textSize(20);
+            fill(255);
+
+            for (int i = 0; i < snow.length; i++) {
+                snow[i].update();
+                text("*", snow[i].x, snow[i].y);
+            }
+        }
+    }
 }
