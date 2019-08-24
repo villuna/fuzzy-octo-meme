@@ -192,6 +192,126 @@ public class Start extends PApplet {
             }
  
         }*/
+	
+    public class J1 extends Bruh {
+        // J1 Storyline:
+
+        public class Reddit extends Event {
+            public Event foo() {
+                background(60, 60, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("As you are browsing reddit, you stumble across a Dark Web link", width/2, height/10);
+                text("\nDo you click it?", width/2, height/10);
+
+
+                text("Yes", width/4, height/2);
+                text("No", 3*width/4, height/2);
+
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
+                if (mouseReleased) {
+                    if (mouseX < width/2) {
+                        return new Attacked()
+                    }
+                    else {
+                        return new Arrest()
+                    }
+                }
+
+                return this;
+            }
+        }
+
+        public class Arrest extends Event {
+            public Event foo() {
+                background(200, 100, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("You are currently being arrested. Do you resist? Press Y/N.", width/2, height/2);
+                if (keyPressed()) {
+                    if (key == y) {
+                        return new Death();
+                    }
+                    else if (key == n) {
+                        return new courtCase();
+                    }
+                }
+                return new courtCase();
+            }
+        }
+
+        public class courtCase extends Event {
+            private boolean success;
+            public Event foo() {
+
+            }
+        }
+
+        public class Prison extends Event {
+            public Event foo() {
+                background(100, 100, 125);
+                line(20, 0, 20, height);
+                line(40, 0, 40, height);
+                line(60, 0, 60, height);
+                line(80, 0, 80, height);
+                textAlign(CENTER);
+                textSize(40);
+                text("You have been sentenced for your crimes. Now serve two years in jail. Press Space", width/2, height/2);
+                if (keyPressed()) {
+                    if (key == SPACE) {
+                        return new Attacked();
+                    }
+                }
+            }
+        }
+
+        public class Attacked extends Event {
+
+            private int timer = 0;
+            private int success = 0;
+
+            public Event foo() {
+                background(100, 100, 125);
+                line(20, 0, 20, height);
+                line(40, 0, 40, height);
+                line(60, 0, 60, height);
+                line(80, 0, 80, height);
+                textAlign(CENTER);
+                textSize(40);
+                text("You are being attacked. Quickly mash d.", width/2, height/2);
+                if (keyPressed()) {
+                    if (key == SPACE) {
+                        success = success + 1;
+                        timer = 0;
+                    }
+                    if (success > 4) {
+                        return new Released();
+                    }
+                }
+                timer = timer + 1;
+                if (timer > 5) {
+                    return new Death();
+                }
+                return this;
+            }
+
+        }
+
+        public class Death extends Event {
+            public Event foo() {
+                exit();
+            }
+        }
+
+        public class Released extends Event {
+
+        }
+
+
+    }	
 
     public class Boreee extends Bruh {
         // Borella story
