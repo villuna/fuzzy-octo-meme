@@ -133,7 +133,7 @@ public class Start extends PApplet {
 
         public class FadeIn extends Event {
             int bg = 0;
-            boolean debug = true;
+            boolean debug = false;
 
 
             public Event foo() {
