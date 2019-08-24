@@ -214,10 +214,10 @@ public class Start extends PApplet {
 
                 if (mouseReleased) {
                     if (mouseX < width/2) {
-                        return new Attacked()
+                        return new Attacked();
                     }
                     else {
-                        return new Arrest()
+                        return new Arrest();
                     }
                 }
 
