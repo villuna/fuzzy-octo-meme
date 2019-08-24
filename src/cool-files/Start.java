@@ -265,6 +265,8 @@ public class Start extends PApplet {
                         return new Attacked();
                     }
                 }
+
+                return this;
             }
         }
 
