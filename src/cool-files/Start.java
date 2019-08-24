@@ -9,7 +9,7 @@ public class Start extends PApplet {
     boolean keyReleased = false;
 
     String playerName = "";
-    
+
     Event currentEvent;
     Boreee b;
 
@@ -33,7 +33,7 @@ public class Start extends PApplet {
 
     public void draw() {
         currentEvent = currentEvent.foo();
-        
+
         mousePressed = false;
         mouseReleased = false;
         keyPressed = false;
@@ -130,7 +130,7 @@ public class Start extends PApplet {
     public class Boreee extends Bruh {
         // Borella story
         // Wooo
-        
+
         public class FadeIn extends Event {
             int bg = 0;
 
@@ -247,7 +247,9 @@ public class Start extends PApplet {
 
                 if (keyPressed) {
                     if (key == ENTER) {
-                        return new WaitYears();            
+                        return new WaitYears();
+                    } else {
+                        return new Crawl();
                     }
                 }
 
@@ -269,23 +271,79 @@ public class Start extends PApplet {
                 strokeWeight(5);
                 line(width/2, height/5, width/2, 4*height/5);
 
+                if (mouseReleased) {
+                    if (mouseX < width/2) {
+                        return new FourChan();
+                    } else {
+                        return new Crawl();
+                    }
+                }
+
                 return this;
             }
         }
 
-        // branch to is 
-        
+        // branch to is
+
+        public class FourChan extends Event {
+            public Event foo() {
+                background(60, 60, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("As you wait your infantile body growls to that of a sickly 15 year old", width/2, height/10);
+                text("\nYou are left with but one question.", width/2, height/10);
+                text("\n\nDo you browse 4Chan?", width/2, height/10);
+
+                text("Yes", width/4, height/2);
+                text("No", 3*width/4, height/2);
+
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
+                if (mouseReleased) {
+                    if (mouseX < width/2) {
+                    }
+                }
+
+                return this;
+            }
+        }
+
+        public class Crawl extends Event {
+            public Event foo() {
+                background(200, 60, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("Wait 15 years?", width/2, height/10);
+
+                text("Yes", width/4, height/2);
+                text("No", 3*width/4, height/2);
+
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
+                if (mouseReleased) {
+                    if (mouseX < width/2) {
+                    }
+                }
+
+                return this;
+            }
+        }
+
 
         // branch to boree
-        
-        
-        // branch to al 
-        
-        
-        
-        // brnach to j0 
-        
-        
+
+
+        // branch to al
+
+
+
+        // brnach to j0
+
+
         // branch to j1
     }
 
@@ -360,4 +418,3 @@ public class Start extends PApplet {
         }
     }
 }
-
