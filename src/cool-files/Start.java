@@ -44,13 +44,14 @@ public class Start extends PApplet {
         }
     }
 
-    public abstract class Bruh {
-        
+    public static abstract class Bruh {
+        // Empty class, just so we can all extend the same class in our respective files
     }
 
-    public abstract class Event {
+    public static abstract class Event {
         // Blueprint type for the Events (things that happen lol)
         // foo() will execute the event and return the next event based on what happens
         public abstract Event foo();
+        public abstract void draw();
     }
 }

@@ -1,5 +1,5 @@
 import processing.core.*;
 
-public class Boreee {
-    
+public class Boreee extends Start.Bruh {
+           
 }
