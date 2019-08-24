@@ -30,6 +30,20 @@ public class Start extends PApplet {
         currentEvent = b.new FadeIn();
     }
 
+    public void draw_question(String question, int r, int g, int b) {
+      background(r,g,b);
+      PFont f;
+      f = createFont("Arial", 16, true);
+      textFont(f, 16);
+
+      // QUESTION TEXTBOX Setup
+
+      textAlign(CENTER);
+      textFont(f, 30);
+      fill(0);
+      text(question, 1920/5, 100, 3*(1920/5), 500);
+    }
+
     public void draw() {
         currentEvent = currentEvent.foo();
 
@@ -117,14 +131,192 @@ public class Start extends PApplet {
     }
 
     public class Ishy extends Bruh {
-        // Ishy Storyline:
+	  // Ishy Storyline:
+	//  Refer to /story.
         public class Yeetus extends Event {
+	  public Event foo() {
+	    draw_question("You meet a new friend named Jaxon. It is lunch time now, what do you want to talk about?\n Left: Do you want to establish World Communism with me?\n Right: Do you not want to establish World Communism with me?", 255, 255, 0);
+	    return this;
+	  }
+	}
+   }
+	  /*
+	  boolean clicked = false;
             public Event foo() {
-                background(200, 100, 0);
+                background(0);
+		PFont f;
+		f = createFont("Arial", 16, true);
+		textFont(f, 16);
+
+		// QUESTION TEXTBOX Setup
+
+		textAlign(CENTER);
+		textFont(f, 30);
+		fill(255);
+		text("You meet a new friend named Jaxon. It is lunch time now, what do you want to talk about?", 1920/5, 100, 3*(1920/5), 500);
+
+		// Question A SETUP
+		Button choice_A = new Button(100,400,800,600);
+
+		// Fix sizing, left side button not equally far to the lefthand
+		// side.
+		fill(255);
+		rect(100,400,1600/2,600);
+		fill(0);
+		textAlign(CENTER);
+		textFont(f, 40);
+		// This took wayyyyy too long lol.
+		text("Hey do you want to establish \n world communism?", 500, 700);
+
+		// Question B SETUP
+		Button choice_B = new Button(1000, 400, 1600/2, 600);
+		fill(255);
+		rect(1000, 400, 1600/2, 600);
+
+		textAlign(CENTER);
+		textFont(f, 40);
+		fill(0);
+		text("So...\n Have you heard about Fortnite?", 1400, 700);
+
+		if (choice_A.clicked()) {
+		  clicked = true;
+		}
+
+		if (clicked) {
+		  textAlign(CENTER);
+		  clear();
+		  text("This has been clicked", width/2, height/2);
+		}
+
+                return this;
+            }
+
+        }*/
+
+    public class J1 extends Bruh {
+        // J1 Storyline:
+
+        public class Reddit extends Event {
+            public Event foo() {
+                background(60, 60, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("As you are browsing reddit, you stumble across a Dark Web link", width/2, height/10);
+                text("\nDo you click it?", width/2, height/10);
+
+
+                text("Yes", width/4, height/2);
+                text("No", 3*width/4, height/2);
+
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
+                if (mouseReleased) {
+                    if (mouseX < width/2) {
+                        return new Attacked();
+                    }
+                    else {
+                        return new Arrest();
+                    }
+                }
 
                 return this;
             }
         }
+
+        public class Arrest extends Event {
+            public Event foo() {
+                background(200, 100, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("You are currently being arrested. Do you resist? Press Y/N.", width/2, height/2);
+                if (keyPressed) {
+                    if (key == 'y') {
+                        return new Death();
+                    }
+                    else if (key == 'n') {
+                        return new courtCase();
+                    }
+                }
+                return new courtCase();
+            }
+        }
+
+        public class courtCase extends Event {
+            private boolean success;
+            public Event foo() {
+                return new courtCase();
+            }
+        }
+
+        public class Prison extends Event {
+            public Event foo() {
+                background(100, 100, 125);
+                line(20, 0, 20, height);
+                line(40, 0, 40, height);
+                line(60, 0, 60, height);
+                line(80, 0, 80, height);
+                textAlign(CENTER);
+                textSize(40);
+                text("You have been sentenced for your crimes. Now serve two years in jail. Press Enter", width/2, height/2);
+                if (keyPressed) {
+                    if (key == ENTER) {
+                        return new Attacked();
+                    }
+                }
+
+                return this;
+            }
+        }
+
+        public class Attacked extends Event {
+
+            private int timer = 0;
+            private int success = 0;
+
+            public Event foo() {
+                background(100, 100, 125);
+                line(20, 0, 20, height);
+                line(40, 0, 40, height);
+                line(60, 0, 60, height);
+                line(80, 0, 80, height);
+                textAlign(CENTER);
+                textSize(40);
+                text("You are being attacked. Quickly mash d.", width/2, height/2);
+                if (keyPressed) {
+                    if (key == ENTER) {
+                        success = success + 1;
+                        timer = 0;
+                    }
+                    if (success > 4) {
+                        return new Released();
+                    }
+                }
+                timer = timer + 1;
+                if (timer > 5) {
+                    return new Death();
+                }
+                return this;
+            }
+
+        }
+
+        public class Death extends Event {
+            public Event foo() {
+                exit();
+                return new Death();
+            }
+        }
+
+        public class Released extends Event {
+            public Event foo() {
+                exit();
+                return new Attacked();
+            }
+        }
+
+
     }
 
     public class Boreee extends Bruh {
@@ -274,6 +466,10 @@ public class Start extends PApplet {
                 text("Yes", width/4, height/2);
                 text("No", 3*width/4, height/2);
 
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
                 if (mouseReleased) {
                     if (mouseX < width/2) {
                         return new FourChan();
@@ -300,10 +496,6 @@ public class Start extends PApplet {
                 text("Yes", width/4, height/2);
                 text("No", 3*width/4, height/2);
 
-                stroke(255);
-                strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
-
                 if (mouseReleased) {
                     if (mouseX < width/2) {
                         AlStory al = new AlStory();
@@ -312,7 +504,6 @@ public class Start extends PApplet {
 
                     }
                 }
-
                 return this;
             }
         }
@@ -336,7 +527,8 @@ public class Start extends PApplet {
                     if (mouseButton == LEFT) {
                         return new CrawlLeft();
                     } else {
-                        //crawl right
+			Ishy s = new Ishy();
+                        return s.new Yeetus();
                     }
                 }
 
@@ -361,8 +553,36 @@ public class Start extends PApplet {
             textSize(30);
 
             text("You crawl left. You continue to make similar left-leaning choices\n until your early high school years, when you realise the government is not gonna pay\n for your private school education. Do you drop out of school in outrage?", width/2, height/10);
+            text("Yes", width/4, height/2);
+            text("No", 3*width/4, height/2);
+
+            stroke(255);
+            line(width/2, height/5, width/2, 4*height/5);
+
+            if (mousePressed) {
+                if (mouseX <= width/2) {
+                    // Switch to the Joel stream
+                    J0el yaboi = new J0el();
+                    return yaboi.new DropOut();
+                }
+
+                else {
+                    // Switch to the Liam stream
+                    return new FinishHighSchool();
+                }
+            }
 
             return this;
+        }
+
+        public class FinishHighSchool extends Event {
+            public Event foo() {
+                background(100, 50, 0);
+                fill(255);
+                textAlign(CENTER);
+                text("h", width/2, height/2);
+                return this;
+            }
         }
     }
 
@@ -890,7 +1110,7 @@ public class Start extends PApplet {
                 if (random(1) < wiggle_chance) {
                     velx += random(-wiggle, wiggle);
                 }
-                
+
                 x += velx;
                 y += vely;
             }
@@ -911,6 +1131,31 @@ public class Start extends PApplet {
                 snow[i].update();
                 float wiggle = snow[i].wiggle;
                 text("*", snow[i].x + random(-1 * wiggle, wiggle), snow[i].y);
+            }
+        }
+    }
+
+
+    public class J0el extends Bruh {
+        public class DropOut extends Event {
+            BackgroundGen bg;
+            public DropOut() {
+                bg = new BackgroundGen();
+                bg.newPollynomial(2);
+                bg.newGoal(120, 165, 70);
+            }
+            public Event foo() {
+                background(200, 100, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/2);
+                if (keyPressed) {
+                    if (key == 'y') {
+                    }
+                    else if (key == 'n') {
+                    }
+                }
+                return this;
             }
         }
     }
