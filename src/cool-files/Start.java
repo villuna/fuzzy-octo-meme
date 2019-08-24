@@ -32,12 +32,6 @@ public class Start extends PApplet {
         
         mousePressed = false;
         mouseReleased = false;
-
-	Screen srn = new Screen();
-        srn.drawScreen();
-
-	mousePressed = false;
-	mouseReleased = false;
     }
 
     public void keyReleased() {
@@ -151,7 +145,6 @@ public class Start extends PApplet {
 
                 if (mousePressed) {
                     Ishy is = new Ishy();
-
                     return is.new Yeetus();
                 }
 
