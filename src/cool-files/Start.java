@@ -367,38 +367,50 @@ public class Start extends PApplet {
             }
         }
 
-        public void draw_event(String textone, String texttwo, String textthree) {
+        public void draw_event(String textone, String texttwo, String textthree, int background) {
             // background
+//            background(background);
             textSize(40);
             textAlign(CENTER);
             text(textone, width / 2, 50);
-            textAlign(RIGHT);
-            text(texttwo, width / 5, height/2);
-            text(textthree, (width / 5)*3, height/2);
+            text(texttwo, width / 4, height/2);
+            text(textthree, (width * 3 / 4), height/2);
         }
 
+        public void draw_context(String textone, int background) {
+            // background
+//            background(background);
+            textSize(40);
+            textAlign(CENTER);
+            text(textone, width / 2, height/3);
+        }
+
+        public int get_mouse() {
+            if (mousePressed && (mouseX > width / 2)) {
+                return(1);
+            }
+            if (mousePressed && (mouseX <= width / 2)) {
+                return(0);
+            }
+            return(-1);
+        }
 
         public class First extends Event {
 
             public Event foo() {
                 clear();
+                RainField rain = new RainField(5, (float)0.2, 10);
+                rain.draw();
 
-                draw_event("You feel a tense baseline dissatisfaction with your success in life so far. You tell yourself it's not selfhatred but actually you feel undeserving of all you have but regretful that you don't have more. But life is good, or as good as you make it.",
-                        "Take a sabattical in the mountains of South America",
-                        "Enrol at UQ");
-                text("YEET", 50, 50);
-
-                if (mousePressed && (mouseX > width / 2)) {
-                    return new Amer();
-                }
-                if (mousePressed && (mouseX <= width / 2)) {
-                    return new CompSci();
-                }
+                draw_event("You feel a tense baseline dissatisfaction\n with your success in life so far.\n You tell yourself it's not selfhatred\nbut actually you feel undeserving of\nall you have but regretful that you don't\n have more. But life is good, or as good as\nyou make it.",
+                        "Take a sabattical in the\nmountains of South America",
+                        "Enrol at UQ", 100);
 
                 return this;
 
             }
         }
+
     }
 }
 
