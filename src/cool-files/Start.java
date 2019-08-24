@@ -402,7 +402,8 @@ public class Start extends PApplet {
                     if (mouseButton == LEFT) {
                         return new CrawlLeft();
                     } else {
-                        //crawl right
+			Ishy s = new Ishy();
+                        return s.new Yeetus();
                     }
                 }
 
