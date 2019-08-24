@@ -318,8 +318,16 @@ public class Start extends PApplet {
         }
 
         public class Crawl extends Event {
+            private BackgroundGen bg;
+            public Crawl() {
+                bg = new BackgroundGen();
+                bg.newGoal(0, 360);
+            }
             public Event foo() {
-                background(200, 60, 0);
+                image(bg.goal, 0, 0);
+                fill(255, 255, 255, 40);
+                noStroke();
+                rect(0, 0, width, height);
                 textAlign(CENTER);
                 textSize(40);
                 text("Wait 15 years?", width/2, height/10);
@@ -458,5 +466,89 @@ public class Start extends PApplet {
             }
         }
 
+    }
+
+    public class BackgroundGen {
+        complx[] mz = new complx[5];
+        PImage goal;
+        float xcenter = 0;
+        float ycenter = 0;
+        float xradius = 2;
+        float yradius = 2;
+
+        public BackgroundGen() {
+            goal = new PImage(width, height);
+            newPollynomial(5);
+        }
+
+        void newGoal(int huemin, int huemax) {
+          goal.loadPixels();
+            for (int i = 0; i<goal.pixels.length; i++) {
+              float rin = map(i % goal.width, 0, goal.width, xcenter - xradius, xcenter + xradius);
+              float iin = map(floor(i/goal.width), 0, goal.height, ycenter - yradius, ycenter + yradius);
+              complx num = fz(new complx(rin, iin));
+              float hue = map(atan2(num.i, num.r) + PI, 0, 2*PI, huemin, huemax);
+              float sat = sqrt(num.i * num.i + num.r * num.r)*50;
+              colorMode(HSB, 100);
+              goal.pixels[i] = color(hue, sat, 99);
+              colorMode(RGB, 255);
+            }
+          goal.updatePixels();
+
+          image(goal, 0, 0, width, height);
+        }
+
+        float sign(float in) {
+          if (in > 0) {
+            return 1;
+          } else {
+            return -1;
+          }
+        }
+
+        void newPollynomial(int order) {
+          mz = new complx[order];
+          for (int i = 0; i<mz.length; i++) {
+            mz[i] = new complx(randomGaussian(), randomGaussian());
+          }
+        }
+
+        complx fz(complx num) {
+          complx out = new complx(0, 0);
+          for (int i = 0; i<mz.length; i++) {
+            complx temp = num;
+            temp = powComplx(temp, i);
+            temp = multiComplx(mz[i], temp);
+            out = addComplx(temp, out);
+          }
+          return out;
+        }
+
+        class complx {
+          float i;
+          float r;
+          complx(float real, float imag) {
+            i = imag;
+            r = real;
+          }
+        }
+
+        complx powComplx(complx one, int num) {
+          complx temp = new complx(1, 0);
+          for (int i = 0; i<num; i++) {
+            temp = multiComplx(one, temp);
+          }
+          return temp;
+        }
+
+        complx multiComplx(complx one, complx two) {
+          float r = one.r * two.r - one.i * two.i;
+          float i = one.i * two.r + one.r * two.i;
+          return new complx(i, r);
+        }
+
+        complx addComplx(complx one, complx two) {
+          return new complx(one.r + two.r, one.i + two.r);
+        }
     }
 }
