@@ -321,13 +321,10 @@ public class Start extends PApplet {
             private BackgroundGen bg;
             public Crawl() {
                 bg = new BackgroundGen();
-                bg.newGoal(0, 360, 99);
+                bg.newGoal(0, 360, 30);
             }
             public Event foo() {
                 image(bg.goal, 0, 0);
-                fill(255, 255, 255, 150);
-                noStroke();
-                rect(0, 0, width, height);
                 textAlign(CENTER);
                 textSize(50);
                 fill(255, 255, 255);
@@ -338,7 +335,7 @@ public class Start extends PApplet {
 
                 if (mouseReleased) {
                     if (mouseButton == LEFT) {
-                        //crawl left
+                        return new CrawlLeft();
                     } else {
                         //crawl right
                     }
@@ -348,6 +345,26 @@ public class Start extends PApplet {
             }
         }
 
+    }
+
+    public class CrawlLeft extends Event {
+        private BackgroundGen bg;
+
+        public CrawlLeft() {
+            bg = new BackgroundGen();
+            bg.newGoal(0, 57, 100);
+        }
+
+        public Event foo() {
+            image(bg.goal, 0, 0);
+            fill(255);
+            textAlign(CENTER);
+            textSize(30);
+
+            text("You crawl left. You continue to make similar left-leaning choices\n until your early high school years, when you realise the government is not gonna pay\n for your private school education. Do you drop out of school in outrage?", width/2, height/10);
+
+            return this;
+        }
     }
 
     public class AlStory extends Bruh {
@@ -609,6 +626,53 @@ public class Start extends PApplet {
 
         complx addComplx(complx one, complx two) {
           return new complx(one.r + two.r, one.i + two.r);
+        }
+    }
+
+    public class SnowField {
+        public class Snow {
+            float x;
+            float y;
+            float velx;
+            float vely = 10;
+
+            float wiggle;
+            float wiggle_chance;
+
+            public Snow(float wiggle, float wiggle_chance) {
+                this.wiggle = wiggle;
+                this.wiggle_chance = wiggle_chance;
+
+                this.x = random(width);
+                this.y = random(height);
+            }
+
+            public void update() {
+                if (random(1) < wiggle_chance) {
+                    velx += random(-wiggle, wiggle);
+                }
+                
+                x += velx;
+                y += vely;
+            }
+        }
+
+        Snow[] snow;
+
+        public SnowField(int snowNo) {
+            snow = new Snow[snowNo];
+        }
+
+        public void update() {
+            background(51, 51, 255);
+            textAlign(CENTER);
+            textSize(20);
+            fill(255);
+
+            for (int i = 0; i < snow.length; i++) {
+                snow[i].update();
+                text("*", snow[i].x, snow[i].y);
+            }
         }
     }
 }
