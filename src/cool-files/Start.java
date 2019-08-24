@@ -336,15 +336,11 @@ public class Start extends PApplet {
                 text("\n\nEVEN SO YOUR LIFE IS IN ALL CAPS", width/2, height/5);
                 text("\n\n\nCRAWL TO THE LEFT OR TO THE RIGHT?", width/2, height/5);
 
-                text("Yes", width/4, height/2);
-                text("No", 3*width/4, height/2);
-
-                stroke(255);
-                strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
-
                 if (mouseReleased) {
-                    if (mouseX < width/2) {
+                    if (mouseButton == LEFT) {
+                        //crawl left
+                    } else {
+                        //crawl right
                     }
                 }
 
