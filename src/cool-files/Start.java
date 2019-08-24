@@ -318,13 +318,10 @@ public class Start extends PApplet {
             private BackgroundGen bg;
             public Crawl() {
                 bg = new BackgroundGen();
-                bg.newGoal(0, 360, 99);
+                bg.newGoal(0, 360, 30);
             }
             public Event foo() {
                 image(bg.goal, 0, 0);
-                fill(255, 255, 255, 150);
-                noStroke();
-                rect(0, 0, width, height);
                 textAlign(CENTER);
                 textSize(50);
                 fill(255, 255, 255);
@@ -335,7 +332,7 @@ public class Start extends PApplet {
 
                 if (mouseReleased) {
                     if (mouseButton == LEFT) {
-                        //crawl left
+                        return new CrawlLeft();
                     } else {
                         //crawl right
                     }
@@ -345,6 +342,26 @@ public class Start extends PApplet {
             }
         }
 
+    }
+
+    public class CrawlLeft extends Event {
+        private BackgroundGen bg;
+
+        public CrawlLeft() {
+            bg = new BackgroundGen();
+            bg.newGoal(0, 57, 100);
+        }
+
+        public Event foo() {
+            image(bg.goal, 0, 0);
+            fill(255);
+            textAlign(CENTER);
+            textSize(30);
+
+            text("You crawl left. You continue to make similar left-leaning choices\n until your early high school years, when you realise the government is not gonna pay\n for your private school education. Do you drop out of school in outrage?", width/2, height/10);
+
+            return this;
+        }
     }
 
     public class AlStory extends Bruh {
