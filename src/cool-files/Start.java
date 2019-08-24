@@ -72,7 +72,6 @@ public class Start extends PApplet {
 
         public void drawScreen() {
             background(colA);
-            bg.draw();
             int s = width/border;
             fill(colB);
             noStroke();
