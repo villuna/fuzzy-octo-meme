@@ -553,8 +553,34 @@ public class Start extends PApplet {
             textSize(30);
 
             text("You crawl left. You continue to make similar left-leaning choices\n until your early high school years, when you realise the government is not gonna pay\n for your private school education. Do you drop out of school in outrage?", width/2, height/10);
+            text("Yes", width/4, height/2);
+            text("No", 3*width/4, height/2);
+
+            stroke(255);
+            line(width/2, height/5, width/2, 4*height/5);
+
+            if (mousePressed) {
+                if (mouseX <= width/2) {
+                    // Switch to the Joel stream
+                }
+
+                else {
+                    // Switch to the Liam stream
+                    return new FinishHighSchool();
+                }
+            }
 
             return this;
+        }
+
+        public class FinishHighSchool extends Event {
+            public Event foo() {
+                background(100, 50, 0);
+                fill(255);
+                textAlign(CENTER);
+                text("h", width/2, height/2);
+                return this;
+            }
         }
     }
 
