@@ -41,7 +41,7 @@ public class Start extends PApplet {
       textAlign(CENTER);
       textFont(f, 30);
       fill(0);
-      text(question, 1920/5, 100, 3*(1920/5), 500); 
+      text(question, 1920/5, 100, 3*(1920/5), 500);
     }
 
     public void draw() {
@@ -167,7 +167,7 @@ public class Start extends PApplet {
 		textFont(f, 40);
 		// This took wayyyyy too long lol.
 		text("Hey do you want to establish \n world communism?", 500, 700);
-		
+
 		// Question B SETUP
 		Button choice_B = new Button(1000, 400, 1600/2, 600);
 		fill(255);
@@ -176,7 +176,7 @@ public class Start extends PApplet {
 		textAlign(CENTER);
 		textFont(f, 40);
 		fill(0);
-		text("So...\n Have you heard about Fortnite?", 1400, 700); 
+		text("So...\n Have you heard about Fortnite?", 1400, 700);
 
 		if (choice_A.clicked()) {
 		  clicked = true;
@@ -186,13 +186,13 @@ public class Start extends PApplet {
 		  textAlign(CENTER);
 		  clear();
 		  text("This has been clicked", width/2, height/2);
-		}	
+		}
 
                 return this;
             }
- 
+
         }*/
-	
+
     public class J1 extends Bruh {
         // J1 Storyline:
 
@@ -466,6 +466,10 @@ public class Start extends PApplet {
                 text("Yes", width/4, height/2);
                 text("No", 3*width/4, height/2);
 
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
                 if (mouseReleased) {
                     if (mouseX < width/2) {
                         return new FourChan();
@@ -492,10 +496,6 @@ public class Start extends PApplet {
                 text("Yes", width/4, height/2);
                 text("No", 3*width/4, height/2);
 
-                stroke(255);
-                strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
-
                 if (mouseReleased) {
                     if (mouseX < width/2) {
                         AlStory al = new AlStory();
@@ -504,7 +504,6 @@ public class Start extends PApplet {
 
                     }
                 }
-
                 return this;
             }
         }
@@ -564,6 +563,8 @@ public class Start extends PApplet {
             if (mousePressed) {
                 if (mouseX <= width/2) {
                     // Switch to the Joel stream
+                    J0el yaboi = new J0el();
+                    return yaboi.new DropOut();
                 }
 
                 else {
@@ -913,7 +914,7 @@ public class Start extends PApplet {
                 if (random(1) < wiggle_chance) {
                     velx += random(-wiggle, wiggle);
                 }
-                
+
                 x += velx;
                 y += vely;
             }
@@ -934,6 +935,31 @@ public class Start extends PApplet {
             for (int i = 0; i < snow.length; i++) {
                 snow[i].update();
                 text("*", snow[i].x, snow[i].y);
+            }
+        }
+    }
+
+
+    public class J0el extends Bruh {
+        public class DropOut extends Event {
+            BackgroundGen bg;
+            public DropOut() {
+                bg = new BackgroundGen();
+                bg.newPollynomial(2);
+                bg.newGoal(120, 165, 70);
+            }
+            public Event foo() {
+                background(200, 100, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/2);
+                if (keyPressed) {
+                    if (key == 'y') {
+                    }
+                    else if (key == 'n') {
+                    }
+                }
+                return this;
             }
         }
     }
