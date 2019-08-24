@@ -5,7 +5,10 @@ public class Start extends PApplet {
     boolean mouseDown = false;
     boolean mousePressed = false;
     boolean mouseReleased = false;
+    boolean keyPressed = false;
+    boolean keyReleased = false;
 
+    String playerName = "";
     Event currentEvent;
     Boreee b;
 
@@ -24,7 +27,7 @@ public class Start extends PApplet {
     public void settings() {
         fullScreen();
         b = new Boreee();
-        currentEvent = b.new Foo();
+        currentEvent = b.new FadeIn();
     }
 
     public void draw() {
@@ -32,10 +35,16 @@ public class Start extends PApplet {
 
         mousePressed = false;
         mouseReleased = false;
+        keyPressed = false;
+        keyReleased = false;
     }
 
     public void keyReleased() {
-        exit();
+        keyReleased = true;
+    }
+
+    public void keyPressed() {
+        keyPressed = true;
     }
 
     public void mousePressed() {
@@ -122,7 +131,7 @@ public class Start extends PApplet {
         // Borella story
         // Wooo
 
-        public class Foo extends Event {
+        public class FadeIn extends Event {
             int bg = 0;
             boolean debug = true;
 
@@ -140,14 +149,15 @@ public class Start extends PApplet {
                 bg++;
 
                 if (bg >= 255) {
-                    return new Bar();
-                } else {
+                    return new Birth();
+                }
+                else {
                     return this;
                 }
             }
         }
 
-        public class Bar extends Event {
+        public class Birth extends Event {
             public Event foo() {
                 background(100, 100, 125);
                 textAlign(CENTER);
@@ -155,7 +165,7 @@ public class Start extends PApplet {
                 text("You are born", width / 2, height / 2);
 
                 if (mousePressed) {
-//                    Boreee is = new Start();
+//                   Boreee is = new Start();
                     return new AfterBorn();
                 } else {
                     return this;
@@ -164,21 +174,108 @@ public class Start extends PApplet {
         }
 
         public class AfterBorn extends Event {
+            int stillTimer = 0;
 
             public Event foo() {
                 if (random(200) == 1) {
                     background(100, 100, 125);
                     textAlign(CENTER);
                     textSize(40);
-                    text("still.", width / 2, height / 2);
-                    if (mousePressed) {
-                        exit();
+                    text("Unfortunately, you were stillborn.", width/2, height/2);
+
+                    if (stillTimer >= 150) {
+                        textSize(20);
+                        text("(Sorry about that.)", width/2, 3*height/4);
                     }
-                } else {
 
-                    // start of story
+                    if (stillTimer >= 200) exit();
 
+                    stillTimer++;
                 }
+
+                else {
+                    return new NameChange();
+                }
+
+                return this;
+            }
+        }
+
+        public class NameChange extends Event {
+            String name = "";
+            String alph = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ ";
+
+            public Event foo() {
+                background(0, 0, 125);
+                textAlign(CENTER);
+                textSize(40);
+                text("What is your name?", width/2, height/2);
+
+                if (keyPressed) {
+                    if (key == BACKSPACE) {
+                        if (name.length() > 0) {
+                            name = name.substring(0, name.length()-1);
+                        }
+                    }
+
+                    else if (alph.indexOf(""+key) != -1) name += key;
+
+                    else if (key == ENTER) {
+                        return new TheChristening();
+                    }
+                }
+
+                text(name, width/2, 3*height/4);
+
+                return this;
+            }
+        }
+
+        public class TheChristening extends Event {
+            String name = "";
+
+            public TheChristening() {
+                if (random(1) >= 0.5)
+                    name = "Greggamendle";
+
+                else
+                    name = "Jaxon";
+
+                playerName = name;
+            }
+
+            public Event foo() {
+                background(0, 0, 125);
+                textAlign(CENTER);
+                textSize(40);
+                text("Did you mean: " + name, width/2, height/2);
+                textSize(20);
+                text("Press ENTER to confirm", width/2, 3*height/4);
+
+                if (keyPressed) {
+                    if (key == ENTER) {
+                        return new WaitYears();            
+                    }
+                }
+
+                return this;
+            }
+        }
+
+        public class WaitYears extends Event {
+            public Event foo() {
+                background(200, 60, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("Wait 15 years?", width/2, height/10);
+
+                text("Yes", width/4, height/2);
+                text("No", 3*width/4, height/2);
+
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
                 return this;
             }
         }
