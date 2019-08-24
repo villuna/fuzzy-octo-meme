@@ -133,7 +133,7 @@ public class Start extends PApplet {
 
         public class FadeIn extends Event {
             int bg = 0;
-            boolean debug = false;
+            boolean debug = true;
 
 
             public Event foo() {
@@ -141,7 +141,7 @@ public class Start extends PApplet {
                     // jump to point in story;
 
                     AlStory s = new AlStory();
-                    return s.new First();
+                    return s.new School();
                 }
 
                 background(bg);
@@ -318,7 +318,6 @@ public class Start extends PApplet {
             private BackgroundGen bg;
             public Crawl() {
                 bg = new BackgroundGen();
-                bg.newGoal(0, 360, 99);
             }
             public Event foo() {
                 image(bg.goal, 0, 0);
@@ -396,7 +395,7 @@ public class Start extends PApplet {
 
                 strokeWeight(4);
                 stroke(0, 100, 200);
-                background(0);
+                //background(0);
                 if (light) {
                     if (random(10) > 2) {
                         background(255);
@@ -424,9 +423,6 @@ public class Start extends PApplet {
 //            background(background);
             textSize(40);
             textAlign(CENTER);
-            stroke(255);
-            strokeWeight(5);
-            line(width/2, height/4, width/2, 3*height/4);
             text(textone, width / 2, 50);
             text(texttwo, width / 4, height/2);
             text(textthree, (width * 3 / 4), height/2);
@@ -453,6 +449,9 @@ public class Start extends PApplet {
         public class School extends Event {
             public Event foo() {
                 clear();
+                RainField rain = new RainField(5, (float)0.2, 10);
+                rain.draw();
+
                 draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.", 0);
                 if (mousePressed) {
                     return new Dog();
@@ -462,13 +461,34 @@ public class Start extends PApplet {
         }
 
         public class Dog extends Event {
+            private boolean red = false;
+            private boolean redtwo = false;
+            private int i = 0;
             public Event foo() {
                 clear();
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
                 draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.", 0);
-                if (mousePressed) {
+
+                if (i > 40) {
                     return(new blank_rain_1());
+                }
+
+                if (red) {
+                    clear();
+                    i = i + 1;
+                    if (redtwo) {
+                        redtwo = false;
+                        background(255, 0, 0);
+                    }
+                    else {
+                        redtwo = true;
+                        background(0);
+                    }
+                }
+
+                if (mousePressed) {
+                    red = true;
                 }
 
                 return this;
@@ -482,7 +502,7 @@ public class Start extends PApplet {
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
                 if (mousePressed) {
-                    //return(new later())
+                    return new later();
                 }
 
                 return this;
@@ -494,31 +514,41 @@ public class Start extends PApplet {
             BackgroundGen bg;
             public later() {
                 bg = new BackgroundGen();
-
+                bg.newPollynomial(3);
+                bg.newGoal(70, 80,40);
             }
 
             public Event foo() {
                 clear();
                 image(bg.goal, 0, 0 );
-                return this;
 
+                draw_context("2 years have passed. You have now graduated high school.", 0);
+                if (mousePressed) {
+                    return new First();
+                }
+                return this;
             }
 
         }
 
         public class First extends Event {
+            BackgroundGen bg;
+            public First() {
+                bg = new BackgroundGen();
+                bg.newPollynomial(3);
+                bg.newGoal(70, 80,20);
+            }
 
             public Event foo() {
                 clear();
+                image(bg.goal, 0, 0);
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
 
                 draw_event("You feel a tense baseline dissatisfaction\n with your success in life so far.\n You tell yourself it's not selfhatred\nbut actually you feel undeserving of\nall you have but regretful that you don't\n have more. But life is good, or as good as\nyou make it.",
                         "Take a sabattical in the\nmountains of South America",
                         "Enrol at UQ", 100);
-
                 return this;
-
             }
         }
 
@@ -535,7 +565,6 @@ public class Start extends PApplet {
         public BackgroundGen() {
             goal = new PImage(width, height);
             newPollynomial(5);
-            newGoal(0, 360, 99);
         }
 
         void newGoal(int huemin, int huemax, int lightness) {
@@ -544,7 +573,7 @@ public class Start extends PApplet {
               float rin = map(i % goal.width, 0, goal.width, xcenter - xradius, xcenter + xradius);
               float iin = map(floor(i/goal.width), 0, goal.height, ycenter - yradius, ycenter + yradius);
               complx num = fz(new complx(rin, iin));
-              float hue = map(atan2(num.i, num.r) + PI, 0, 2*PI, huemin, huemax);
+              float hue = map((atan2(num.i, num.r) + PI + 2*PI) % (2*PI), 0, 2*PI, huemin, huemax);
               float sat = sqrt(num.i * num.i + num.r * num.r)*50;
               colorMode(HSB, 100);
               goal.pixels[i] = color(hue, sat, lightness);
