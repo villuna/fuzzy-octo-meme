@@ -33,13 +33,13 @@ public class Start extends PApplet {
     public void draw_question(String question, int r, int g, int b) {
       background(r,g,b);
       PFont f;
-      f = createFont("Arial", 16, true);
-      textFont(f, 16);
+      f = createFont("Arial", 30, true);
+      textFont(f, 30);
 
       // QUESTION TEXTBOX Setup
 
       textAlign(CENTER);
-      textFont(f, 30);
+      textFont(f, 60);
       fill(0);
       text(question, 1920/5, 100, 3*(1920/5), 500); 
     }
@@ -108,7 +108,7 @@ public class Start extends PApplet {
 
         public boolean mouseOver() {
             if ((mouseX < x + width) && (mouseY < y + height)) {
-                if (mouseX > x && mouseY < y) {
+                if (mouseX > x && mouseY > y) {
                     return true;
                 }
             }
@@ -134,12 +134,60 @@ public class Start extends PApplet {
 	  // Ishy Storyline:
 	//  Refer to /story.
         public class Yeetus extends Event {
+	  boolean clicked_left = false;
+	  boolean clicked_right = false;
 	  public Event foo() {
-	    draw_question("You meet a new friend named Jaxon. It is lunch time now, what do you want to talk about?\n Left: Do you want to establish World Communism with me?\n Right: Do you not want to establish World Communism with me?", 255, 255, 0);
+	    Button left = new Button(0,0, width/2, height);
+	    Button right = new Button(width/2,0, width/2, height);
+	    fill(255);
+	    
+	    draw_question("You meet a new friend. It is lunch time now, what do you want to talk about?\n Left: Do you want to establish World Communism with me?\n Right: Do you not want to establish World Communism with me?", 255, 255, 0);
+	    println(left.clicked()); 
+	    if (left.clicked()) {
+	      clicked_left = true;
+	    } else if (clicked_right) {
+	      clicked_right = true;
+	    } 
+	    
+
+	    if (clicked_left) {
+	      // Establishing World Communism
+	      background(255,255,0);
+	      String response = playerName + "... You are 5 years old... Whatever.";  
+	      textAlign(CENTER);
+	      text(response, width/2, height/2);
+	      
+	      return new Communism();
+
+	    } else if (clicked_right) {
+	      // Not establishing World Communism.
+	      background(255, 255,0);
+	      textAlign(CENTER);
+	      text("Ok.", width/2, height/2);
+
+	      return this;
+	    }
+	    
 	    return this;
 	  }
 	}
-   }
+
+      public class Communism extends Event {
+	public Event foo() {
+	    Button left = new Button(0,0, width/2, height);
+	    Button right = new Button(width/2,0, width/2, height);
+	    PFont f; 
+	    f = createFont("Arial", 16, true);
+	    fill(255);
+	    
+	    draw_question("Your friend aggres with your plan. He shakes you hand and utters his full name. \n Joseph Stalin. \n Obviously as a 5 year old this means nothing to you. Click on the: \n Left - Continue hanging out with Joseph \n Right - Make new friends", 255, 0 ,255);
+
+	    	    
+	    return this;
+
+	}
+      }	
+  }
 	  /*
 	  boolean clicked = false;
             public Event foo() {
