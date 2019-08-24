@@ -91,5 +91,11 @@ public class Start extends PApplet {
         // foo() will execute the event and return the next event based on what happens
         public abstract Event foo();
     }
+
+    public class Ishy {
+      // Ishy Storyline:
+    }
+    
+    
 }
 
