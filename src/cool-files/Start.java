@@ -562,6 +562,8 @@ public class Start extends PApplet {
             if (mousePressed) {
                 if (mouseX <= width/2) {
                     // Switch to the Joel stream
+                    J0el yaboi = new J0el();
+                    return yaboi.new DropOut();
                 }
 
                 else {
@@ -945,17 +947,15 @@ public class Start extends PApplet {
                 bg.newPollynomial(2);
                 bg.newGoal(120, 165, 70);
             }
-            public event foo() {
+            public Event foo() {
                 background(200, 100, 0);
                 textAlign(CENTER);
                 textSize(40);
                 text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/2);
                 if (keyPressed) {
                     if (key == 'y') {
-                        return new Death();
                     }
                     else if (key == 'n') {
-                        return new courtCase();
                     }
                 }
                 return this;
