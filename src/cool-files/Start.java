@@ -5,7 +5,7 @@ public class Start extends PApplet {
     boolean mouseDown = false;
     boolean mousePressed = false;
     boolean mouseReleased = false;
-    
+
     Event currentEvent;
     Boreee b;
 
@@ -17,7 +17,7 @@ public class Start extends PApplet {
     }
 
     public static void main(String[] args) {
-        String[] appletArgs = new String[] { "Start" };
+        String[] appletArgs = new String[]{"Start"};
         PApplet.main(appletArgs);
     }
 
@@ -29,7 +29,7 @@ public class Start extends PApplet {
 
     public void draw() {
         currentEvent = currentEvent.foo();
-        
+
         mousePressed = false;
         mouseReleased = false;
     }
@@ -39,13 +39,13 @@ public class Start extends PApplet {
     }
 
     public void mousePressed() {
-	mousePressed = true;
-	mouseDown = true;
+        mousePressed = true;
+        mouseDown = true;
     }
 
     public void mouseReleased() {
-	mouseReleased = true;
-	mouseDown = false;
+        mouseReleased = true;
+        mouseDown = false;
     }
 
 
@@ -66,7 +66,7 @@ public class Start extends PApplet {
 
         public void drawScreen() {
             background(colA);
-            int s = width/border;
+            int s = width / border;
             fill(colB);
             noStroke();
             rect(s, s, width - s * 2, height - s * 2);
@@ -75,25 +75,26 @@ public class Start extends PApplet {
 
     public class Button {
         public int x, y, width, height;
+
         public Button(int x, int y, int width, int height) {
             this.x = x;
             this.y = y;
             this.width = width;
             this.height = height;
-	}
+        }
 
-	public boolean mouseOver() {
-	    if ((mouseX < x + width) && (mouseY < y + height)) {
-            if (mouseX > x && mouseY < y) {
-                return true;
+        public boolean mouseOver() {
+            if ((mouseX < x + width) && (mouseY < y + height)) {
+                if (mouseX > x && mouseY < y) {
+                    return true;
+                }
             }
-	    }
-	    return false;
-	}
+            return false;
+        }
 
-	public boolean clicked() {
-	    return (mouseOver() && mouseReleased);
-	}
+        public boolean clicked() {
+            return (mouseOver() && mouseReleased);
+        }
 
     }
 
@@ -120,19 +121,27 @@ public class Start extends PApplet {
     public class Boreee extends Bruh {
         // Borella story
         // Wooo
-        
+
         public class Foo extends Event {
             int bg = 0;
+            boolean debug = true;
+
 
             public Event foo() {
+                if (debug == true) {
+                    // jump to point in story;
+
+                    AlStory s = new AlStory();
+                    return s.new First();
+                }
+
                 background(bg);
 
                 bg++;
 
                 if (bg >= 255) {
                     return new Bar();
-                }
-                else {
+                } else {
                     return this;
                 }
             }
@@ -143,15 +152,14 @@ public class Start extends PApplet {
                 background(100, 100, 125);
                 textAlign(CENTER);
                 textSize(40);
-                text("You are born", width/2, height/2);
+                text("You are born", width / 2, height / 2);
 
                 if (mousePressed) {
 //                    Boreee is = new Start();
                     return new AfterBorn();
-                }
-
-                else
+                } else {
                     return this;
+                }
             }
         }
 
@@ -162,12 +170,11 @@ public class Start extends PApplet {
                     background(100, 100, 125);
                     textAlign(CENTER);
                     textSize(40);
-                    text("still.", width/2, height/2);
+                    text("still.", width / 2, height / 2);
                     if (mousePressed) {
                         exit();
                     }
-                }
-                else {
+                } else {
 
                     // start of story
 
@@ -177,21 +184,19 @@ public class Start extends PApplet {
         }
 
         // branch to is 
-        
+
 
         // branch to boree
-        
-        
+
+
         // branch to al 
-        
-        
-        
+
+
         // brnach to j0 
-        
-        
+
+
         // branch to j1
     }
-
 
     public class AlStory extends Bruh {
 
@@ -217,14 +222,14 @@ public class Start extends PApplet {
                 for (int x = 0; x < 100; x++) {
                     rain[x][0] = random(0, width);
                     rain[x][1] = random(0, height);
-                    rain[x][2] = direction + random(-1*variance, variance);
+                    rain[x][2] = direction + random(-1 * variance, variance);
                 }
             }
 
             private void rain_field() {
                 for (int x = 0; x < 100; x++) {
                     if (rain[x][0] >= width || rain[x][1] >= height) {
-                        rain[x][0] = random(width + 200) -100;
+                        rain[x][0] = random(width + 200) - 100;
                         continue;
                     }
 
@@ -251,8 +256,7 @@ public class Start extends PApplet {
                         background(0);
                         light = false;
                     }
-                } else
-                if (random(10) > 9.8) {
+                } else if (random(10) > 9.8) {
                     background(255);
                     light = true;
                 }
@@ -265,39 +269,39 @@ public class Start extends PApplet {
                 }
             }
         }
-    }
 
-    public void draw_event (String textone, String texttwo, String textthree) {
+        public void draw_event(String textone, String texttwo, String textthree) {
             // background
             textSize(40);
             textAlign(CENTER);
-            text(textone, width/2, 50);
-            text(texttwo, width/2, 50);
-            text(textthree, width/2, 50);
-    }
-
-    public class First extends Event {
-
-        public Event foo () {
-            draw_event("You feel a tense baseline dissatisfaction with your success in life so far. You tell yourself it's not selfhatred but actually you feel undeserving of all you have but regretful that you don't have more. But life is good, or as good as you make it.", 
-                "Take a sabattical in the mountains of South America", 
-                "Enrol at UQ");
-            text("YEET", 50, 50);
-
-            if (mousePressed && (mouseX > width/2)) {
-                print("yet1");
-            }
-            if (mousePressed && (mouseX <= width/2)){
-                print("yeet2");
-            }
-
-            return this;
-
+            text(textone, width / 2, 50);
+            textAlign(RIGHT);
+            text(texttwo, width / 5, height/2);
+            text(textthree, (width / 5)*3, height/2);
         }
-    
 
 
-}
+        public class First extends Event {
 
+            public Event foo() {
+                clear();
+
+                draw_event("You feel a tense baseline dissatisfaction with your success in life so far. You tell yourself it's not selfhatred but actually you feel undeserving of all you have but regretful that you don't have more. But life is good, or as good as you make it.",
+                        "Take a sabattical in the mountains of South America",
+                        "Enrol at UQ");
+                text("YEET", 50, 50);
+
+                if (mousePressed && (mouseX > width / 2)) {
+                    return new Amer();
+                }
+                if (mousePressed && (mouseX <= width / 2)) {
+                    return new CompSci();
+                }
+
+                return this;
+
+            }
+        }
+    }
 }
 
