@@ -442,10 +442,10 @@ public class Start extends PApplet {
 
         public int get_mouse() {
             if (mousePressed && (mouseX > width / 2)) {
-                return(1);
+                return (1);
             }
             if (mousePressed && (mouseX <= width / 2)) {
-                return(0);
+                return (0);
             }
             return(-1);
         }
@@ -453,12 +453,12 @@ public class Start extends PApplet {
         public class School extends Event {
             public Event foo() {
                 clear();
-                draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.");
+                draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.", 0);
+                if (mousePressed) {
+                    return new Dog();
+                }
+                return(this);
             }
-            if (mousePressed) {
-                return(new Dog());
-            }
-            return(this);
         }
 
         public class Dog extends Event {
@@ -466,7 +466,7 @@ public class Start extends PApplet {
                 clear();
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
-                draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.")
+                draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.", 0);
                 if (mousePressed) {
                     return(new blank_rain_1());
                 }
@@ -482,7 +482,7 @@ public class Start extends PApplet {
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
                 if (mousePressed) {
-                    return(new later())
+                    //return(new later())
                 }
 
                 return this;
@@ -500,8 +500,7 @@ public class Start extends PApplet {
             public Event foo() {
                 clear();
                 image(bg.goal, 0, 0 );
-
-
+                return this;
 
             }
 
