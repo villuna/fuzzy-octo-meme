@@ -5,6 +5,10 @@ public class Start extends PApplet {
     boolean mouseDown = false;
     boolean mousePressed = false;
     boolean mouseReleased = false;
+    
+    Event currentEvent;
+    Boreee b;
+
     // Important function: don't delete or everything will break
     // I'm not sure why
     public static void bruh_momentum() {
@@ -19,17 +23,15 @@ public class Start extends PApplet {
 
     public void settings() {
         fullScreen();
+        b = new Boreee();
+        currentEvent = b.new Foo();
     }
 
     public void draw() {
-
-	Screen srn = new Screen();
-        srn.drawScreen();
-        fill(random(255), random(255), random(255));
-        ellipse(mouseX, mouseY, 50, 50);
-
-	mousePressed = false;
-	mouseReleased = false;
+        currentEvent = currentEvent.foo();
+        
+        mousePressed = false;
+        mouseReleased = false;
     }
 
     public void keyReleased() {
@@ -73,9 +75,9 @@ public class Start extends PApplet {
 
 	public boolean mouseOver() {
 	    if ((mouseX < x + width) && (mouseY < y + height)) {
-		if (mouseX > x && mouseY < y) {
-		    return true;
-		}
+            if (mouseX > x && mouseY < y) {
+                return true;
+            }
 	    }
 	    return false;
 	}
@@ -86,16 +88,62 @@ public class Start extends PApplet {
 
     }
 
-    public static abstract class Event {
+    public abstract class Event {
         // Blueprint type for the Events (things that happen lol)
         // foo() will execute the event and return the next event based on what happens
         public abstract Event foo();
     }
 
-    public class Ishy {
-      // Ishy Storyline:
+    public abstract class Bruh {
     }
-    
-    
+
+    public class Ishy extends Bruh {
+        // Ishy Storyline:
+        public class Yeetus extends Event {
+            public Event foo() {
+                background(200, 100, 0);
+
+                return this;
+            }
+        }
+    }
+
+    public class Boreee extends Bruh {
+        // Borella story
+        // Wooo
+        
+        public class Foo extends Event {
+            int bg = 0;
+
+            public Event foo() {
+                background(bg);
+
+                bg++;
+
+                if (bg >= 255) bg = 0;
+
+                if (mousePressed) 
+                    return new Bar();
+
+                else
+                    return this;
+            }
+        }
+
+        public class Bar extends Event {
+            public Event foo() {
+                background(0, 0, 125);
+
+                if (mousePressed) {
+                    Ishy is = new Ishy();
+
+                    return is.new Yeetus();
+                }
+
+                else
+                    return this;
+            }
+        }
+    }
 }
 
