@@ -558,6 +558,7 @@ public class Start extends PApplet {
             text("No", 3*width/4, height/2);
 
             stroke(255);
+            strokeWeight(5);
             line(width/2, height/5, width/2, 4*height/5);
 
             if (mousePressed) {
@@ -576,7 +577,7 @@ public class Start extends PApplet {
 
         public class FinishHighSchool extends Event {
             public Event foo() {
-                background(100, 50, 0);
+                background(200, 100, 0);
                 fill(255);
                 textAlign(CENTER);
                 text("h", width/2, height/2);
