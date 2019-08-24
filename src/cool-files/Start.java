@@ -30,6 +30,20 @@ public class Start extends PApplet {
         currentEvent = b.new FadeIn();
     }
 
+    public void draw_question(String question, int r, int g, int b) {
+      background(r,g,b);
+      PFont f;
+      f = createFont("Arial", 16, true);
+      textFont(f, 16);
+
+      // QUESTION TEXTBOX Setup
+
+      textAlign(CENTER);
+      textFont(f, 30);
+      fill(0);
+      text(question, 1920/5, 100, 3*(1920/5), 500); 
+    }
+
     public void draw() {
         currentEvent = currentEvent.foo();
 
@@ -117,15 +131,187 @@ public class Start extends PApplet {
     }
 
     public class Ishy extends Bruh {
-        // Ishy Storyline:
+	  // Ishy Storyline:
+	//  Refer to /story.
         public class Yeetus extends Event {
+	  public Event foo() {
+	    draw_question("You meet a new friend named Jaxon. It is lunch time now, what do you want to talk about?\n Left: Do you want to establish World Communism with me?\n Right: Do you not want to establish World Communism with me?", 255, 255, 0);
+	    return this;
+	  }
+	}
+   }
+	  /*
+	  boolean clicked = false;
             public Event foo() {
-                background(200, 100, 0);
+                background(0);
+		PFont f;
+		f = createFont("Arial", 16, true);
+		textFont(f, 16);
+
+		// QUESTION TEXTBOX Setup
+
+		textAlign(CENTER);
+		textFont(f, 30);
+		fill(255);
+		text("You meet a new friend named Jaxon. It is lunch time now, what do you want to talk about?", 1920/5, 100, 3*(1920/5), 500);
+
+		// Question A SETUP
+		Button choice_A = new Button(100,400,800,600);
+
+		// Fix sizing, left side button not equally far to the lefthand
+		// side.
+		fill(255);
+		rect(100,400,1600/2,600);
+		fill(0);
+		textAlign(CENTER);
+		textFont(f, 40);
+		// This took wayyyyy too long lol.
+		text("Hey do you want to establish \n world communism?", 500, 700);
+		
+		// Question B SETUP
+		Button choice_B = new Button(1000, 400, 1600/2, 600);
+		fill(255);
+		rect(1000, 400, 1600/2, 600);
+
+		textAlign(CENTER);
+		textFont(f, 40);
+		fill(0);
+		text("So...\n Have you heard about Fortnite?", 1400, 700); 
+
+		if (choice_A.clicked()) {
+		  clicked = true;
+		}
+
+		if (clicked) {
+		  textAlign(CENTER);
+		  clear();
+		  text("This has been clicked", width/2, height/2);
+		}	
+
+                return this;
+            }
+ 
+        }*/
+	
+    public class J1 extends Bruh {
+        // J1 Storyline:
+
+        public class Reddit extends Event {
+            public Event foo() {
+                background(60, 60, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("As you are browsing reddit, you stumble across a Dark Web link", width/2, height/10);
+                text("\nDo you click it?", width/2, height/10);
+
+
+                text("Yes", width/4, height/2);
+                text("No", 3*width/4, height/2);
+
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
+                if (mouseReleased) {
+                    if (mouseX < width/2) {
+                        return new Attacked()
+                    }
+                    else {
+                        return new Arrest()
+                    }
+                }
 
                 return this;
             }
         }
-    }
+
+        public class Arrest extends Event {
+            public Event foo() {
+                background(200, 100, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("You are currently being arrested. Do you resist? Press Y/N.", width/2, height/2);
+                if (keyPressed()) {
+                    if (key == y) {
+                        return new Death();
+                    }
+                    else if (key == n) {
+                        return new courtCase();
+                    }
+                }
+                return new courtCase();
+            }
+        }
+
+        public class courtCase extends Event {
+            private boolean success;
+            public Event foo() {
+
+            }
+        }
+
+        public class Prison extends Event {
+            public Event foo() {
+                background(100, 100, 125);
+                line(20, 0, 20, height);
+                line(40, 0, 40, height);
+                line(60, 0, 60, height);
+                line(80, 0, 80, height);
+                textAlign(CENTER);
+                textSize(40);
+                text("You have been sentenced for your crimes. Now serve two years in jail. Press Space", width/2, height/2);
+                if (keyPressed()) {
+                    if (key == SPACE) {
+                        return new Attacked();
+                    }
+                }
+            }
+        }
+
+        public class Attacked extends Event {
+
+            private int timer = 0;
+            private int success = 0;
+
+            public Event foo() {
+                background(100, 100, 125);
+                line(20, 0, 20, height);
+                line(40, 0, 40, height);
+                line(60, 0, 60, height);
+                line(80, 0, 80, height);
+                textAlign(CENTER);
+                textSize(40);
+                text("You are being attacked. Quickly mash d.", width/2, height/2);
+                if (keyPressed()) {
+                    if (key == SPACE) {
+                        success = success + 1;
+                        timer = 0;
+                    }
+                    if (success > 4) {
+                        return new Released();
+                    }
+                }
+                timer = timer + 1;
+                if (timer > 5) {
+                    return new Death();
+                }
+                return this;
+            }
+
+        }
+
+        public class Death extends Event {
+            public Event foo() {
+                exit();
+            }
+        }
+
+        public class Released extends Event {
+
+        }
+
+
+    }	
 
     public class Boreee extends Bruh {
         // Borella story
@@ -141,7 +327,7 @@ public class Start extends PApplet {
                     // jump to point in story;
 
                     AlStory s = new AlStory();
-                    return s.new First();
+                    return s.new School();
                 }
 
                 background(bg);
@@ -306,6 +492,9 @@ public class Start extends PApplet {
 
                 if (mouseReleased) {
                     if (mouseX < width/2) {
+                        AlStory al = new AlStory();
+                        return al.new School();
+                    } else {
 
                     }
                 }
@@ -318,7 +507,6 @@ public class Start extends PApplet {
             private BackgroundGen bg;
             public Crawl() {
                 bg = new BackgroundGen();
-                bg.newGoal(0, 360, 30);
             }
             public Event foo() {
                 image(bg.goal, 0, 0);
@@ -365,6 +553,7 @@ public class Start extends PApplet {
     }
 
     public class AlStory extends Bruh {
+
 
         // shitty rain with lightning
         // use as background with
@@ -413,7 +602,7 @@ public class Start extends PApplet {
 
                 strokeWeight(4);
                 stroke(0, 100, 200);
-                background(0);
+                //background(0);
                 if (light) {
                     if (random(10) > 2) {
                         background(255);
@@ -441,9 +630,6 @@ public class Start extends PApplet {
 //            background(background);
             textSize(40);
             textAlign(CENTER);
-            stroke(255);
-            strokeWeight(5);
-            line(width/2, height/4, width/2, 3*height/4);
             text(textone, width / 2, 50);
             text(texttwo, width / 4, height/2);
             text(textthree, (width * 3 / 4), height/2);
@@ -455,6 +641,18 @@ public class Start extends PApplet {
             textSize(40);
             textAlign(CENTER);
             text(textone, width / 2, height/3);
+        }
+
+        public boolean dysentery() {
+            if (random(0, 500) == 1) {
+                background(0);
+                draw_context("You have died of dysentery.", 0);
+                if (mousePressed) {
+                    exit();
+                }
+            }
+
+            return false;
         }
 
         public int get_mouse() {
@@ -470,6 +668,9 @@ public class Start extends PApplet {
         public class School extends Event {
             public Event foo() {
                 clear();
+                RainField rain = new RainField(5, (float)0.2, 10);
+                rain.draw();
+
                 draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.", 0);
                 if (mousePressed) {
                     return new Dog();
@@ -479,13 +680,34 @@ public class Start extends PApplet {
         }
 
         public class Dog extends Event {
+            private boolean red = false;
+            private boolean redtwo = false;
+            private int i = 0;
             public Event foo() {
                 clear();
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
                 draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.", 0);
-                if (mousePressed) {
+
+                if (i > 40) {
                     return(new blank_rain_1());
+                }
+
+                if (red) {
+                    clear();
+                    i = i + 1;
+                    if (redtwo) {
+                        redtwo = false;
+                        background(255, 0, 0);
+                    }
+                    else {
+                        redtwo = true;
+                        background(0);
+                    }
+                }
+
+                if (mousePressed) {
+                    red = true;
                 }
 
                 return this;
@@ -499,7 +721,7 @@ public class Start extends PApplet {
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
                 if (mousePressed) {
-                    //return(new later())
+                    return new later();
                 }
 
                 return this;
@@ -511,31 +733,41 @@ public class Start extends PApplet {
             BackgroundGen bg;
             public later() {
                 bg = new BackgroundGen();
-
+                bg.newPollynomial(3);
+                bg.newGoal(70, 80,40);
             }
 
             public Event foo() {
                 clear();
                 image(bg.goal, 0, 0 );
-                return this;
 
+                draw_context("2 years have passed. You have now graduated high school.", 0);
+                if (mousePressed) {
+                    return new First();
+                }
+                return this;
             }
 
         }
 
         public class First extends Event {
+            BackgroundGen bg;
+            public First() {
+                bg = new BackgroundGen();
+                bg.newPollynomial(3);
+                bg.newGoal(70, 80,20);
+            }
 
             public Event foo() {
                 clear();
+                image(bg.goal, 0, 0);
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
 
                 draw_event("You feel a tense baseline dissatisfaction\n with your success in life so far.\n You tell yourself it's not selfhatred\nbut actually you feel undeserving of\nall you have but regretful that you don't\n have more. But life is good, or as good as\nyou make it.",
                         "Take a sabattical in the\nmountains of South America",
                         "Enrol at UQ", 100);
-
                 return this;
-
             }
         }
 
@@ -552,7 +784,6 @@ public class Start extends PApplet {
         public BackgroundGen() {
             goal = new PImage(width, height);
             newPollynomial(5);
-            newGoal(0, 360, 99);
         }
 
         void newGoal(int huemin, int huemax, int lightness) {
@@ -561,7 +792,7 @@ public class Start extends PApplet {
               float rin = map(i % goal.width, 0, goal.width, xcenter - xradius, xcenter + xradius);
               float iin = map(floor(i/goal.width), 0, goal.height, ycenter - yradius, ycenter + yradius);
               complx num = fz(new complx(rin, iin));
-              float hue = map(atan2(num.i, num.r) + PI, 0, 2*PI, huemin, huemax);
+              float hue = map((atan2(num.i, num.r) + PI + 2*PI) % (2*PI), 0, 2*PI, huemin, huemax);
               float sat = sqrt(num.i * num.i + num.r * num.r)*50;
               colorMode(HSB, 100);
               goal.pixels[i] = color(hue, sat, lightness);
