@@ -293,7 +293,7 @@ public class Start extends PApplet {
                 background(60, 60, 0);
                 textAlign(CENTER);
                 textSize(40);
-                text("As you wait your infantile body growls to that of a sickly 15 year old", width/2, height/10);
+                text("As you wait your infantile body grows into that of a sickly 15 year old", width/2, height/10);
                 text("\nYou are left with but one question.", width/2, height/10);
                 text("\n\nDo you browse 4Chan?", width/2, height/10);
 
@@ -439,7 +439,7 @@ public class Start extends PApplet {
             }
         }
 
-        public void draw_event(String textone, String texttwo, String textthree, int background) {
+        public void draw_event(String textone, String texttwo, String textthree) {
             // background
 //            background(background);
             textSize(40);
@@ -449,7 +449,7 @@ public class Start extends PApplet {
             text(textthree, (width * 3 / 4), height/2);
         }
 
-        public void draw_context(String textone, int background) {
+        public void draw_context(String textone) {
             // background
 //            background(background);
             textSize(40);
@@ -460,7 +460,7 @@ public class Start extends PApplet {
         public boolean dysentery() {
             if (random(0, 500) == 1) {
                 background(0);
-                draw_context("You have died of dysentery.", 0);
+                draw_context("You have died of dysentery.");
                 if (mousePressed) {
                     exit();
                 }
@@ -485,7 +485,7 @@ public class Start extends PApplet {
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
 
-                draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.", 0);
+                draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.");
                 if (mousePressed) {
                     return new Dog();
                 }
@@ -501,7 +501,7 @@ public class Start extends PApplet {
                 clear();
                 RainField rain = new RainField(5, (float)0.2, 10);
                 rain.draw();
-                draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.", 0);
+                draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.");
 
                 if (i > 40) {
                     return(new blank_rain_1());
@@ -537,7 +537,6 @@ public class Start extends PApplet {
                 if (mousePressed) {
                     return new later();
                 }
-
                 return this;
             }
 
@@ -555,7 +554,7 @@ public class Start extends PApplet {
                 clear();
                 image(bg.goal, 0, 0 );
 
-                draw_context("2 years have passed. You have now graduated high school.", 0);
+                draw_context("2 years have passed. You have now graduated high school.");
                 if (mousePressed) {
                     return new First();
                 }
@@ -580,7 +579,179 @@ public class Start extends PApplet {
 
                 draw_event("You feel a tense baseline dissatisfaction\n with your success in life so far.\n You tell yourself it's not selfhatred\nbut actually you feel undeserving of\nall you have but regretful that you don't\n have more. But life is good, or as good as\nyou make it.",
                         "Take a sabattical in the\nmountains of South America",
-                        "Enrol at UQ", 100);
+                        "Enrol at UQ");
+
+                if (get_mouse() == 0) {
+                    return new Sabbat();
+                }
+                if (get_mouse() == 1) {
+                    return new UQ();
+                }
+                return this;
+            }
+        }
+
+        public class Sabbat extends Event {
+
+            public Event foo() {
+                clear();
+                draw_event("While you are in North America, on a \n stop-over before flying to Brazil,\n canada annexes the United States",
+                        "Run to the Australian Embassy",
+                        "Accept your fate as you are\nforced to join the Canadian Imperial Forces");
+
+                return this;
+            }
+
+        }
+
+        public class UQ extends Event {
+            public UQ() {
+                bg = new BackgroundGen();
+                bg.newPollynomial(3);
+                bg.newGoal(70, 80,20);
+            }
+
+
+            public Event foo() {
+                clear();
+                image(bg.goal, 0, 0);
+                RainField rain = new RainField(5, (float)0.2, 10);
+                draw_event("What Program do you take?", "Computer Science", "Arts");
+
+                if (get_mouse() == 0) {
+                    return new CompSci();
+                }
+                if (get_mouse() == 1) {
+                    return new Arts();
+                }
+
+                return this;
+            }
+
+        }
+
+        public class Arts extends Event {
+            public Event foo() {
+                clear();
+                draw_context("You grow an exorbitant beard.\nPhilosophy opens your mind to new possibilities,\ndespite gaining a deep understanding of\nethics you cannot help but use it to rationalise\nall your flaws. You become a worse person. You understand so much more\nthan when you were ba naive youth, and yet feel more\ndissatisfied than ever before.");
+                return this;
+            }
+        }
+
+        public class Arts_too extends Event {
+            public Event foo() {
+                clear();
+                draw_context("You grow an exorbitant beard.\nPhilosophy opens your mind to new possibilities,\ndespite gaining a deep understanding of\nethics you cannot help but use it to rationalise\nall your flaws. You become a worse person. You understand so much more\nthan when you were ba naive youth, and yet feel more\ndissatisfied than ever before.");
+                return this;
+            }
+
+        }
+
+        public class CompSci extends Event {
+            public Event foo() {
+                clear();
+                draw_context("You go bald");
+
+                if (mousePressed) {
+                    return new CompSciYeet();
+                }
+                return this;
+            }
+        }
+
+        public class CompSciYeet extends Event {
+            public Event foo() {
+                clear();
+                draw_context("You have finished your degree and \nbecome a professional prgrammer.");
+                if (mousePressed) {
+                    return new CompSciYeetTwo();
+                }
+                return this;
+            }
+        }
+
+        public class CompSciYeetTwo extends Event {
+            public Event foo() {
+                clear();
+                draw_event("You register for a hackathon, what do you make?", "An advanced dolphin-petting\nsimulator game", "A research paper on graph theory\nin financial computing.");
+                if (get_mouse() == 0) {
+                    return new aDolphin();
+                }
+                if (get_mouse() == 1) {
+                    return new Banking();
+                }
+                return this;
+            }
+        }
+
+        public class aDolphin extends Event {
+
+            public Event foo() {
+                clear();
+                draw_event("Your dolphin petting simulator wins second prize\nfor its highly precise modelling of the now-extinct-\ndue-to-climate-change dolphins. It sparks joy in\nchildren's eyes without the enslavement of\nhighly intelligent mammals.",
+                        "Quit your job to work on\nmonetizing the project", "Open source it so the dolphins can live forever");
+                if (get_mouse() == 0) {
+                    // you ruin it and it becomes an evil corporate monolith that creates extensive suffering
+                    return this;
+                }
+                if (get_mouse() == 1) {
+                    // the dolphins become sentient
+                    return this;
+                }
+                return this;
+            }
+        }
+
+        public class Banking extends Event {
+            public Event foo() {
+                clear();
+                draw_event("The Australian Treasury offers you a job\nworking on the 2020 Financial Crisis\ninquiry of resoluion. So you accept?",
+                        "Yes", "No");
+                if (get_mouse() == 0) {
+                    return new Excel();
+                }
+                if (get_mouse() == 1) {
+                    return new NZ();
+                }
+                return this;
+            }
+        }
+
+        public class Excel extends Event {
+            public Event foo() {
+                clear();
+                draw_event("Due to an Excel programming error\nyour study turns out to be wrong.\nThe Australian economy collapses.",
+                        "Flee to New Zealand", "Die.");
+                if (get_mouse() == 0) {
+                    return new NZ_too();
+                }
+                if (get_mouse() == 1) {
+                    exit();
+                }
+                return this;
+            }
+        }
+
+
+        public class NZ extends Event {
+            public Event foo() {
+                clear();
+                draw_context("You move to New Zealand to pursure more\nlucrative job opportunities.");
+
+                if (mousePressed) {
+                    return new NZ_too();
+                }
+                return this;
+            }
+        }
+
+        public class NZ_too extends Event {
+
+            public Event foo() {
+                clear();
+                draw_event("Capitalizing on the Australian financial collapse\nNew Zealand swiftly annexes it via nonviolent\ndrone warfare.",
+                        "Take a public sector programming job\nin your new government.", "Move to China for\ngreater stability");
+
                 return this;
             }
         }
