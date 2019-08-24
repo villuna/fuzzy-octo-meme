@@ -129,29 +129,67 @@ public class Start extends PApplet {
 
                 bg++;
 
-                if (bg >= 255) bg = 0;
-
-                if (mousePressed) 
+                if (bg >= 255) {
                     return new Bar();
-
-                else
+                }
+                else {
                     return this;
+                }
             }
         }
 
         public class Bar extends Event {
             public Event foo() {
-                background(0, 0, 125);
+                background(100, 100, 125);
+                textAlign(CENTER);
+                textSize(40);
+                text("You are born", width/2, height/2);
 
                 if (mousePressed) {
-                    Ishy is = new Ishy();
-                    return is.new Yeetus();
+//                    Boreee is = new Start();
+                    return new AfterBorn();
                 }
 
                 else
                     return this;
             }
         }
+
+        public class AfterBorn extends Event {
+
+            public Event foo() {
+                if (random(200) == 1) {
+                    background(100, 100, 125);
+                    textAlign(CENTER);
+                    textSize(40);
+                    text("still.", width/2, height/2);
+                    if (mousePressed) {
+                        exit();
+                    }
+                }
+                else {
+
+                    // start of story
+
+                }
+                return this;
+            }
+        }
+
+        // branch to is 
+        
+
+        // branch to boree
+        
+        
+        // branch to al 
+        
+        
+        
+        // brnach to j0 
+        
+        
+        // branch to j1
     }
 
     // shitty rain with lightning
