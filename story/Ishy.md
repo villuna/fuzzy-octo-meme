@@ -1,2 +1,3 @@
-# An obsession with Radicalism and Communism - Ishy Storyline
+# An obsession with Radicalism and Communism
+## Ishy Storyline
 
