@@ -25,8 +25,6 @@ public class Start extends PApplet {
 
 	Screen srn = new Screen();
         srn.drawScreen();
-        fill(random(255), random(255), random(255));
-        ellipse(mouseX, mouseY, 50, 50);
 
 	mousePressed = false;
 	mouseReleased = false;
@@ -46,15 +44,25 @@ public class Start extends PApplet {
 	mouseDown = false;
     }
 
+
     public class Screen {
         int border = 32;
         int colA = color(0);
         int colB = color(255);
+
+
         public Screen() {
+        }
+
+        public Screen(int bg, int fg) {
+            int colA = color(bg);
+            int colB = color(fg);
 
         }
+
         public void drawScreen() {
             background(colA);
+            bg.draw();
             int s = width/border;
             fill(colB);
             noStroke();
@@ -95,7 +103,76 @@ public class Start extends PApplet {
     public class Ishy {
       // Ishy Storyline:
     }
-    
-    
+
+    // shitty rain with lightning
+    // use as background with
+    //private RainField bg = new RainField(5, (float)0.2, 10);
+    public class RainField {
+
+        private float[][] rain = new float[100][3];
+        private boolean light = false;
+        private float vel = 0;
+        private float variance = 0;
+
+
+        public RainField(float direction, float vari, float velocity) {
+            vel = velocity;
+            variance = vari;
+
+            rain_field_init(direction);
+        }
+
+        private void rain_field_init(float direction) {
+            for (int x = 0; x < 100; x++) {
+                rain[x][0] = random(0, width);
+                rain[x][1] = random(0, height);
+                rain[x][2] = direction + random(-1*variance, variance);
+            }
+        }
+
+        private void rain_field() {
+            for (int x = 0; x < 100; x++) {
+                if (rain[x][0] >= width || rain[x][1] >= height) {
+                    rain[x][0] = random(width + 200) -100;
+                    continue;
+                }
+
+                float direction = rain[x][2];
+                rain[x][0] = rain[x][0] + (vel * cos(direction)) + random(-20, 20);
+                rain[x][1] = rain[x][1] + (-1 * vel * sin(direction)) + random(-20, 20);
+                if (random(100) > 80) {
+                    rain[x][2] += random(-1 * variance, variance);
+                }
+            }
+        }
+
+        public void draw() {
+            rain_field();
+
+            strokeWeight(4);
+            stroke(0, 100, 200);
+            background(0);
+            if (light) {
+                if (random(10) > 2) {
+                    background(255);
+                }
+                if (random(10) > 8) {
+                    background(0);
+                    light = false;
+                }
+            } else
+            if (random(10) > 9.8) {
+                background(255);
+                light = true;
+            }
+
+            for (int x = 0; x < 100; x++) {
+                float direction = rain[x][2];
+                float x2x = rain[x][0] + (vel * cos(direction));
+                float y2x = rain[x][1] + (-1 * vel * sin(direction));
+                line(rain[x][0], rain[x][1], x2x, y2x);
+            }
+        }
+    }
 }
 
