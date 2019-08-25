@@ -27,7 +27,7 @@ public class Start extends PApplet {
     public void settings() {
         fullScreen();
         b = new Boreee();
-        currentEvent = b.new FadeIn();
+        currentEvent = b.new Crawl();
     }
 
     public void draw_question(String question, int r, int g, int b) {
@@ -632,6 +632,10 @@ public class Start extends PApplet {
                 textSize(25);
                 text("You may be seething with leftist rage, but you're smart. Studious.\nOne day you'll show 'em.\nYou finally graduate and now you must make the big choices in life. Here comes one right now!\nDo you:", width/2, height/10);
 
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
                 textSize(40);
                 text("Smoke Crack", width/4, height/2);
                 text("Move to Ipswitch", 3*width/4, height/2);
@@ -667,421 +671,488 @@ public class Start extends PApplet {
         }
 
         public class Prankd extends Event {
+            private BackgroundGen bg;
+            private int timer;
+
+            public Prankd() {
+                bg = new BackgroundGen();
+                bg.newPollynomial(3);
+                bg.newGoal(80, 90, 30);
+            }
+
             public Event foo() {
+                image(bg.goal, 0, 0);
+                textAlign(CENTER);
+                textSize(30);
+                
+
+                text("The walls rise into the air, lights come out of nowhere, fog seeps into your room.", width/2, height/10);
+
+                if (mousePressed && timer < 239) timer = 239;
+
+                if (timer >= 240) {
+                    text("\nThere are cameras all around you. Suddenly, you realise it. That last question was a prank.", width/2, height/10);
+
+                    if (mousePressed && timer < 479) timer = 479;
+                }
+
+                if (timer >= 480) {
+                    text("\n\nThree figures come out of the fog - a tall, handsome man flanked by two people in hoods.\nYou try to escape but it's too late - a chilling voice fills the room...", width/2, height/10);
+
+                    if (mousePressed && timer < 799) timer = 799;
+                }
+
+                if (timer >= 800) {
+                    textSize(40);
+                    text("YOU JUST GOT PRANKED BY THE PRANK PATROL", width/2, height/2);
+
+                    if (mousePressed && timer < 999) timer = 999;
+                }
+
+                if (timer >= 1000 && mousePressed)
+                    return new PrankdChoice(bg);
+
+                timer++;
+
+                return this;
+            }
+        }
+
+        public class PrankdChoice extends Event {
+            private BackgroundGen bg;
+
+            public PrankdChoice(BackgroundGen bg) {
+                this.bg = bg;
+            }
+
+            public Event foo() {
+                image(bg.goal, 0, 0);
+                textAlign(CENTER);
+                textSize(40);
+
+                text("There are few things in this world worse than being prankd.\nYou are filled with intense shame.\nWhat do you do now?", width/2, height/10);
+
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
+                text("Change you name and\nmove to Iceland", width/4, height/2);
+                text("End it all", 3*width/4, height/2);
+
                 return this;
             }
         }
     }
 
-    public class AlStory extends Bruh {
+            public class AlStory extends Bruh {
 
 
-        // shitty rain with lightning
-        // use as background with
-        //private RainField bg = new RainField(5, (float)0.2, 10);
-        public class RainField {
+                // shitty rain with lightning
+                // use as background with
+                //private RainField bg = new RainField(5, (float)0.2, 10);
+                public class RainField {
 
-            boolean lightning = true;
-            private float[][] rain = new float[100][3];
-            private boolean light = false;
-            private float vel = 0;
-            private float variance = 0;
-            int colour = 0;
-            int bgColour = 0;
+                    boolean lightning = true;
+                    private float[][] rain = new float[100][3];
+                    private boolean light = false;
+                    private float vel = 0;
+                    private float variance = 0;
+                    int colour = 0;
+                    int bgColour = 0;
 
-            public RainField(boolean lightn, float direction, float vari, float velocity, int col_our, int bg_Colour) {
-                vel = velocity;
-                variance = vari;
+                    public RainField(boolean lightn, float direction, float vari, float velocity, int col_our, int bg_Colour) {
+                        vel = velocity;
+                        variance = vari;
 
-                bgColour = bg_Colour;
-                colour = col_our;
+                        bgColour = bg_Colour;
+                        colour = col_our;
 
-                rain_field_init(direction);
-                lightning = lightn;
-            }
+                        rain_field_init(direction);
+                        lightning = lightn;
+                    }
 
-            public RainField(float direction, float vari, float velocity) {
-                vel = velocity;
-                variance = vari;
+                    public RainField(float direction, float vari, float velocity) {
+                        vel = velocity;
+                        variance = vari;
 
-                bgColour = 0;
-                colour = color(0, 100, 200);
+                        bgColour = 0;
+                        colour = color(0, 100, 200);
 
 
-                rain_field_init(direction);
-            }
+                        rain_field_init(direction);
+                    }
 
-            private void rain_field_init(float direction) {
-                for (int x = 0; x < 100; x++) {
-                    rain[x][0] = random(0, width);
-                    rain[x][1] = random(0, height);
-                    rain[x][2] = direction + random(-1 * variance, variance);
+                    private void rain_field_init(float direction) {
+                        for (int x = 0; x < 100; x++) {
+                            rain[x][0] = random(0, width);
+                            rain[x][1] = random(0, height);
+                            rain[x][2] = direction + random(-1 * variance, variance);
+                        }
+                    }
+
+                    private void rain_field() {
+                        for (int x = 0; x < 100; x++) {
+                            if (rain[x][0] >= width || rain[x][1] >= height) {
+                                rain[x][0] = random(width + 200) - 100;
+                                continue;
+                            }
+
+                            float direction = rain[x][2];
+                            rain[x][0] = rain[x][0] + (vel * (float)0.5 * cos(direction));
+                            rain[x][1] = rain[x][1] + (-1 * vel * (float)0.5 * sin(direction));
+                            if (random(100) > 80) {
+                                rain[x][2] += random(-1 * variance, variance);
+                            }
+                        }
+                    }
+
+                    public void draw() {
+                        rain_field();
+
+                        strokeWeight(4);
+                        stroke(colour);
+                        //background(0);
+                        if (light) {
+                            if (random(10) > 2) {
+                                background(255);
+                            }
+                            if (random(10) > 8) {
+                                background(0);
+                                light = false;
+                            }
+                        } else if (random(10) > 9.8 && lightning) {
+                            background(255);
+                            light = true;
+                        }
+
+                        for (int x = 0; x < 100; x++) {
+                            float direction = rain[x][2];
+                            float x2x = rain[x][0] + (vel * cos(direction));
+                            float y2x = rain[x][1] + (-1 * vel * sin(direction));
+                            line(rain[x][0], rain[x][1], x2x, y2x);
+                        }
+                    }
                 }
-            }
 
-            private void rain_field() {
-                for (int x = 0; x < 100; x++) {
-                    if (rain[x][0] >= width || rain[x][1] >= height) {
-                        rain[x][0] = random(width + 200) - 100;
-                        continue;
-                    }
-
-                    float direction = rain[x][2];
-                    rain[x][0] = rain[x][0] + (vel * (float)0.5 * cos(direction));
-                    rain[x][1] = rain[x][1] + (-1 * vel * (float)0.5 * sin(direction));
-                    if (random(100) > 80) {
-                        rain[x][2] += random(-1 * variance, variance);
-                    }
+                public void draw_event(String textone, String texttwo, String textthree) {
+                    // background
+        //            background(background);
+                    textSize(40);
+                    textAlign(CENTER);
+                    text(textone, width / 2, 50);
+                    text(texttwo, width / 4, height/2);
+                    text(textthree, (width * 3 / 4), height/2);
                 }
-            }
 
-            public void draw() {
-                rain_field();
+                public void draw_context(String textone) {
+                    // background
+        //            background(background);
+                    textSize(40);
+                    textAlign(CENTER);
+                    text(textone, width / 2, height/3);
+                }
 
-                strokeWeight(4);
-                stroke(colour);
-                //background(0);
-                if (light) {
-                    if (random(10) > 2) {
-                        background(255);
-                    }
-                    if (random(10) > 8) {
+                public boolean dysentery() {
+                    if (random(0, 500) == 1) {
                         background(0);
-                        light = false;
+                        draw_context("You have died of dysentery.");
+                        if (mousePressed) {
+                            exit();
+                        }
                     }
-                } else if (random(10) > 9.8 && lightning) {
-                    background(255);
-                    light = true;
+
+                    return false;
                 }
 
-                for (int x = 0; x < 100; x++) {
-                    float direction = rain[x][2];
-                    float x2x = rain[x][0] + (vel * cos(direction));
-                    float y2x = rain[x][1] + (-1 * vel * sin(direction));
-                    line(rain[x][0], rain[x][1], x2x, y2x);
+                public int get_mouse() {
+                    if (mousePressed && (mouseX > width / 2)) {
+                        return (1);
+                    }
+                    if (mousePressed && (mouseX <= width / 2)) {
+                        return (0);
+                    }
+                    return(-1);
                 }
-            }
-        }
 
-        public void draw_event(String textone, String texttwo, String textthree) {
-            // background
-//            background(background);
-            textSize(40);
-            textAlign(CENTER);
-            text(textone, width / 2, 50);
-            text(texttwo, width / 4, height/2);
-            text(textthree, (width * 3 / 4), height/2);
-        }
+                public class School extends Event {
+                    public Event foo() {
+                        clear();
+                        RainField rain = new RainField(5, (float)0.2, 10);
+                        rain.draw();
 
-        public void draw_context(String textone) {
-            // background
-//            background(background);
-            textSize(40);
-            textAlign(CENTER);
-            text(textone, width / 2, height/3);
-        }
-
-        public boolean dysentery() {
-            if (random(0, 500) == 1) {
-                background(0);
-                draw_context("You have died of dysentery.");
-                if (mousePressed) {
-                    exit();
-                }
-            }
-
-            return false;
-        }
-
-        public int get_mouse() {
-            if (mousePressed && (mouseX > width / 2)) {
-                return (1);
-            }
-            if (mousePressed && (mouseX <= width / 2)) {
-                return (0);
-            }
-            return(-1);
-        }
-
-        public class School extends Event {
-            public Event foo() {
-                clear();
-                RainField rain = new RainField(5, (float)0.2, 10);
-                rain.draw();
-
-                draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.");
-                if (mousePressed) {
-                    if (censored) {
-                        return new blank_rain_1();
-                    } else {
-                        return new Dog();
+                        draw_context("You sit at school, it is raining.\nThe state has blocked 4chan...life has no\n purpose.");
+                        if (mousePressed) {
+                            if (censored) {
+                                return new blank_rain_1();
+                            } else {
+                                return new Dog();
+                            }
+                        }
+                        return(this);
                     }
                 }
-                return(this);
-            }
-        }
 
-        public class Dog extends Event {
-            private boolean red = false;
-            private boolean redtwo = false;
-            private int i = 0;
-            public Event foo() {
-                clear();
-                RainField rain = new RainField(5, (float)0.2, 10);
-                rain.draw();
-                draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.");
-                if (i > 40) {
-                    return(new blank_rain_1());
+                public class Dog extends Event {
+                    private boolean red = false;
+                    private boolean redtwo = false;
+                    private int i = 0;
+                    public Event foo() {
+                        clear();
+                        RainField rain = new RainField(5, (float)0.2, 10);
+                        rain.draw();
+                        draw_context("Watching the road out the window, nothing\ninterests you until you see a dog,\nit is running around in the rain. A\ncar appears from nowhere and runs over the dog.\nYou see its head explode with blood\n all over the road.\nYou feel nothing.");
+                        if (i > 40) {
+                            return(new blank_rain_1());
+                        }
+
+                        if (red) {
+                            clear();
+                            i = i + 1;
+                            if (redtwo) {
+                                redtwo = false;
+                                background(255, 0, 0);
+                            }
+                            else {
+                                redtwo = true;
+                                background(0);
+                            }
+                        }
+
+                        if (mousePressed) {
+                            red = true;
+                        }
+                        return this;
+                    }
                 }
 
-                if (red) {
+                public class blank_rain_1 extends Event {
+                    public Event foo() {
+                        clear();
+                        RainField rain = new RainField(5, (float)0.2, 10);
+                        rain.draw();
+                        if (mousePressed) {
+                            return new later();
+                        }
+                        return this;
+                    }
+                }
+
+                public class later extends Event {
+                    BackgroundGen bg;
+                    public later() {
+                        bg = new BackgroundGen();
+                        bg.newPollynomial(3);
+                        bg.newGoal(70, 80,40);
+                    }
+
+                public Event foo() {
                     clear();
-                    i = i + 1;
-                    if (redtwo) {
-                        redtwo = false;
-                        background(255, 0, 0);
+                    image(bg.goal, 0, 0 );
+
+                    draw_context("2 years have passed. You have now graduated high school.");
+                    if (mousePressed) {
+                        return new First();
                     }
-                    else {
-                        redtwo = true;
-                        background(0);
-                    }
-                }
-
-                if (mousePressed) {
-                    red = true;
-                }
-                return this;
-            }
-        }
-
-        public class blank_rain_1 extends Event {
-            public Event foo() {
-                clear();
-                RainField rain = new RainField(5, (float)0.2, 10);
-                rain.draw();
-                if (mousePressed) {
-                    return new later();
-                }
-                return this;
-            }
-        }
-
-        public class later extends Event {
-            BackgroundGen bg;
-            public later() {
-                bg = new BackgroundGen();
-                bg.newPollynomial(3);
-                bg.newGoal(70, 80,40);
-            }
-
-            public Event foo() {
-                clear();
-                image(bg.goal, 0, 0 );
-
-                draw_context("2 years have passed. You have now graduated high school.");
-                if (mousePressed) {
-                    return new First();
-                }
-                return this;
-            }
-
-        }
-
-        public class First extends Event {
-            BackgroundGen bg;
-            public First() {
-                bg = new BackgroundGen();
-                bg.newPollynomial(3);
-                bg.newGoal(70, 80,20);
-            }
-
-            public Event foo() {
-                clear();
-                image(bg.goal, 0, 0);
-                RainField rain = new RainField(5, (float)0.2, 10);
-                rain.draw();
-
-                draw_event("You feel a tense baseline dissatisfaction\n with your success in life so far.\n You tell yourself it's not selfhatred\nbut actually you feel undeserving of\nall you have but regretful that you don't\n have more. But life is good, or as good as\nyou make it.",
-                        "Take a sabattical in the\nmountains of South America",
-                        "Enrol at UQ");
-
-                if (get_mouse() == 0) {
-                    return new Sabbat();
-                }
-                if (get_mouse() == 1) {
-                    return new UQ();
-                }
-                return this;
-            }
-        }
-
-        public class Sabbat extends Event {
-
-            public Event foo() {
-                clear();
-                background(200);
-                RainField rain = new RainField(false, 5, (float)1, (float)0.001, color(255, 255, 255), color(255,255,255));
-                rain.draw();
-                draw_event("While you are in North America, on a \n stop-over before flying to Brazil,\n canada annexes the United States",
-                        "Run to the Australian Embassy",
-                        "Accept your fate as you are\nforced to join the Canadian Imperial Forces");
-
-                return this;
-            }
-
-        }
-
-
-        public class UQ extends Event {
-            BackgroundGen bg;
-
-            public UQ() {
-                bg = new BackgroundGen();
-                bg.newPollynomial(3);
-                bg.newGoal(70, 80,20);
-            }
-
-            public Event foo() {
-                clear();
-                image(bg.goal, 0, 0);
-                RainField rain = new RainField(5, (float)0.2, 10);
-                draw_event("What Program do you take?", "Computer Science", "Arts");
-
-                if (get_mouse() == 0) {
-                    return new CompSci();
-                }
-                if (get_mouse() == 1) {
-                    return new Arts();
-                }
-
-                return this;
-            }
-
-        }
-
-        public class Arts extends Event {
-            public Event foo() {
-                clear();
-                draw_context("You grow an exorbitant beard.\nPhilosophy opens your mind to new possibilities,\ndespite gaining a deep understanding of\nethics you cannot help but use it to rationalise\nall your flaws. You become a worse person. You understand so much more\nthan when you were ba naive youth, and yet feel more\ndissatisfied than ever before.");
-                return this;
-            }
-        }
-
-        public class Arts_too extends Event {
-            public Event foo() {
-                clear();
-                draw_context("You grow an exorbitant beard.\nPhilosophy opens your mind to new possibilities,\ndespite gaining a deep understanding of\nethics you cannot help but use it to rationalise\nall your flaws. You become a worse person. You understand so much more\nthan when you were ba naive youth, and yet feel more\ndissatisfied than ever before.");
-                return this;
-            }
-
-        }
-
-        public class CompSci extends Event {
-            public Event foo() {
-                clear();
-                draw_context("You go bald");
-
-                if (mousePressed) {
-                    return new CompSciYeet();
-                }
-                return this;
-            }
-        }
-
-        public class CompSciYeet extends Event {
-            public Event foo() {
-                clear();
-                draw_context("You have finished your degree and \nbecome a professional prgrammer.");
-                if (mousePressed) {
-                    return new CompSciYeetTwo();
-                }
-                return this;
-            }
-        }
-
-        public class CompSciYeetTwo extends Event {
-            public Event foo() {
-                clear();
-                draw_event("You register for a hackathon, what do you make?", "An advanced dolphin-petting\nsimulator game", "A research paper on graph theory\nin financial computing.");
-                if (get_mouse() == 0) {
-                    return new aDolphin();
-                }
-                if (get_mouse() == 1) {
-                    return new Banking();
-                }
-                return this;
-            }
-        }
-
-        public class aDolphin extends Event {
-
-            public Event foo() {
-                clear();
-                draw_event("Your dolphin petting simulator wins second prize\nfor its highly precise modelling of the now-extinct-\ndue-to-climate-change dolphins. It sparks joy in\nchildren's eyes without the enslavement of\nhighly intelligent mammals.",
-                        "Quit your job to work on\nmonetizing the project", "Open source it so the dolphins can live forever");
-                if (get_mouse() == 0) {
-                    // you ruin it and it becomes an evil corporate monolith that creates extensive suffering
                     return this;
                 }
-                if (get_mouse() == 1) {
-                    // the dolphins become sentient
+
+            }
+
+            public class First extends Event {
+                BackgroundGen bg;
+                public First() {
+                    bg = new BackgroundGen();
+                    bg.newPollynomial(3);
+                    bg.newGoal(70, 80,20);
+                }
+
+                public Event foo() {
+                    clear();
+                    image(bg.goal, 0, 0);
+                    RainField rain = new RainField(5, (float)0.2, 10);
+                    rain.draw();
+
+                    draw_event("You feel a tense baseline dissatisfaction\n with your success in life so far.\n You tell yourself it's not selfhatred\nbut actually you feel undeserving of\nall you have but regretful that you don't\n have more. But life is good, or as good as\nyou make it.",
+                            "Take a sabattical in the\nmountains of South America",
+                            "Enrol at UQ");
+
+                    if (get_mouse() == 0) {
+                        return new Sabbat();
+                    }
+                    if (get_mouse() == 1) {
+                        return new UQ();
+                    }
                     return this;
                 }
-                return this;
             }
-        }
 
-        public class Banking extends Event {
-            public Event foo() {
-                clear();
-                draw_event("The Australian Treasury offers you a job\nworking on the 2020 Financial Crisis\ninquiry of resoluion. So you accept?",
-                        "Yes", "No");
-                if (get_mouse() == 0) {
-                    return new Excel();
+            public class Sabbat extends Event {
+
+                public Event foo() {
+                    clear();
+                    background(200);
+                    RainField rain = new RainField(false, 5, (float)1, (float)0.001, color(255, 255, 255), color(255,255,255));
+                    rain.draw();
+                    draw_event("While you are in North America, on a \n stop-over before flying to Brazil,\n canada annexes the United States",
+                            "Run to the Australian Embassy",
+                            "Accept your fate as you are\nforced to join the Canadian Imperial Forces");
+
+                    return this;
                 }
-                if (get_mouse() == 1) {
-                    return new NZ();
-                }
-                return this;
+
             }
-        }
 
-        public class Excel extends Event {
-            public Event foo() {
-                clear();
-                draw_event("Due to an Excel programming error\nyour study turns out to be wrong.\nThe Australian economy collapses.",
-                        "Flee to New Zealand", "Die.");
-                if (get_mouse() == 0) {
-                    return new NZ_too();
+
+            public class UQ extends Event {
+                BackgroundGen bg;
+
+                public UQ() {
+                    bg = new BackgroundGen();
+                    bg.newPollynomial(3);
+                    bg.newGoal(70, 80,20);
                 }
-                if (get_mouse() == 1) {
-                    exit();
+
+                public Event foo() {
+                    clear();
+                    image(bg.goal, 0, 0);
+                    RainField rain = new RainField(5, (float)0.2, 10);
+                    draw_event("What Program do you take?", "Computer Science", "Arts");
+
+                    if (get_mouse() == 0) {
+                        return new CompSci();
+                    }
+                    if (get_mouse() == 1) {
+                        return new Arts();
+                    }
+
+                    return this;
                 }
-                return this;
+
             }
-        }
 
-
-        public class NZ extends Event {
-            public Event foo() {
-                clear();
-                draw_context("You move to New Zealand to pursure more\nlucrative job opportunities.");
-
-                if (mousePressed) {
-                    return new NZ_too();
+            public class Arts extends Event {
+                public Event foo() {
+                    clear();
+                    draw_context("You grow an exorbitant beard.\nPhilosophy opens your mind to new possibilities,\ndespite gaining a deep understanding of\nethics you cannot help but use it to rationalise\nall your flaws. You become a worse person. You understand so much more\nthan when you were ba naive youth, and yet feel more\ndissatisfied than ever before.");
+                    return this;
                 }
-                return this;
             }
-        }
 
-        public class NZ_too extends Event {
+            public class Arts_too extends Event {
+                public Event foo() {
+                    clear();
+                    draw_context("You grow an exorbitant beard.\nPhilosophy opens your mind to new possibilities,\ndespite gaining a deep understanding of\nethics you cannot help but use it to rationalise\nall your flaws. You become a worse person. You understand so much more\nthan when you were ba naive youth, and yet feel more\ndissatisfied than ever before.");
+                    return this;
+                }
 
-            public Event foo() {
-                clear();
-                draw_event("Capitalizing on the Australian financial collapse\nNew Zealand swiftly annexes it via nonviolent\ndrone warfare.",
-                        "Take a public sector programming job\nin your new government.", "Move to China for\ngreater stability");
+            }
 
-                return this;
+            public class CompSci extends Event {
+                public Event foo() {
+                    clear();
+                    draw_context("You go bald");
+
+                    if (mousePressed) {
+                        return new CompSciYeet();
+                    }
+                    return this;
+                }
+            }
+
+            public class CompSciYeet extends Event {
+                public Event foo() {
+                    clear();
+                    draw_context("You have finished your degree and \nbecome a professional prgrammer.");
+                    if (mousePressed) {
+                        return new CompSciYeetTwo();
+                    }
+                    return this;
+                }
+            }
+
+            public class CompSciYeetTwo extends Event {
+                public Event foo() {
+                    clear();
+                    draw_event("You register for a hackathon, what do you make?", "An advanced dolphin-petting\nsimulator game", "A research paper on graph theory\nin financial computing.");
+                    if (get_mouse() == 0) {
+                        return new aDolphin();
+                    }
+                    if (get_mouse() == 1) {
+                        return new Banking();
+                    }
+                    return this;
+                }
+            }
+
+            public class aDolphin extends Event {
+
+                public Event foo() {
+                    clear();
+                    draw_event("Your dolphin petting simulator wins second prize\nfor its highly precise modelling of the now-extinct-\ndue-to-climate-change dolphins. It sparks joy in\nchildren's eyes without the enslavement of\nhighly intelligent mammals.",
+                            "Quit your job to work on\nmonetizing the project", "Open source it so the dolphins can live forever");
+                    if (get_mouse() == 0) {
+                        // you ruin it and it becomes an evil corporate monolith that creates extensive suffering
+                        return this;
+                    }
+                    if (get_mouse() == 1) {
+                        // the dolphins become sentient
+                        return this;
+                    }
+                    return this;
+                }
+            }
+
+            public class Banking extends Event {
+                public Event foo() {
+                    clear();
+                    draw_event("The Australian Treasury offers you a job\nworking on the 2020 Financial Crisis\ninquiry of resoluion. So you accept?",
+                            "Yes", "No");
+                    if (get_mouse() == 0) {
+                        return new Excel();
+                    }
+                    if (get_mouse() == 1) {
+                        return new NZ();
+                    }
+                    return this;
+                }
+            }
+
+            public class Excel extends Event {
+                public Event foo() {
+                    clear();
+                    draw_event("Due to an Excel programming error\nyour study turns out to be wrong.\nThe Australian economy collapses.",
+                            "Flee to New Zealand", "Die.");
+                    if (get_mouse() == 0) {
+                        return new NZ_too();
+                    }
+                    if (get_mouse() == 1) {
+                        exit();
+                    }
+                    return this;
+                }
+            }
+
+
+            public class NZ extends Event {
+                public Event foo() {
+                    clear();
+                    draw_context("You move to New Zealand to pursure more\nlucrative job opportunities.");
+
+                    if (mousePressed) {
+                        return new NZ_too();
+                    }
+                    return this;
+                }
+            }
+
+            public class NZ_too extends Event {
+
+                public Event foo() {
+                    clear();
+                    draw_event("Capitalizing on the Australian financial collapse\nNew Zealand swiftly annexes it via nonviolent\ndrone warfare.",
+                            "Take a public sector programming job\nin your new government.", "Move to China for\ngreater stability");
+
+                    return this;
             }
         }
 
