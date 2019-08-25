@@ -9,6 +9,10 @@ public class Start extends PApplet {
     boolean keyPressed = false;
     boolean keyReleased = false;
 
+
+    TrippyOsc saw;
+    TrippyOsc sawt;
+    TrippyOsc sawtt;
     SoundFile startupSound;
     SoundFile[] greatestHits;
     String playerName = "";
@@ -33,6 +37,14 @@ public class Start extends PApplet {
         b = new Boreee();
         currentEvent = b.new FadeIn();
         
+        startupSound = new SoundFile(this, "wexp.mp3");
+
+
+        greatestHits = new SoundFile[4];
+        greatestHits[0] = new SoundFile(this, "hit1.mp3");
+        greatestHits[1] = new SoundFile(this, "hit2.mp3");
+        greatestHits[2] = new SoundFile(this, "hit3.mp3");
+        greatestHits[3] = new SoundFile(this, "hit 4.mp3");
     }
 
     public void play_hit() {
@@ -108,11 +120,83 @@ public class Start extends PApplet {
         mouseReleased = false;
         keyPressed = false;
         keyReleased = false;
+
     }
 
     public void keyReleased() {
         keyReleased = true;
     } 
+
+    class TrippyOsc extends Bruh {
+
+        /*
+        saw = new TrippyOsc(this);
+        sawt = new TrippyOsc(this);
+        sawtt = new TrippyOsc(this);
+        saw.setup(20, 1000, 2, 500);
+        sawt.setup(20, 1000, 2, 100);
+        sawtt.setup(20, 1000, 2, 100);
+        saw.play();
+        sawt.play();
+        sawtt.play();
+         */
+
+        // Put thises in main draw loop
+        //        saw.update();
+        //        sawt.update();
+        //        sawtt.update();
+
+        int fre = 100;
+        float pan = 0;
+        int upperBound = 2000;
+        int lowerBound = 20;
+        int panAmount = 0;
+        int walkAmount = 0;
+        SinOsc osc;
+
+        public TrippyOsc(PApplet thingy) {
+            osc = new SinOsc(thingy);
+        }
+
+        public void setup(int lowerbound, int upperbound, int panamount, int walkamount) {
+            lowerBound = lowerbound;
+            upperBound = upperbound;
+            panAmount = panamount;
+            walkAmount = walkamount;
+        }
+
+        void play() {
+            osc.play();
+        }
+
+        void stop() {
+            osc.stop();
+        }
+
+        public void update() {
+            // applies randomisation
+            osc.freq(fre);
+            osc.pan(0);
+            if ( (int)(random(panAmount)) == 1 ){
+                if (random(panAmount) > (panAmount/2)) {
+                    osc.pan((float)1.0);
+                } else {
+                    osc.pan((float)0.0);
+		}
+            }
+            if ((int)(random(walkAmount)) > 1) {
+                fre += random(-1*walkAmount, walkAmount);
+                if (fre > upperBound) {
+                    fre= upperBound;
+                }
+                if (fre < lowerBound) {
+                    fre = lowerBound;
+                }
+            }
+            osc.freq(fre);
+	}
+    }
+    
 
     public void keyPressed() {
         keyPressed = true;
@@ -405,7 +489,7 @@ public class Start extends PApplet {
                         return new courtCase();
                     }
                 }
-                return new courtCase();
+                return this;
             }
         }
 
@@ -461,7 +545,7 @@ public class Start extends PApplet {
                 line(80, 0, 80, height);
                 textAlign(CENTER);
                 textSize(40);
-                text("You are being attacked. Quickly mash d.", width/2, height/2);
+                text("You are being attacked. Quickly Mash Enter.", width/2, height/2);
                 if (keyPressed) {
                     if (key == ENTER) {
                         success = success + 1;
@@ -495,7 +579,7 @@ public class Start extends PApplet {
             }
         }
 
-        public class Ending extends Event {
+        public class LinkA1 extends Event {
 
             public Event foo() {
                 text("Having found nothing interesting on reddit. You continue your education.", width/2, height/2);
@@ -792,11 +876,11 @@ public class Start extends PApplet {
                 fill(255);
                 textAlign(CENTER);
                 textSize(25);
-                text("You may be seething with leftist rage, but you're smart. Studious.\nOne day you'll show 'em.\nYou finally graduate and now you must make the big choices in life. Here comes one right now!\nDo you:", width/2, height/10);
+                text("You may be seething with leftist rage, but you're smart. Studious.\nOne day you'll show 'em.\nYou finally graduate and now you must make the big choices in life. Here comes one right now!\nDo you:", width/2, height/12);
 
                 stroke(255);
                 strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
+                line(width/2, height/3.5f, width/2, 5*height/6);
 
                 textSize(40);
                 text("Smoke Crack", width/4, height/2);
@@ -867,11 +951,9 @@ public class Start extends PApplet {
                 if (timer >= 800) {
                     textSize(40);
                     text("YOU JUST GOT PRANKED BY THE PRANK PATROL", width/2, height/2);
-
-                    if (mousePressed && timer < 999) timer = 999;
                 }
 
-                if (timer >= 1000 && mousePressed)
+                if (timer >= 800 && mousePressed)
                     return new PrankdChoice(bg);
 
                 timer++;
@@ -890,16 +972,93 @@ public class Start extends PApplet {
                 public Event foo() {
                     image(bg.goal, 0, 0);
                     textAlign(CENTER);
-                    textSize(40);
+                    textSize(30);
 
                     text("There are few things in this world worse than being prankd.\nYou are filled with intense shame.\nWhat do you do now?", width/2, height/10);
 
                     stroke(255);
                     strokeWeight(5);
+                    line(width/2, height/4, width/2, 4*height/5);
+
+                    textSize(40);
+
+                    text("Change your name and\nmove to Iceland", width/4, height/2);
+                    text("End it all", 3*width/4, height/2);
+
+                    if (mousePressed) {
+                        if (mouseX < width/2) {
+                            return new Iceland();
+                        } else {
+                            return new Seppuku();
+                        }
+                    }
+
+                    return this;
+                }
+            }
+
+            public class Iceland extends Event {
+                private SnowField sf;
+
+                public Iceland() {
+                    sf = new SnowField(100);
+                }
+
+                public Event foo() {
+                    sf.update();
+
+                    textSize(20);
+                    text("You move to a nice town called Svalbarðsstrandarhreppur.\n However, upon realising you have to learn how to pronounce Icelandic you are hit with a bout of depression. Do you:", width/2, height/10);
+
+                    textSize(40);
+
+                    text("Take a language course", width/4, height/2);
+                    text("Drown your sorrows", 3*width/4, height/2);
+
+                    strokeWeight(5);
+                    stroke(255);
                     line(width/2, height/5, width/2, 4*height/5);
 
-                    text("Change you name and\nmove to Iceland", width/4, height/2);
-                    text("End it all", 3*width/4, height/2);
+                    if (mousePressed) {
+                        if(mouseX < width/2) {
+                            // Go to language
+                        } else {
+                            // DRINK
+                            return new Pub();
+                        }
+                    }
+
+                    return this;
+                }
+            }
+
+            public class Seppuku extends Event {
+                public Event foo() {
+                    return this;
+                }
+            }
+
+            public class Pub extends Event {
+                DrunkText drink;
+                float drunkedness = 0;
+
+                public Pub() {
+                    drink = new DrunkText("Press D to drink", width/2, height/10, 0);
+                }
+
+                public Event foo() {
+                    background(0, 0, 200 * (1-drunkedness));
+
+                    if (keyPressed) {
+                        if (key == 'd') {
+                            drunkedness += 0.1;
+                            drink = new DrunkText("Press D to drink", width/2, height/10, drunkedness);
+
+                            filter(BLUR, 1);
+                        }
+                    }
+
+                    drink.update();
 
                     return this;
                 }
@@ -1408,19 +1567,21 @@ public class Start extends PApplet {
 
             private int snow_no = 0;
             private Snow[] snow;
+            private BackgroundGen bg;
 
             public class Snow {
                 float x;
                 float y;
                 float velx;
-                float vely = 10;
+                float maxVelx = 3;
+                float vely = 5;
 
                 float wiggle;
                 float wiggle_chance;
 
                 public Snow() {
-                    this.wiggle = 5; //wiggle;
-                    this.wiggle_chance = 10; //wiggle_chance;
+                    this.wiggle = 1; //wiggle;
+                    this.wiggle_chance = 0.5f; //wiggle_chance;
 
                     this.x = random(width);
                     this.y = random(height);
@@ -1428,21 +1589,43 @@ public class Start extends PApplet {
 
                 public void update() {
                     if (random(1) < wiggle_chance) {
-                        velx += random(-wiggle, wiggle);
+                        float velDiff = random(-wiggle, wiggle);
+
+                        if (abs(velx+velDiff) >= maxVelx)
+                            velx -= velDiff;
+
+                        else velx += velDiff;
+
                     }
 
                     x += velx;
                     y += vely;
+
+                    if (y > height) {
+                        y = -10;
+                        x = random(0, width);
+                    }
+
+                    if (x < 0 || x > width) x = random(0, width);
                 }
             }
 
             public SnowField(int snowNo) {
                 snow = new Snow[snowNo];
+
+                for (int i = 0; i < snowNo; i++) {
+                    snow[i] = new Snow();
+                }
+
                 snow_no = snowNo;
+
+                bg = new BackgroundGen();
+                bg.newPollynomial(3);
+                bg.newGoal(50,70, 25);
             }
 
             public void update() {
-                background(51, 51, 255);
+                image(bg.goal, 0, 0);
                 textAlign(CENTER);
                 textSize(20);
                 fill(255);
@@ -1473,9 +1656,19 @@ public class Start extends PApplet {
                         return new Smoke();
                     }
                     else if (key == 'n') {
-                        return new Boring();
+                        return new Aristocracy();
                     }
                 }
+                return this;
+            }
+        }
+
+        public class Aristocracy extends Event {
+            public Event foo() {
+                background(0, 0, 80);
+                textAlign(CENTER, CENTER);
+                textSize(40);
+                text("Oh geez to posh I guess.\nIn that case you move to Adelaide\nand become part of the aristocracy", width/2, height/5);
                 return this;
             }
         }
@@ -1485,14 +1678,32 @@ public class Start extends PApplet {
             public Event foo() {
                 background(50);
                 fill(200);
-                text("Seeing as you have no sense of adventure,\nyou decide to become a pannel beater.\nYou move to broom to enhance your job prospects", width/2,height/2);
+                text("A fair descision.\nseeing as the tropics aren't an option,\nyou decide to become a panel beater.\nYou move to broome to enhance your job prospects", width/2,height/2);
                 if (timer > 60*3) {
-                    text("\n\n\n\nclick to beat pannels", width/2, height/2);
+                    text("\n\n\n\n\nclick to beat panels", width/2, height/2);
                 }
                 if (mouseReleased) {
                     return new Beat();
                 }
                 timer++;
+                return this;
+            }
+        }
+
+        public class TopClass extends Event {
+            PImage b;
+            float timer = 255;
+            public TopClass() {
+                b = loadImage("broome.jpg");
+            }
+            public Event foo() {
+                image(b, 0, 0, width, height);
+                fill(50, 50, 50, timer);
+                noStroke();
+                rect(0, 0, width, height);
+                fill(255);
+                text("After minutes of pannel beating, you ascend into the air\nYou have become the best panel beater in Broome!", width/2, height/2);
+                timer /= 1.001;
                 return this;
             }
         }
@@ -1506,12 +1717,16 @@ public class Start extends PApplet {
                 if (timer > 5) {
                     text("\nPannels beaten: " + timer, width/2, height/2);
                 }
-                if (timer > 100) {
+                if (timer > 50) {
                     text("\n\n\ngeez", width/2, height/2);
                 }
                 if (mouseReleased) {
+                    play_hit();
                     background(255);
                     timer++;
+                }
+                if (timer > 69) {
+                    return new TopClass();
                 }
                 return this;
             }
@@ -1520,6 +1735,62 @@ public class Start extends PApplet {
         public class cairns extends Event {
             public Event foo() {
                 background(0);
+                return this;
+            }
+        }
+
+        public class theNorth extends Event {
+            int screen = 0;
+            // RainField rain;
+            public theNorth() {
+
+            }
+            public Event foo() {
+                background(111, 194, 60);
+                fill(255, 215, 105);
+                textSize(60);
+                text("The Glorious Tropics", width/2, height/4);
+                textSize(40);
+                switch (screen) {
+                    case 0:
+                        text("You land in Cairns and get off the plane.", width/2, height/2);
+                        break;
+                    case 1:
+                        text("You are immediately immersed in\na ferral sea of muggy air\nYour skin begins to wrinkle", width/2, height/2);
+                        break;
+                    case 2:
+                        text("you slowly begin to notice something\n...", width/2, height/2);
+                        break;
+                    case 3:
+                        text("the flies", width/2, height/2);
+                        break;
+                    case 4:
+                        text("the flies\nthe ederly, whose skin is practically made of melanoma", width/2, height/2);
+                        break;
+                    case 5:
+                        text("the flies\nthe ederly, whose skin is practically made of melanoma\nThe disillusioned youth, resigned they'll never amount to anything", width/2, height/2);
+                        break;
+                    case 6:
+                        text("The stench", width/2, height/2);
+                        break;
+                    case 7:
+                        text("What can a man do?", width/2, height/2);
+                        break;
+                    default:
+                        text("[F] Fight the system\n[J] Join the system", width/2, height/2);
+
+                }
+                filter(BLUR, ((float) screen)/3);
+
+
+
+                loadPixels();
+                for (int i = 0; i<pixels.length; i++) {
+                    int col = pixels[i];
+                    col = color(red(col) + random(-screen, -screen), green(col) + random(-screen, -screen), blue(col) + random(-screen, -screen));
+                }
+                updatePixels();
+                if (mouseReleased) screen++;
                 return this;
             }
         }
@@ -1537,25 +1808,85 @@ public class Start extends PApplet {
                 if (timer >= 15*60) {
                     if (keyPressed) {
                         if (key == 'y') {
-                            //the north
+                            return new theNorth();
                         }
                         else if (key == 'n') {
-                            //adelade
+                            return new Boring();
                         }
                     }
                 }
+                int x = mouseX + round(randomGaussian()*5);
+                int y = mouseY + round(randomGaussian()*5);
                 if (timer >= 22*60) {
-                    text("(that's a [y/n] situation my dude)", mouseX, mouseY);
+                    text("(that's a [y/n] situation my dude)", x, y);
                 } else if (timer >= 15*60) {
-                    text("How does tropical north sound?", mouseX, mouseY);
+                    text("How does the tropical north sound?", x, y);
                 } else if (timer >= 5*60) {
-                    text("Seeing as we're all one\nI think its time to move away from Darwin", mouseX, mouseY);
+                    text("Seeing as we're all one\nI think its time to move away from Darwin", x, y);
                 } else {
-                    text("woah dude", mouseX, mouseY);
+                    text("woah dude", x, y);
                 }
                 timer++;
                 return this;
             }
         }
     }
+
+    public class DrunkText {
+        float[] stext = new float[2];
+        float[][] mtext = new float[3][2];
+        float[][] ltext = new float[3][2];
+
+        String s = "";
+
+        public DrunkText(String s, int x, int y, float drunkedness) {
+            // Drunkedness goes from 0 to 1 - 0 not very drunk, 1 extremely drunk
+            float sOffs = 5;
+            float mOffs = 20;
+            float lOffs = 50;
+
+            this.s = s;
+
+            // Normal text:
+            stext[0] = x+drunkedness*random(-sOffs,sOffs);
+            stext[1] = y+drunkedness*random(-sOffs,sOffs);
+
+            // Chromatically abberated text:
+            for (int i = 0; i < 3; i++) {
+                mtext[i][0] = x+drunkedness*random(-mOffs,mOffs);
+                mtext[i][1] = y+drunkedness*random(-mOffs,mOffs);
+
+                ltext[i][0] = x+drunkedness*random(-lOffs,lOffs);
+                ltext[i][1] = y+drunkedness*random(-lOffs,lOffs);
+            }
+        }
+
+        public void update() {
+            // Dark chromatic text
+            fill(0, 125, 125);
+            text(s, ltext[0][0], ltext[0][1]);
+
+            fill(125, 0, 125);
+            text(s, ltext[1][0], ltext[1][1]);
+
+            fill(0, 125, 125);
+            text(s, ltext[2][0], ltext[2][1]);
+
+            // Chromatic text
+            fill(255, 0, 0);
+            text(s, mtext[0][0], mtext[0][1]);
+
+            fill(0, 255, 0);
+            text(s, mtext[1][0], mtext[1][1]);
+
+            fill(0, 0, 255);
+            text(s, mtext[2][0], mtext[2][1]);
+
+            // Normal text
+            fill(255);
+            text(s, stext[0], stext[1]);
+
+        }
+    }
+
 }
