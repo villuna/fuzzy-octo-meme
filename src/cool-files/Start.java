@@ -9,7 +9,9 @@ public class Start extends PApplet {
     boolean keyPressed = false;
     boolean keyReleased = false;
 
+    SawOsc saw;
     SoundFile startupSound;
+    SoundFile[] greatestHits;
     String playerName = "";
     Event currentEvent;
     Boreee b;
@@ -26,12 +28,27 @@ public class Start extends PApplet {
         PApplet.main(appletArgs);
     }
 
+
     public void settings() {
         fullScreen();
         b = new Boreee();
         currentEvent = b.new FadeIn();
         startupSound = new SoundFile(this, "wexp.mp3");
 
+        saw = new SawOsc(this);
+
+        greatestHits = new SoundFile[4];
+        greatestHits[0] = new SoundFile(this, "hit1.mp3");
+        greatestHits[1] = new SoundFile(this, "hit2.mp3");
+        greatestHits[2] = new SoundFile(this, "hit3.mp3");
+        greatestHits[3] = new SoundFile(this, "hit 4.mp3");
+
+
+    }
+
+    public void play_hit() {
+        int num = (int)random(0,4);
+        greatestHits[num].play();
     }
 
     public void draw_question(String question, int r, int g, int b) {
@@ -1332,6 +1349,25 @@ public class Start extends PApplet {
             }
         }
 
+<<<<<<< HEAD
+    public class J0el extends Bruh {
+        public class DropOut extends Event {
+            BackgroundGen bg;
+            public DropOut() {
+                bg = new BackgroundGen();
+                bg.newPollynomial(2);
+                bg.newGoal(120, 165, 70);
+            }
+            public Event foo() {
+                background(200, 100, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/2);
+                if (keyPressed) {
+                    if (key == 'y') {
+                    }
+                    else if (key == 'n') {
+=======
 
 <<<<<<< HEAD
     public class J0el extends Bruh {
