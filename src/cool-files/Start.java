@@ -1,4 +1,5 @@
 import processing.core.*;
+import processing.sound.*;
 
 public class Start extends PApplet {
     boolean censored = true;
@@ -8,6 +9,7 @@ public class Start extends PApplet {
     boolean keyPressed = false;
     boolean keyReleased = false;
 
+    SoundFile startupSound;
     String playerName = "";
     Event currentEvent;
     Boreee b;
@@ -28,6 +30,8 @@ public class Start extends PApplet {
         fullScreen();
         b = new Boreee();
         currentEvent = b.new FadeIn();
+        startupSound = new SoundFile(this, "wexp.mp3");
+
     }
 
     public void draw_question(String question, int r, int g, int b) {
@@ -387,6 +391,9 @@ public class Start extends PApplet {
                 background(bg);
 
                 bg++;
+                if (bg == 50) {
+                    startupSound.play();
+                }
 
                 if (bg >= 255) {
                     return new Birth();
@@ -405,7 +412,7 @@ public class Start extends PApplet {
                 text("You are born", width / 2, height / 2);
 
                 if (mousePressed) {
-//                   Boreee is = new Start();
+//                   Boreee is = new Start()
                     return new AfterBorn();
                 } else {
                     return this;
