@@ -3,3 +3,6 @@ make:
 
 run: make
 	java -cp "src" Start
+
+clean:
+	rm src/*.class
