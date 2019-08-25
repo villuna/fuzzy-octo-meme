@@ -1447,9 +1447,19 @@ public class Start extends PApplet {
                         return new Smoke();
                     }
                     else if (key == 'n') {
-                        return new Boring();
+                        return new Aristocracy();
                     }
                 }
+                return this;
+            }
+        }
+
+        public class Aristocracy extends Event {
+            public Event foo() {
+                background(0, 0, 80);
+                textAlign(CENTER, CENTER);
+                textSize(40);
+                text("Oh geez to posh I guess.\nIn that case you move to Adelaide\nand become part of the aristocracy", width/2, height/5);
                 return this;
             }
         }
@@ -1459,9 +1469,9 @@ public class Start extends PApplet {
             public Event foo() {
                 background(50);
                 fill(200);
-                text("Seeing as you have no sense of adventure,\nyou decide to become a panel beater.\nYou move to broome to enhance your job prospects", width/2,height/2);
+                text("A fair descision.\nseeing as the tropics aren't an option,\nyou decide to become a panel beater.\nYou move to broome to enhance your job prospects", width/2,height/2);
                 if (timer > 60*3) {
-                    text("\n\n\n\nclick to beat panels", width/2, height/2);
+                    text("\n\n\n\n\nclick to beat panels", width/2, height/2);
                 }
                 if (mouseReleased) {
                     return new Beat();
@@ -1483,7 +1493,7 @@ public class Start extends PApplet {
                 noStroke();
                 rect(0, 0, width, height);
                 fill(255);
-                text("After minutes of pannel beating, you ascend into the air\nYou are the best panel beater in Broome!", width/2, height/2);
+                text("After minutes of pannel beating, you ascend into the air\nYou have become the best panel beater in Broome!", width/2, height/2);
                 timer /= 1.001;
                 return this;
             }
@@ -1498,7 +1508,7 @@ public class Start extends PApplet {
                 if (timer > 5) {
                     text("\nPannels beaten: " + timer, width/2, height/2);
                 }
-                if (timer > 100) {
+                if (timer > 50) {
                     text("\n\n\ngeez", width/2, height/2);
                 }
                 if (mouseReleased) {
@@ -1506,7 +1516,7 @@ public class Start extends PApplet {
                     background(255);
                     timer++;
                 }
-                if (timer >= 2) {
+                if (timer > 69) {
                     return new TopClass();
                 }
                 return this;
@@ -1592,7 +1602,7 @@ public class Start extends PApplet {
                             return new theNorth();
                         }
                         else if (key == 'n') {
-                            //adelade
+                            return new Boring();
                         }
                     }
                 }
