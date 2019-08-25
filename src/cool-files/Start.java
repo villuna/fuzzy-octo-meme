@@ -1354,8 +1354,8 @@ public class Start extends PApplet {
                     else if (key == 'n') {
                         return new Boring();
                     }
-                    return this;
                 }
+                return this;
             }
         }
 
