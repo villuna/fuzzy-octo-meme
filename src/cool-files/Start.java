@@ -1379,14 +1379,32 @@ public class Start extends PApplet {
             public Event foo() {
                 background(50);
                 fill(200);
-                text("Seeing as you have no sense of adventure,\nyou decide to become a pannel beater.\nYou move to broom to enhance your job prospects", width/2,height/2);
+                text("Seeing as you have no sense of adventure,\nyou decide to become a panel beater.\nYou move to broome to enhance your job prospects", width/2,height/2);
                 if (timer > 60*3) {
-                    text("\n\n\n\nclick to beat pannels", width/2, height/2);
+                    text("\n\n\n\nclick to beat panels", width/2, height/2);
                 }
                 if (mouseReleased) {
                     return new Beat();
                 }
                 timer++;
+                return this;
+            }
+        }
+
+        public class TopClass extends Event {
+            PImage b;
+            float timer = 255;
+            public TopClass() {
+                b = loadImage("broome.jpg");
+            }
+            public Event foo() {
+                image(b, 0, 0, width, height);
+                fill(50, 50, 50, timer);
+                noStroke();
+                rect(0, 0, width, height);
+                fill(255);
+                text("After minutes of pannel beating, you ascend into the air\nYou are the best panel beater in Broome!", width/2, height/2);
+                timer /= 1.001;
                 return this;
             }
         }
@@ -1404,8 +1422,12 @@ public class Start extends PApplet {
                     text("\n\n\ngeez", width/2, height/2);
                 }
                 if (mouseReleased) {
+                    play_hit();
                     background(255);
                     timer++;
+                }
+                if (timer >= 2) {
+                    return new TopClass();
                 }
                 return this;
             }
@@ -1414,6 +1436,62 @@ public class Start extends PApplet {
         public class cairns extends Event {
             public Event foo() {
                 background(0);
+                return this;
+            }
+        }
+
+        public class theNorth extends Event {
+            int screen = 0;
+            // RainField rain;
+            public theNorth() {
+
+            }
+            public Event foo() {
+                background(111, 194, 60);
+                fill(255, 215, 105);
+                textSize(60);
+                text("The Glorious Tropics", width/2, height/4);
+                textSize(40);
+                switch (screen) {
+                    case 0:
+                        text("You land in Cairns and get off the plane.", width/2, height/2);
+                        break;
+                    case 1:
+                        text("You are immediately immersed in\na ferral sea of muggy air\nYour skin begins to wrinkle", width/2, height/2);
+                        break;
+                    case 2:
+                        text("you slowly begin to notice something\n...", width/2, height/2);
+                        break;
+                    case 3:
+                        text("the flies", width/2, height/2);
+                        break;
+                    case 4:
+                        text("the flies\nthe ederly, whose skin is practically made of melanoma", width/2, height/2);
+                        break;
+                    case 5:
+                        text("the flies\nthe ederly, whose skin is practically made of melanoma\nThe disillusioned youth, resigned they'll never amount to anything", width/2, height/2);
+                        break;
+                    case 6:
+                        text("The stench", width/2, height/2);
+                        break;
+                    case 7:
+                        text("What can a man do?", width/2, height/2);
+                        break;
+                    default:
+                        text("[F] Fight the system\n[J] Join the system", width/2, height/2);
+
+                }
+                filter(BLUR, ((float) screen)/3);
+
+
+
+                loadPixels();
+                for (int i = 0; i<pixels.length; i++) {
+                    int col = pixels[i];
+                    col = color(red(col) + random(-screen, -screen), green(col) + random(-screen, -screen), blue(col) + random(-screen, -screen));
+                }
+                updatePixels();
+                if (mouseReleased) screen++;
                 return this;
             }
         }
@@ -1431,21 +1509,23 @@ public class Start extends PApplet {
                 if (timer >= 15*60) {
                     if (keyPressed) {
                         if (key == 'y') {
-                            //the north
+                            return new theNorth();
                         }
                         else if (key == 'n') {
                             //adelade
                         }
                     }
                 }
+                int x = mouseX + round(randomGaussian()*5);
+                int y = mouseY + round(randomGaussian()*5);
                 if (timer >= 22*60) {
-                    text("(that's a [y/n] situation my dude)", mouseX, mouseY);
+                    text("(that's a [y/n] situation my dude)", x, y);
                 } else if (timer >= 15*60) {
-                    text("How does tropical north sound?", mouseX, mouseY);
+                    text("How does the tropical north sound?", x, y);
                 } else if (timer >= 5*60) {
-                    text("Seeing as we're all one\nI think its time to move away from Darwin", mouseX, mouseY);
+                    text("Seeing as we're all one\nI think its time to move away from Darwin", x, y);
                 } else {
-                    text("woah dude", mouseX, mouseY);
+                    text("woah dude", x, y);
                 }
                 timer++;
                 return this;
