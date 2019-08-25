@@ -9,7 +9,9 @@ public class Start extends PApplet {
     boolean keyPressed = false;
     boolean keyReleased = false;
 
-    SawOsc saw;
+    TrippyOsc saw;
+    TrippyOsc sawt;
+    TrippyOsc sawtt;
     SoundFile startupSound;
     SoundFile[] greatestHits;
     String playerName = "";
@@ -35,15 +37,12 @@ public class Start extends PApplet {
         currentEvent = b.new FadeIn();
         startupSound = new SoundFile(this, "wexp.mp3");
 
-        saw = new SawOsc(this);
 
         greatestHits = new SoundFile[4];
         greatestHits[0] = new SoundFile(this, "hit1.mp3");
         greatestHits[1] = new SoundFile(this, "hit2.mp3");
         greatestHits[2] = new SoundFile(this, "hit3.mp3");
         greatestHits[3] = new SoundFile(this, "hit 4.mp3");
-
-
     }
 
     public void play_hit() {
@@ -72,10 +71,80 @@ public class Start extends PApplet {
         mouseReleased = false;
         keyPressed = false;
         keyReleased = false;
+
     }
 
     public void keyReleased() {
         keyReleased = true;
+    }
+
+    class TrippyOsc extends Bruh {
+
+        /*
+        saw = new TrippyOsc(this);
+        sawt = new TrippyOsc(this);
+        sawtt = new TrippyOsc(this);
+        saw.setup(20, 1000, 2, 500);
+        sawt.setup(20, 1000, 2, 100);
+        sawtt.setup(20, 1000, 2, 100);
+        saw.play();
+        sawt.play();
+        sawtt.play();
+         */
+
+        // Put thises in main draw loop
+        //        saw.update();
+        //        sawt.update();
+        //        sawtt.update();
+
+        int fre = 100;
+        float pan = 0;
+        int upperBound = 2000;
+        int lowerBound = 20;
+        int panAmount = 0;
+        int walkAmount = 0;
+        SinOsc osc;
+
+        public TrippyOsc(PApplet thingy) {
+            osc = new SinOsc(thingy);
+        }
+
+        public void setup(int lowerbound, int upperbound, int panamount, int walkamount) {
+            lowerBound = lowerbound;
+            upperBound = upperbound;
+            panAmount = panamount;
+            walkAmount = walkamount;
+        }
+
+        void play() {
+            osc.play();
+        }
+
+        void stop() {
+            osc.stop();
+        }
+
+        void update() {
+            // applies randomisation
+            osc.freq(fre);
+            osc.pan(0);
+            if ( (int)(random(panAmount)) == 1 ){
+                if (random(panAmount) > (panAmount/2)) {
+                    osc.pan((float)1.0);
+                } else
+                    osc.pan((float)0.0);
+            }
+            if ((int)(random(walkAmount)) > 1) {
+                fre += random(-1*walkAmount, walkAmount);
+                if (fre > upperBound) {
+                    fre= upperBound;
+                }
+                if (fre < lowerBound) {
+                    fre = lowerBound;
+                }
+            }
+            osc.freq(fre);
+        }
     }
 
     public void keyPressed() {
@@ -91,7 +160,6 @@ public class Start extends PApplet {
         mouseReleased = true;
         mouseDown = false;
     }
-
 
     public class Screen {
         int border = 32;
@@ -308,7 +376,7 @@ public class Start extends PApplet {
                         return new courtCase();
                     }
                 }
-                return new courtCase();
+                return this;
             }
         }
 
@@ -340,7 +408,7 @@ public class Start extends PApplet {
                 line(80, 0, 80, height);
                 textAlign(CENTER);
                 textSize(40);
-                text("You have been sentenced for your crimes. Now serve two years in jail. Press Enter", width/2, height/2);
+                text("You have been sentenced for your crimes. Now serve forty-five years in jail. Press Enter", width/2, height/2);
                 if (keyPressed) {
                     if (key == ENTER) {
                         return new Attacked();
@@ -364,7 +432,7 @@ public class Start extends PApplet {
                 line(80, 0, 80, height);
                 textAlign(CENTER);
                 textSize(40);
-                text("You are being attacked. Quickly mash d.", width/2, height/2);
+                text("You are being attacked. Quickly Mash Enter.", width/2, height/2);
                 if (keyPressed) {
                     if (key == ENTER) {
                         success = success + 1;
@@ -392,10 +460,22 @@ public class Start extends PApplet {
 
         public class Released extends Event {
             public Event foo() {
+                text("You have just been released from jail/n However your long time in prison has made old and uncapable./n Thus your lose sight of your goal/n and live the rest of your miserable life with a family. /n Game Over", width/2, height/2);
                 exit();
-                return new Attacked();
+                return this;
             }
         }
+
+        public class LinkA1 extends Event {
+
+            public Event foo() {
+                text("Having found nothing interesting on reddit. You continue your education.", width/2, height/2);
+                AlStory al = new AlStory();
+                return al.new School();
+            }
+        }
+
+
 
         public void draw_event(String textone, String texttwo, String textthree) {
             // background
