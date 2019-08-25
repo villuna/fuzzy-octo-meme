@@ -591,51 +591,90 @@ public class Start extends PApplet {
             }
         }
 
-    }
+        public class CrawlLeft extends Event {
+            private BackgroundGen bg;
 
-    public class CrawlLeft extends Event {
-        private BackgroundGen bg;
-
-        public CrawlLeft() {
-            bg = new BackgroundGen();
-            bg.newGoal(0, 57, 100);
-        }
-
-        public Event foo() {
-            image(bg.goal, 0, 0);
-            fill(255);
-            textAlign(CENTER);
-            textSize(30);
-
-            text("You crawl left. You continue to make similar left-leaning choices\n until your early high school years, when you realise the government is not gonna pay\n for your private school education. Do you drop out of school in outrage?", width/2, height/10);
-            text("Yes", width/4, height/2);
-            text("No", 3*width/4, height/2);
-
-            stroke(255);
-            line(width/2, height/5, width/2, 4*height/5);
-
-            if (mousePressed) {
-                if (mouseX <= width/2) {
-                    // Switch to the Joel stream
-                    J0el yaboi = new J0el();
-                    return yaboi.new DropOut();
-                }
-
-                else {
-                    // Switch to the Liam stream
-                    return new FinishHighSchool();
-                }
+            public CrawlLeft() {
+                bg = new BackgroundGen();
+                bg.newGoal(0, 57, 100);
             }
 
-            return this;
-        }
-
-        public class FinishHighSchool extends Event {
             public Event foo() {
-                background(100, 50, 0);
+                image(bg.goal, 0, 0);
                 fill(255);
                 textAlign(CENTER);
-                text("h", width/2, height/2);
+                textSize(30);
+
+                text("You crawl left. You continue to make similar left-leaning choices\n until your early high school years, when you realise the government is not gonna pay\n for your private school education. Do you drop out of school in outrage?", width/2, height/10);
+                text("Yes", width/4, height/2);
+                text("No", 3*width/4, height/2);
+
+                stroke(255);
+                strokeWeight(5);
+                line(width/2, height/5, width/2, 4*height/5);
+
+                if (mousePressed) {
+                    if (mouseX <= width/2) {
+                        // Switch to the Joel stream
+                        J0el yaboi = new J0el();
+                        return yaboi.new DropOut();
+                    }
+
+                    else {
+                        // Switch to the Liam stream
+                        return new FinishHighSchool();
+                    }
+                }
+
+                return this;
+            }
+        }
+
+            
+        public class FinishHighSchool extends Event {
+            public Event foo() {
+                background(200, 100, 0);
+                fill(255);
+                textAlign(CENTER);
+                textSize(25);
+                text("You may be seething with leftist rage, but you're smart. Studious.\nOne day you'll show 'em.\nYou finally graduate and now you must make the big choices in life. Here comes one right now!\nDo you:", width/2, height/10);
+
+                textSize(40);
+                text("Smoke Crack", width/4, height/2);
+                text("Move to Ipswitch", 3*width/4, height/2);
+
+                if (mousePressed)
+                    return new Sike();
+
+                return this;
+            }
+        }
+
+        public class Sike extends Event {
+            int sikeTimer = 0;
+
+            public Event foo() {
+                background(0);
+                fill(255);
+                textAlign(CENTER);
+                textSize(50);
+                text("SIKE", width/2, height/3);
+
+                if (sikeTimer >= 60) {
+                    textSize(40);
+                    text("they're the same thing lol", width/2, 2*height/3);
+                }
+
+                if (sikeTimer >= 240)
+                    return new Prankd();
+
+                sikeTimer++;
+                return this;
+            }
+        }
+
+        public class Prankd extends Event {
+            public Event foo() {
                 return this;
             }
         }
