@@ -1369,7 +1369,6 @@ public class Start extends PApplet {
                     else if (key == 'n') {
 =======
 
-<<<<<<< HEAD
     public class J0el extends Bruh {
         public class DropOut extends Event {
             BackgroundGen bg;
@@ -1390,31 +1389,10 @@ public class Start extends PApplet {
                     }
                     else if (key == 'n') {
                         return new Boring();
-=======
-        public class J0el extends Bruh {
-            public class DropOut extends Event {
-                BackgroundGen bg;
-                public DropOut() {
-                    bg = new BackgroundGen();
-                    bg.newPollynomial(2);
-                    bg.newGoal(120, 165, 70);
-                }
-                public Event foo() {
-                    background(200, 100, 0);
-                    textAlign(CENTER);
-                    textSize(40);
-                    text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/2);
-                    if (keyPressed) {
-                        if (key == 'y') {
-                        }
-                        else if (key == 'n') {
-                        }
->>>>>>> 25e17bc4ba015ae74c18a82091dc8089b0e13f61
                     }
-                    return this;
                 }
+                return this;
             }
-<<<<<<< HEAD
         }
 
         public class Boring extends Event {
@@ -1494,7 +1472,5 @@ public class Start extends PApplet {
                 return this;
             }
         }
-=======
->>>>>>> 25e17bc4ba015ae74c18a82091dc8089b0e13f61
     }
 }
