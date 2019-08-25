@@ -432,7 +432,7 @@ public class Start extends PApplet {
                 line(80, 0, 80, height);
                 textAlign(CENTER);
                 textSize(40);
-                text("You are being attacked. Quickly mash d.", width/2, height/2);
+                text("You are being attacked. Quickly Mash Enter.", width/2, height/2);
                 if (keyPressed) {
                     if (key == ENTER) {
                         success = success + 1;
