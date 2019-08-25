@@ -357,7 +357,7 @@ public class Start extends PApplet {
                 line(80, 0, 80, height);
                 textAlign(CENTER);
                 textSize(40);
-                text("You have been sentenced for your crimes. Now serve two years in jail. Press Enter", width/2, height/2);
+                text("You have been sentenced for your crimes. Now serve forty-five years in jail. Press Enter", width/2, height/2);
                 if (keyPressed) {
                     if (key == ENTER) {
                         return new Attacked();
@@ -409,10 +409,22 @@ public class Start extends PApplet {
 
         public class Released extends Event {
             public Event foo() {
+                text("You have just been released from jail/n However your long time in prison has made old and uncapable./n Thus your lose sight of your goal/n and live the rest of your miserable life with a family. /n Game Over", width/2, height/2);
                 exit();
-                return new Attacked();
+                return this;
             }
         }
+
+        public class Ending extends Event {
+
+            public Event foo() {
+                text("Having found nothing interesting on reddit. You continue your education.", width/2, height/2);
+                AlStory al = new AlStory();
+                return al.new School();
+            }
+        }
+
+
 
         public void draw_event(String textone, String texttwo, String textthree) {
             // background
