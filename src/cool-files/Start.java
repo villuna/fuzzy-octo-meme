@@ -901,7 +901,7 @@ public class Start extends PApplet {
                     text("You move to a nice town called Svalbarðsstrandarhreppur.\n However, upon realising you have to learn how to pronounce Icelandic you are hit with a bout of depression. Do you:", width/2, height/10);
 
                     textSize(40);
-                    
+
                     text("Take a language course", width/4, height/2);
                     text("Drown your sorrows", 3*width/4, height/2);
 
@@ -949,7 +949,7 @@ public class Start extends PApplet {
                     }
 
                     drink.update();
-                    
+
                     return this;
                 }
             }
@@ -1480,12 +1480,12 @@ public class Start extends PApplet {
                 public void update() {
                     if (random(1) < wiggle_chance) {
                         float velDiff = random(-wiggle, wiggle);
-                        
+
                         if (abs(velx+velDiff) >= maxVelx)
                             velx -= velDiff;
 
                         else velx += velDiff;
-                        
+
                     }
 
                     x += velx;
@@ -1738,12 +1738,12 @@ public class Start extends PApplet {
             this.s = s;
 
             // Normal text:
-            stext[0] = x+drunkedness*random(-sOffs,sOffs); 
+            stext[0] = x+drunkedness*random(-sOffs,sOffs);
             stext[1] = y+drunkedness*random(-sOffs,sOffs);
 
             // Chromatically abberated text:
             for (int i = 0; i < 3; i++) {
-                mtext[i][0] = x+drunkedness*random(-mOffs,mOffs); 
+                mtext[i][0] = x+drunkedness*random(-mOffs,mOffs);
                 mtext[i][1] = y+drunkedness*random(-mOffs,mOffs);
 
                 ltext[i][0] = x+drunkedness*random(-lOffs,lOffs);
@@ -1778,5 +1778,5 @@ public class Start extends PApplet {
 
         }
     }
-    
+
 }
