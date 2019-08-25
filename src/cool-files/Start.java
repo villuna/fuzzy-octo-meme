@@ -29,7 +29,7 @@ public class Start extends PApplet {
     public void settings() {
         fullScreen();
         b = new Boreee();
-        currentEvent = b.new FadeIn();
+        currentEvent = b.new Crawl();
         startupSound = new SoundFile(this, "wexp.mp3");
 
     }
@@ -767,7 +767,7 @@ public class Start extends PApplet {
                 public Event foo() {
                     image(bg.goal, 0, 0);
                     textAlign(CENTER);
-                    textSize(40);
+                    textSize(30);
 
                     text("There are few things in this world worse than being prankd.\nYou are filled with intense shame.\nWhat do you do now?", width/2, height/10);
 
@@ -775,9 +775,77 @@ public class Start extends PApplet {
                     strokeWeight(5);
                     line(width/2, height/5, width/2, 4*height/5);
 
-                    text("Change you name and\nmove to Iceland", width/4, height/2);
+                    textSize(40);
+
+                    text("Change your name and\nmove to Iceland", width/4, height/2);
                     text("End it all", 3*width/4, height/2);
 
+                    if (mousePressed) {
+                        if (mouseX < width/2) {
+                            return new Iceland();
+                        } else {
+                            return new Seppuku();
+                        }
+                    }
+
+                    return this;
+                }
+            }
+
+            public class Iceland extends Event {
+                private SnowField sf;
+
+                public Iceland() {
+                    sf = new SnowField(100);
+                }
+
+                public Event foo() {
+                    sf.update();
+
+                    textSize(20);
+                    text("You move to a nice town called Svalbarðsstrandarhreppur.\n However, upon realising you have to learn how to pronounce Icelandic you are hit with a bout of depression. Do you:", width/2, height/10);
+                    
+                    text("Take a language course", width/4, height/2);
+                    text("Drown your sorrows", 3*width/4, height/2);
+
+                    strokeWeight(5);
+                    stroke(255);
+                    line(width/2, height/5, width/2, 4*height/5);
+
+                    if (mousePressed) {
+                        if(mouseX < width/2) {
+                            // Go to language
+                        } else {
+                            // DRINK
+                            return new Pub();
+                        }
+                    }
+
+                    return this;
+                }
+            }
+
+            public class Seppuku extends Event {
+                public Event foo() {
+                    return this;
+                }
+            }
+
+            public class Pub extends Event {
+                DrunkText[] texts = new DrunkText[3];
+
+                public Pub() {
+                    texts[0] = new DrunkText("Testing, testing", width/2, height/4, 0.25f);
+                    texts[1] = new DrunkText("Testing again", width/2, height/2, 0.5f);
+                    texts[2] = new DrunkText("final test", width/2, 3*height/4, 0.75f);
+                }
+
+                public Event foo() {
+                    background(125, 50, 0);
+                    for (int i = 0; i < 3; i++) texts[i].update();
+
+                    filter(BLUR, 1);
+                    
                     return this;
                 }
             }
@@ -1285,19 +1353,21 @@ public class Start extends PApplet {
 
             private int snow_no = 0;
             private Snow[] snow;
+            private BackgroundGen bg;
 
             public class Snow {
                 float x;
                 float y;
                 float velx;
-                float vely = 10;
+                float maxVelx = 3;
+                float vely = 5;
 
                 float wiggle;
                 float wiggle_chance;
 
                 public Snow() {
-                    this.wiggle = 5; //wiggle;
-                    this.wiggle_chance = 10; //wiggle_chance;
+                    this.wiggle = 1; //wiggle;
+                    this.wiggle_chance = 0.5f; //wiggle_chance;
 
                     this.x = random(width);
                     this.y = random(height);
@@ -1305,21 +1375,43 @@ public class Start extends PApplet {
 
                 public void update() {
                     if (random(1) < wiggle_chance) {
-                        velx += random(-wiggle, wiggle);
+                        float velDiff = random(-wiggle, wiggle);
+                        
+                        if (abs(velx+velDiff) >= maxVelx)
+                            velx -= velDiff;
+
+                        else velx += velDiff;
+                        
                     }
 
                     x += velx;
                     y += vely;
+
+                    if (y > height) {
+                        y = -10;
+                        x = random(0, width);
+                    }
+
+                    if (x < 0 || x > width) x = random(0, width);
                 }
             }
 
             public SnowField(int snowNo) {
                 snow = new Snow[snowNo];
+
+                for (int i = 0; i < snowNo; i++) {
+                    snow[i] = new Snow();
+                }
+
                 snow_no = snowNo;
+
+                bg = new BackgroundGen();
+                bg.newPollynomial(3);
+                bg.newGoal(50,70, 25);
             }
 
             public void update() {
-                background(51, 51, 255);
+                image(bg.goal, 0, 0);
                 textAlign(CENTER);
                 textSize(20);
                 fill(255);
@@ -1356,4 +1448,62 @@ public class Start extends PApplet {
                 }
             }
     }
+
+    public class DrunkText {
+        float[] stext = new float[2];
+        float[][] mtext = new float[3][2];
+        float[][] ltext = new float[3][2];
+
+        String s = "";
+
+        public DrunkText(String s, int x, int y, float drunkedness) {
+            // Drunkedness goes from 0 to 1 - 0 not very drunk, 1 extremely drunk
+            float sOffs = 5;
+            float mOffs = 20;
+            float lOffs = 50;
+
+            this.s = s;
+
+            // Normal text:
+            stext[0] = x+drunkedness*random(-sOffs,sOffs); 
+            stext[1] = y+drunkedness*random(-sOffs,sOffs);
+
+            // Chromatically abberated text:
+            for (int i = 0; i < 3; i++) {
+                mtext[i][0] = x+drunkedness*random(-mOffs,mOffs); 
+                mtext[i][1] = y+drunkedness*random(-mOffs,mOffs);
+
+                ltext[i][0] = x+drunkedness*random(-lOffs,lOffs);
+                ltext[i][1] = y+drunkedness*random(-lOffs,lOffs);
+            }
+        }
+
+        public void update() {
+            // Dark chromatic text
+            fill(0, 125, 125);
+            text(s, ltext[0][0], ltext[0][1]);
+
+            fill(125, 0, 125);
+            text(s, ltext[1][0], ltext[1][1]);
+
+            fill(0, 125, 125);
+            text(s, ltext[2][0], ltext[2][1]);
+
+            // Chromatic text
+            fill(255, 0, 0);
+            text(s, mtext[0][0], mtext[0][1]);
+
+            fill(0, 255, 0);
+            text(s, mtext[1][0], mtext[1][1]);
+
+            fill(0, 0, 255);
+            text(s, mtext[2][0], mtext[2][1]);
+
+            // Normal text
+            fill(255);
+            text(s, stext[0], stext[1]);
+
+        }
+    }
+    
 }
