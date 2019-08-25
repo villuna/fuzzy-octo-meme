@@ -245,6 +245,7 @@ public class Start extends PApplet {
 
         }*/
 
+        public class J1 extends Bruh {
         // J1 Storyline:
 
         public class Reddit extends Event {
