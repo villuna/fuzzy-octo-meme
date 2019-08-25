@@ -13,6 +13,7 @@ public class Start extends PApplet {
     TrippyOsc sawt;
     TrippyOsc sawtt;
     SoundFile startupSound;
+    SoundFile menAtWork;
     SoundFile[] greatestHits;
     String playerName = "";
     Event currentEvent;
@@ -37,6 +38,7 @@ public class Start extends PApplet {
         currentEvent = b.new FadeIn();
         startupSound = new SoundFile(this, "wexp.mp3");
 
+        menAtWork = new SoundFile(this, "dunder.mp3");
 
         greatestHits = new SoundFile[4];
         greatestHits[0] = new SoundFile(this, "hit1.mp3");
@@ -1569,7 +1571,7 @@ public class Start extends PApplet {
                 background(50);
                 fill(200);
                 text("A fair descision.\nseeing as the tropics aren't an option,\nyou decide to become a panel beater.\nYou move to broome to enhance your job prospects", width/2,height/2);
-                if (timer > 60*3) {
+                if (timer > 60*6) {
                     text("\n\n\n\n\nclick to beat panels", width/2, height/2);
                 }
                 if (mouseReleased) {
@@ -1580,11 +1582,29 @@ public class Start extends PApplet {
             }
         }
 
+        public class Win extends Event {
+            int timer = 0;
+            public Event foo() {
+                background(255, 0, 0);
+                textSize(80);
+                fill(255, 255, 0);
+                text("World Communism Established\n", width/2, height/2);
+                if (timer >= 60*6) {
+                    textSize(90);
+                    text("\nYou Win!", width/2, height/2);
+                }
+                timer++;
+                return this;
+            }
+        }
+
         public class TopClass extends Event {
             PImage b;
             float timer = 255;
+            int count = 0;
             public TopClass() {
                 b = loadImage("broome.jpg");
+                menAtWork.play(1, 5);
             }
             public Event foo() {
                 image(b, 0, 0, width, height);
@@ -1592,8 +1612,15 @@ public class Start extends PApplet {
                 noStroke();
                 rect(0, 0, width, height);
                 fill(255);
-                text("After minutes of pannel beating, you ascend into the air\nYou have become the best panel beater in Broome!", width/2, height/2);
+                text("After minutes of panel beating, you ascend into the air\nYou have become the best panel beater in Broome!\n\n", width/2, height/2);
                 timer /= 1.001;
+                count++;
+                if (count > 60*7) {
+                    text("\n\nYour omnicient panel beating skills draw, and unite \n crowds of all kinds from all places", width/2, height/2);
+                }
+                if (count > 60*17) {
+                    return new Win();
+                }
                 return this;
             }
         }
@@ -1605,7 +1632,7 @@ public class Start extends PApplet {
                 fill(200);
                 text("click to beat\n", width/2, height/2);
                 if (timer > 5) {
-                    text("\nPannels beaten: " + timer, width/2, height/2);
+                    text("\npanels beaten: " + timer, width/2, height/2);
                 }
                 if (timer > 50) {
                     text("\n\n\ngeez", width/2, height/2);
