@@ -40,18 +40,36 @@ public class Start extends PApplet {
         greatestHits[num].play();
     }
 
-    public void draw_question(String question, int r, int g, int b) {
-      background(r,g,b);
+    public void draw_question(String question, String choice_A, String choice_B, int r, int g, int b) {
+      if (r != 69) {
+	background(r,g,b);
+      }
       PFont f;
       f = createFont("Arial", 30, true);
-      textFont(f, 30);
+      textFont(f, 40);
 
       // QUESTION TEXTBOX Setup
 
       textAlign(CENTER);
-      textFont(f, 60);
+      textFont(f, 35);
       fill(0);
       text(question, 1920/5, 100, 3*(1920/5), 500);
+
+      textAlign(CENTER);
+      textFont(f,30);
+      fill(0);
+      text(choice_A, width/4, (3*height)/4);
+
+      textAlign(CENTER);
+      textFont(f,30);
+      fill(0);
+      text(choice_B, (3*width)/4, (3*height)/4);
+
+      fill(0);
+      strokeWeight(5);
+      line(width/2, 500, width/2, height);
+      strokeWeight(5);
+      line(0, 500, width, 500);
     }
 
     public void continue_prompt (int time, String type, int x_pos, int y_pos) {
@@ -175,110 +193,172 @@ public class Start extends PApplet {
 	  boolean clicked_left = false;
 	  boolean clicked_right = false;
 	  public Event foo() {
-	    Button left = new Button(0,0, width/2, height);
-	    Button right = new Button(width/2,0, width/2, height);
-	    fill(255);
 
-	    draw_question("You meet a new friend. It is lunch time now, what do you want to talk about?\n Left: Do you want to establish World Communism with me?\n Right: Do you not want to establish World Communism with me?", 255, 255, 0);
-	    println(left.clicked());
-	    if (left.clicked()) {
-	      clicked_left = true;
-	    } else if (clicked_right) {
-	      clicked_right = true;
-	    }
+	    PFont f;
+	    f = createFont("Arial", 16, true);
+	    int r = (int) random(0,255);
+	    int g = (int) random(0,255);
+	    int b = (int) random(0,255);
+
+	    background(r,b,g);
+
+	    textAlign(CENTER);
+	    textFont(f,16);
+	    text("You are 5 years old now " + playerName + ". It is your first day at school, your lovely mother Karen told you to make some friends today. You meet a young boy with a majestic moustache. You approach him.", width/2, height/2);
+
+	      Button left = new Button(0,0, width/2, height);
+	      Button right = new Button(width/2,0, width, height);
+	      fill(255);
+
+		      
+
+	      draw_question("You meet a new friend. It is lunch time now, what do you want to talk about?", "Establish communism", "dont estabish communism", 255, 255, 0);
+	      println(left.clicked());
+	      if (left.clicked()) {
+		clicked_left = true;
+	      } else if (right.clicked()) {
+		clicked_right = true;
+	      }
 
 
-	    if (clicked_left) {
-	      // Establishing World Communism
-	      background(255,255,0);
-	      String response = playerName + "... You are 5 years old... Whatever.";
-	      textAlign(CENTER);
-	      text(response, width/2, height/2);
+	      if (clicked_left) {
+		// Establishing World Communism
+		background(255,255,0);
+		String response = playerName + "... You are 5 years old... Whatever.";
+		textAlign(CENTER);
+		text(response, width/2, height/2);
 
-	      return new Communism();
+		return new Communism();
 
-	    } else if (clicked_right) {
-	      // Not establishing World Communism.
-	      background(255, 255,0);
-	      textAlign(CENTER);
-	      text("Ok.", width/2, height/2);
+	      } else if (clicked_right) {
+		// Not establishing World Communism.
+		return new EscapeDarwin();
+	      }
 
 	      return this;
 	    }
-
-	    return this;
 	  }
-	}
 
       public class Communism extends Event {
 	public Event foo() {
 	    Button left = new Button(0,0, width/2, height);
 	    Button right = new Button(width/2,0, width/2, height);
 	    PFont f;
-	    f = createFont("Arial", 16, true);
+	    f = createFont("Arial", 25, true);
 	    fill(255);
 
-	    draw_question("Your friend aggres with your plan. He shakes you hand and utters his full name. \n Joseph Stalin. \n Obviously as a 5 year old this means nothing to you. Click on the: \n Left - Continue hanging out with Joseph \n Right - Make new friends", 255, 0 ,255);
+	    draw_question("Your friend aggres with your plan. He shakes you hand and utters his full name. \n Joseph Stalin. \n Obviously as a 5 year old this means nothing to you.", "Establish world communism?", "...Don't establish communism",  255, 0 ,255);
 
 
 	    return this;
+	}
+      }
+
+      public class EscapeDarwin extends Event{
+	  // Class global variables?
+	  //
+	  //
+	  boolean clicked_left = false;
+	  boolean clicked_right = false;
+	  public Event foo() {
+	      Button left = new Button(0,0, width/2, height);
+	      Button right = new Button(width/2, 0, width/2, height);
+
+	      PFont f;
+	      f = createFont("Arial", 25, true);
+	      
+	      draw_question("You continue living out your meaningless life in Darwin until you realize that other cities exist other than Darwin. You escape to the airport and need to sneak onto any plane. What gate do you go through?", "Gate 69", "Gate 112", 0, 255, 255);    
+	      
+	      if (left.clicked()) {
+		clicked_left = true;
+	      } else if (right.clicked()) {
+		clicked_right = true;
+	      }
+
+
+	      if (clicked_left) {	
+		return new SexNumber_Terminate();
+
+	      } else if (clicked_right) {
+		// Not establishing World Communism.
+		return new False_Freedom();
+	      }
+
+	      return this;
+	  }
+      }
+
+
+      public class False_Freedom extends Event {
+	boolean clicked_left = false;
+	boolean clicked_right = false;
+
+	public Event foo() {
+	      
+	      PImage img;
+	      Button left = new Button(0,0, width/2, height);
+	      Button right = new Button(width/2, 0, width/2, height);
+
+	      PFont f;
+	      f = createFont("Arial", 25, true);
+
+	      img = loadImage("pakistan.jpg");
+	      image(img,0,0,width,height); 
+	      draw_question("You successfully board the plane and sit down comfortably. The flight hostest comes by, rocking a full beard. You look at your the flight destination. \n Pakistan. \n What do you want to do?", "Go to Pakistan", "Go to Pakistan", 69, 0, 0);    
+	      
+	      if (left.clicked()) {
+		clicked_left = true;
+	      } else if (right.clicked()) {
+		clicked_right = true;
+	      }
+
+
+	      if (clicked_left) {	
+		return new SexNumber_Terminate();
+
+	      } else if (clicked_right) {
+		// Not establishing World Communism.
+		//return new False_Freedom();
+	      }
+
+	      return this;
 
 	}
       }
+
+
+      public class SexNumber_Terminate extends Event {
+	  boolean clicked_left = false;
+	  public Event foo() {
+	      Button left = new Button(0,0, width, height);
+
+	      PFont f;
+	      f = createFont("Arial", 16, true);
+
+	      background(132, 0, 210);
+
+	      textFont(f, 30);
+	      textAlign(CENTER);
+	      text("You choose Gate 69 because of the number didn't you. Sicko. \n\n You get caught by the Airport security and get sent back home. \n You live as a bus driver in Darwin and eventually die from a high cholestrol at age 43", width/2, height/2);
+
+	      if (left.clicked()) {
+		clicked_left = true;
+	      } 
+
+	      if (clicked_left) {     
+		fill(255);
+		Boreee s = new Boreee();
+		return s.new Birth();
+	      }
+
+
+	      return this;
+
+
+
+	  }
+      }
   }
-	  /*
-	  boolean clicked = false;
-            public Event foo() {
-                background(0);
-		PFont f;
-		f = createFont("Arial", 16, true);
-		textFont(f, 16);
-
-		// QUESTION TEXTBOX Setup
-
-		textAlign(CENTER);
-		textFont(f, 30);
-		fill(255);
-		text("You meet a new friend named Jaxon. It is lunch time now, what do you want to talk about?", 1920/5, 100, 3*(1920/5), 500);
-
-		// Question A SETUP
-		Button choice_A = new Button(100,400,800,600);
-
-		// Fix sizing, left side button not equally far to the lefthand
-		// side.
-		fill(255);
-		rect(100,400,1600/2,600);
-		fill(0);
-		textAlign(CENTER);
-		textFont(f, 40);
-		// This took wayyyyy too long lol.
-		text("Hey do you want to establish \n world communism?", 500, 700);
-
-		// Question B SETUP
-		Button choice_B = new Button(1000, 400, 1600/2, 600);
-		fill(255);
-		rect(1000, 400, 1600/2, 600);
-
-		textAlign(CENTER);
-		textFont(f, 40);
-		fill(0);
-		text("So...\n Have you heard about Fortnite?", 1400, 700);
-
-		if (choice_A.clicked()) {
-		  clicked = true;
-		}
-
-		if (clicked) {
-		  textAlign(CENTER);
-		  clear();
-		  text("This has been clicked", width/2, height/2);
-		}
-
-                return this;
-            }
-
-        }*/
-
         public class J1 extends Bruh {
         // J1 Storyline:
 
@@ -468,9 +548,6 @@ public class Start extends PApplet {
                 background(bg);
 
                 bg++;
-                if (bg == 50) {
-                    startupSound.play();
-                }
 
                 if (bg >= 255) {
                     return new Birth();
