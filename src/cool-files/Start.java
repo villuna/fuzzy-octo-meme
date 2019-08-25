@@ -14,6 +14,7 @@ public class Start extends PApplet {
     TrippyOsc sawtt;
     SoundFile startupSound;
     SoundFile[] greatestHits;
+    SoundFile panelBeating;
     String playerName = "";
     Event currentEvent;
     Boreee b;
@@ -37,8 +38,8 @@ public class Start extends PApplet {
         currentEvent = b.new FadeIn();
         startupSound = new SoundFile(this, "wexp.mp3");
 
-
         greatestHits = new SoundFile[4];
+        panelBeating = new SoundFile(this, "dunder.mp3");
         greatestHits[0] = new SoundFile(this, "hit1.mp3");
         greatestHits[1] = new SoundFile(this, "hit2.mp3");
         greatestHits[2] = new SoundFile(this, "hit3.mp3");
@@ -1138,7 +1139,6 @@ public class Start extends PApplet {
 
                 }
 
-
                 public class UQ extends Event {
                     BackgroundGen bg;
 
@@ -1507,6 +1507,8 @@ public class Start extends PApplet {
                     timer++;
                 }
                 if (timer >= 2) {
+                    panelBeating.play();
+                    // playsoundss
                     return new TopClass();
                 }
                 return this;
