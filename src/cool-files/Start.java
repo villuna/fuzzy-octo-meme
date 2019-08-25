@@ -10,6 +10,8 @@ public class Start extends PApplet {
     boolean keyReleased = false;
 
     TrippyOsc saw;
+    TrippyOsc sawt;
+    TrippyOsc sawtt;
     SoundFile startupSound;
     SoundFile[] greatestHits;
     String playerName = "";
@@ -35,17 +37,12 @@ public class Start extends PApplet {
         currentEvent = b.new FadeIn();
         startupSound = new SoundFile(this, "wexp.mp3");
 
-        saw = new TrippyOsc(this);
-        saw.setup(20, 1000, 100, 1);
-        saw.play();
 
         greatestHits = new SoundFile[4];
         greatestHits[0] = new SoundFile(this, "hit1.mp3");
         greatestHits[1] = new SoundFile(this, "hit2.mp3");
         greatestHits[2] = new SoundFile(this, "hit3.mp3");
         greatestHits[3] = new SoundFile(this, "hit 4.mp3");
-
-
     }
 
     public void play_hit() {
@@ -75,14 +72,30 @@ public class Start extends PApplet {
         keyPressed = false;
         keyReleased = false;
 
-        saw.update();
     }
 
     public void keyReleased() {
         keyReleased = true;
     }
 
-    class TrippyOsc extends SawOsc {
+    class TrippyOsc extends Bruh {
+
+        /*
+        saw = new TrippyOsc(this);
+        sawt = new TrippyOsc(this);
+        sawtt = new TrippyOsc(this);
+        saw.setup(20, 1000, 2, 500);
+        sawt.setup(20, 1000, 2, 100);
+        sawtt.setup(20, 1000, 2, 100);
+        saw.play();
+        sawt.play();
+        sawtt.play();
+         */
+
+        // Put thises in main draw loop
+        //        saw.update();
+        //        sawt.update();
+        //        sawtt.update();
 
         int fre = 100;
         float pan = 0;
@@ -90,20 +103,36 @@ public class Start extends PApplet {
         int lowerBound = 20;
         int panAmount = 0;
         int walkAmount = 0;
+        SinOsc osc;
 
-        void setup(int lowerbound, int upperbound, int panamount, int walkamount) {
+        public TrippyOsc(PApplet thingy) {
+            osc = new SinOsc(thingy);
+        }
+
+        public void setup(int lowerbound, int upperbound, int panamount, int walkamount) {
             lowerBound = lowerbound;
             upperBound = upperbound;
             panAmount = panamount;
             walkAmount = walkamount;
         }
 
+        void play() {
+            osc.play();
+        }
+
+        void stop() {
+            osc.stop();
+        }
+
         void update() {
+            // applies randomisation
+            osc.freq(fre);
+            osc.pan(0);
             if ( (int)(random(panAmount)) == 1 ){
                 if (random(panAmount) > (panAmount/2)) {
-                    this.pan((float)1.0);
+                    osc.pan((float)1.0);
                 } else
-                    this.pan((float)0.0);
+                    osc.pan((float)0.0);
             }
             if ((int)(random(walkAmount)) > 1) {
                 fre += random(-1*walkAmount, walkAmount);
@@ -114,7 +143,7 @@ public class Start extends PApplet {
                     fre = lowerBound;
                 }
             }
-            this.fre(freq);
+            osc.freq(fre);
         }
     }
 
