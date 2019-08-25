@@ -9,7 +9,9 @@ public class Start extends PApplet {
     boolean keyPressed = false;
     boolean keyReleased = false;
 
+    SawOsc saw;
     SoundFile startupSound;
+    SoundFile[] greatestHits;
     String playerName = "";
     Event currentEvent;
     Boreee b;
@@ -26,12 +28,27 @@ public class Start extends PApplet {
         PApplet.main(appletArgs);
     }
 
+
     public void settings() {
         fullScreen();
         b = new Boreee();
         currentEvent = b.new FadeIn();
         startupSound = new SoundFile(this, "wexp.mp3");
 
+        saw = new SawOsc(this);
+
+        greatestHits = new SoundFile[4];
+        greatestHits[0] = new SoundFile(this, "hit1.mp3");
+        greatestHits[1] = new SoundFile(this, "hit2.mp3");
+        greatestHits[2] = new SoundFile(this, "hit3.mp3");
+        greatestHits[3] = new SoundFile(this, "hit 4.mp3");
+
+
+    }
+
+    public void play_hit() {
+        int num = (int)random(0,4);
+        greatestHits[num].play();
     }
 
     public void draw_question(String question, int r, int g, int b) {
@@ -628,7 +645,7 @@ public class Start extends PApplet {
 
             public CrawlLeft() {
                 bg = new BackgroundGen();
-                bg.newGoal(0, 57, 100);
+                bg.newGoal(0, 57, 40);
             }
 
             public Event foo() {
@@ -643,7 +660,7 @@ public class Start extends PApplet {
 
                 stroke(255);
                 strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
+                line(width/2, height/4, width/2, 4*height/5);
 
                 if (mousePressed) {
                     if (mouseX <= width/2) {
@@ -1331,29 +1348,108 @@ public class Start extends PApplet {
                 }
             }
         }
-
-
-        public class J0el extends Bruh {
-            public class DropOut extends Event {
-                BackgroundGen bg;
-                public DropOut() {
-                    bg = new BackgroundGen();
-                    bg.newPollynomial(2);
-                    bg.newGoal(120, 165, 70);
+    public class J0el extends Bruh {
+        public class DropOut extends Event {
+            BackgroundGen bg;
+            public DropOut() {
+                bg = new BackgroundGen();
+                bg.newPollynomial(4);
+                bg.newGoal(120, 165, 70);
+            }
+            public Event foo() {
+                image(bg.goal, 0, 0);
+                //background(200, 100, 0);
+                textAlign(CENTER, CENTER);
+                textSize(40);
+                text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/5);
+                if (keyPressed) {
+                    if (key == 'y') {
+                        return new Smoke();
+                    }
+                    else if (key == 'n') {
+                        return new Boring();
+                    }
                 }
-                public Event foo() {
-                    background(200, 100, 0);
-                    textAlign(CENTER);
-                    textSize(40);
-                    text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/2);
+                return this;
+            }
+        }
+
+        public class Boring extends Event {
+            int timer = 0;
+            public Event foo() {
+                background(50);
+                fill(200);
+                text("Seeing as you have no sense of adventure,\nyou decide to become a pannel beater.\nYou move to broom to enhance your job prospects", width/2,height/2);
+                if (timer > 60*3) {
+                    text("\n\n\n\nclick to beat pannels", width/2, height/2);
+                }
+                if (mouseReleased) {
+                    return new Beat();
+                }
+                timer++;
+                return this;
+            }
+        }
+
+        public class Beat extends Event {
+            int timer = 0;
+            public Event foo() {
+                background(50);
+                fill(200);
+                text("click to beat\n", width/2, height/2);
+                if (timer > 5) {
+                    text("\nPannels beaten: " + timer, width/2, height/2);
+                }
+                if (timer > 100) {
+                    text("\n\n\ngeez", width/2, height/2);
+                }
+                if (mouseReleased) {
+                    background(255);
+                    timer++;
+                }
+                return this;
+            }
+        }
+
+        public class cairns extends Event {
+            public Event foo() {
+                background(0);
+                return this;
+            }
+        }
+
+        public class Smoke extends Event {
+            int timer = 0;
+            public Event foo() {
+                fill(0, 0, 0, 20);
+                noStroke();
+                rect(0, 0, width, height);
+                //background(200, 100, 0);
+                textAlign(CENTER, CENTER);
+                textSize(40);
+                fill(random(255), random(255), random(255));
+                if (timer >= 15*60) {
                     if (keyPressed) {
                         if (key == 'y') {
+                            //the north
                         }
                         else if (key == 'n') {
+                            //adelade
                         }
                     }
-                    return this;
                 }
+                if (timer >= 22*60) {
+                    text("(that's a [y/n] situation my dude)", mouseX, mouseY);
+                } else if (timer >= 15*60) {
+                    text("How does tropical north sound?", mouseX, mouseY);
+                } else if (timer >= 5*60) {
+                    text("Seeing as we're all one\nI think its time to move away from Darwin", mouseX, mouseY);
+                } else {
+                    text("woah dude", mouseX, mouseY);
+                }
+                timer++;
+                return this;
             }
+        }
     }
 }
