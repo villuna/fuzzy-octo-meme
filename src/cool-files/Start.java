@@ -41,6 +41,13 @@ public class Start extends PApplet {
 
         menAtWork = new SoundFile(this, "dunder.mp3");
 
+        saw = new TrippyOsc(this);
+        sawt = new TrippyOsc(this);
+        sawtt = new TrippyOsc(this);
+        saw.setup(20, 500, 2, 100);
+        sawt.setup(20, 1000, 2, 100);
+        sawtt.setup(20, 1000, 2, 100);
+
         greatestHits = new SoundFile[4];
         greatestHits[0] = new SoundFile(this, "hit1.mp3");
         greatestHits[1] = new SoundFile(this, "hit2.mp3");
@@ -1796,6 +1803,15 @@ public class Start extends PApplet {
         public class Smoke extends Event {
             int timer = 0;
             public Event foo() {
+                if (timer == 0) {
+                    saw.play();
+                    sawt.play();
+                    sawtt.play();
+                }
+                saw.update();
+                sawt.update();
+                sawtt.update();
+
                 fill(0, 0, 0, 20);
                 noStroke();
                 rect(0, 0, width, height);
@@ -1803,8 +1819,13 @@ public class Start extends PApplet {
                 textAlign(CENTER, CENTER);
                 textSize(40);
                 fill(random(255), random(255), random(255));
+
+
                 if (timer >= 15*60) {
                     if (keyPressed) {
+                        saw.stop();
+                        sawt.stop();
+                        sawtt.stop();
                         if (key == 'y') {
                             return new theNorth();
                         }
