@@ -14,6 +14,7 @@ public class Start extends PApplet {
     TrippyOsc sawt;
     TrippyOsc sawtt;
     SoundFile startupSound;
+    SoundFile menAtWork;
     SoundFile[] greatestHits;
     String playerName = "";
     Event currentEvent;
@@ -39,6 +40,7 @@ public class Start extends PApplet {
         
         startupSound = new SoundFile(this, "wexp.mp3");
 
+        menAtWork = new SoundFile(this, "dunder.mp3");
 
         greatestHits = new SoundFile[4];
         greatestHits[0] = new SoundFile(this, "hit1.mp3");
@@ -644,17 +646,33 @@ public class Start extends PApplet {
 
         public class Birth extends Event {
             public Event foo() {
-                background(100, 100, 125);
+                background(0, 0, 0);
+                fill(255);
                 textAlign(CENTER);
                 textSize(40);
-                text("You are born", width / 2, height / 2);
+                text("You are about to be born", width / 2, height / 2);
 
                 if (mousePressed) {
 //                   Boreee is = new Start()
-                    return new AfterBorn();
+                    return new EndGoalYeet();
                 } else {
                     return this;
                 }
+            }
+        }
+
+        public class EndGoalYeet extends Event {
+            public Event foo() {
+                background(0, 0, 0);
+                textAlign(CENTER);
+                textSize(40);
+                text("Your goal: Establish world Communism.", width/2, height/2);
+
+                if (mousePressed) {
+                    return new AfterBorn();
+                }
+
+                return this;
             }
         }
 
@@ -662,7 +680,7 @@ public class Start extends PApplet {
             int stillTimer = 0;
 
             public Event foo() {
-                if (random(200) == 1) {
+                if (random(200) <= 1) {
                     background(100, 100, 125);
                     textAlign(CENTER);
                     textSize(40);
@@ -718,6 +736,12 @@ public class Start extends PApplet {
 
         public class TheChristening extends Event {
             String name = "";
+            float timer = 0;
+            float delayTimer = 0;
+            float maxDelay = 30;
+            float maxTime = 90;
+            float enterTimer = 0;
+            float enterTime = 20;
 
             public TheChristening() {
                 if (random(1) >= 0.5)
@@ -733,9 +757,19 @@ public class Start extends PApplet {
                 background(0, 0, 125);
                 textAlign(CENTER);
                 textSize(40);
-                text("Did you mean: " + name, width/2, height/2);
-                textSize(20);
-                text("Press ENTER to confirm", width/2, 3*height/4);
+                fill(255);
+                text("Did you mean: ", width/2, height/4);
+                fill(255, 255, 255, 255f*(timer/maxTime));
+                text(name + "?", width/2, height/2);
+                fill(255);
+                if (enterTimer >= enterTime) {
+                    textSize(20);
+                    text("Press ENTER to confirm", width/2, 5*height/6);
+                }
+
+                if (delayTimer < maxDelay) delayTimer++;
+                else if (timer < maxTime) timer++;
+                else if (enterTimer < enterTime) enterTimer++;
 
                 if (keyPressed) {
                     if (key == ENTER) {
@@ -1034,6 +1068,49 @@ public class Start extends PApplet {
 
             public class Seppuku extends Event {
                 public Event foo() {
+                    background(125, 0, 0);
+                    fill(125);
+                    textSize(30);
+                    text("You try comitting seppuku. However, you named your sword git and as such\nit doesn't commit properly.\n You wake up in the hospital.", width/2, height/10);
+
+                    textSize(40);
+
+                    text("Yeet that life support", width/4, height/2);
+                    text("No, I'm a changed man", 3*width/4, height/2);
+
+                    strokeWeight(5);
+                    stroke(125);
+                    line(width/2, height/4, width/2, 5*height/6);
+
+                    if (mousePressed) {
+                        if (mouseX < width/2) {
+                            return new LifeSupport();
+                        } else {
+                            
+                        }
+                    }
+
+                    return this;
+                }
+
+            }
+
+            public class LifeSupport extends Event {
+                private float timer = 0;
+                private float maxTime = 60;
+
+                public Event foo() {
+                    background(125, 0, 0);
+                    fill(255);
+                    textSize(50);
+                    text("Everything's going black...", width/2, height/2);
+
+                    fill(0, 0, 0, 255f*(timer/maxTime));
+                    rect(0, 0, width, height);
+
+                    if (timer >= maxTime) exit();
+
+                    timer++;
                     return this;
                 }
             }
@@ -1444,7 +1521,7 @@ public class Start extends PApplet {
                         draw_event("Due to an Excel programming error\nyour study turns out to be wrong.\nThe Australian economy collapses.",
                                 "Flee to New Zealand", "Die.");
                         if (get_mouse() == 0) {
-                            return new NZ_too();
+/*NICE*/                    return new NZ_too();
                         }
                         if (get_mouse() == 1) {
                             exit();
@@ -1679,7 +1756,7 @@ public class Start extends PApplet {
                 background(50);
                 fill(200);
                 text("A fair descision.\nseeing as the tropics aren't an option,\nyou decide to become a panel beater.\nYou move to broome to enhance your job prospects", width/2,height/2);
-                if (timer > 60*3) {
+                if (timer > 60*6) {
                     text("\n\n\n\n\nclick to beat panels", width/2, height/2);
                 }
                 if (mouseReleased) {
@@ -1690,11 +1767,29 @@ public class Start extends PApplet {
             }
         }
 
+        public class Win extends Event {
+            int timer = 0;
+            public Event foo() {
+                background(255, 0, 0);
+                textSize(80);
+                fill(255, 255, 0);
+                text("World Communism Established\n", width/2, height/2);
+                if (timer >= 60*6) {
+                    textSize(90);
+                    text("\nYou Win!", width/2, height/2);
+                }
+                timer++;
+                return this;
+            }
+        }
+
         public class TopClass extends Event {
             PImage b;
             float timer = 255;
+            int count = 0;
             public TopClass() {
                 b = loadImage("broome.jpg");
+                menAtWork.play(1, 5);
             }
             public Event foo() {
                 image(b, 0, 0, width, height);
@@ -1702,8 +1797,15 @@ public class Start extends PApplet {
                 noStroke();
                 rect(0, 0, width, height);
                 fill(255);
-                text("After minutes of pannel beating, you ascend into the air\nYou have become the best panel beater in Broome!", width/2, height/2);
+                text("After minutes of panel beating, you ascend into the air\nYou have become the best panel beater in Broome!\n\n", width/2, height/2);
                 timer /= 1.001;
+                count++;
+                if (count > 60*7) {
+                    text("\n\nYour omnicient panel beating skills draw, and unite \n crowds of all kinds from all places", width/2, height/2);
+                }
+                if (count > 60*17) {
+                    return new Win();
+                }
                 return this;
             }
         }
@@ -1715,7 +1817,7 @@ public class Start extends PApplet {
                 fill(200);
                 text("click to beat\n", width/2, height/2);
                 if (timer > 5) {
-                    text("\nPannels beaten: " + timer, width/2, height/2);
+                    text("\npanels beaten: " + timer, width/2, height/2);
                 }
                 if (timer > 50) {
                     text("\n\n\ngeez", width/2, height/2);
