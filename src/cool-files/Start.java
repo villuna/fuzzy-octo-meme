@@ -13,6 +13,7 @@ public class Start extends PApplet {
     TrippyOsc sawt;
     TrippyOsc sawtt;
     SoundFile startupSound;
+    SoundFile menAtWork;
     SoundFile[] greatestHits;
     String playerName = "";
     Event currentEvent;
@@ -37,6 +38,7 @@ public class Start extends PApplet {
         currentEvent = b.new FadeIn();
         startupSound = new SoundFile(this, "wexp.mp3");
 
+        menAtWork = new SoundFile(this, "dunder.mp3");
 
         greatestHits = new SoundFile[4];
         greatestHits[0] = new SoundFile(this, "hit1.mp3");
@@ -933,7 +935,7 @@ public class Start extends PApplet {
                     text("You move to a nice town called Svalbarðsstrandarhreppur.\n However, upon realising you have to learn how to pronounce Icelandic you are hit with a bout of depression. Do you:", width/2, height/10);
 
                     textSize(40);
-                    
+
                     text("Take a language course", width/4, height/2);
                     text("Drown your sorrows", 3*width/4, height/2);
 
@@ -1024,7 +1026,7 @@ public class Start extends PApplet {
                     }
 
                     drink.update();
-                    
+
                     return this;
                 }
             }
@@ -1555,12 +1557,12 @@ public class Start extends PApplet {
                 public void update() {
                     if (random(1) < wiggle_chance) {
                         float velDiff = random(-wiggle, wiggle);
-                        
+
                         if (abs(velx+velDiff) >= maxVelx)
                             velx -= velDiff;
 
                         else velx += velDiff;
-                        
+
                     }
 
                     x += velx;
@@ -1621,9 +1623,19 @@ public class Start extends PApplet {
                         return new Smoke();
                     }
                     else if (key == 'n') {
-                        return new Boring();
+                        return new Aristocracy();
                     }
                 }
+                return this;
+            }
+        }
+
+        public class Aristocracy extends Event {
+            public Event foo() {
+                background(0, 0, 80);
+                textAlign(CENTER, CENTER);
+                textSize(40);
+                text("Oh geez to posh I guess.\nIn that case you move to Adelaide\nand become part of the aristocracy", width/2, height/5);
                 return this;
             }
         }
@@ -1633,9 +1645,9 @@ public class Start extends PApplet {
             public Event foo() {
                 background(50);
                 fill(200);
-                text("Seeing as you have no sense of adventure,\nyou decide to become a panel beater.\nYou move to broome to enhance your job prospects", width/2,height/2);
-                if (timer > 60*3) {
-                    text("\n\n\n\nclick to beat panels", width/2, height/2);
+                text("A fair descision.\nseeing as the tropics aren't an option,\nyou decide to become a panel beater.\nYou move to broome to enhance your job prospects", width/2,height/2);
+                if (timer > 60*6) {
+                    text("\n\n\n\n\nclick to beat panels", width/2, height/2);
                 }
                 if (mouseReleased) {
                     return new Beat();
@@ -1645,11 +1657,29 @@ public class Start extends PApplet {
             }
         }
 
+        public class Win extends Event {
+            int timer = 0;
+            public Event foo() {
+                background(255, 0, 0);
+                textSize(80);
+                fill(255, 255, 0);
+                text("World Communism Established\n", width/2, height/2);
+                if (timer >= 60*6) {
+                    textSize(90);
+                    text("\nYou Win!", width/2, height/2);
+                }
+                timer++;
+                return this;
+            }
+        }
+
         public class TopClass extends Event {
             PImage b;
             float timer = 255;
+            int count = 0;
             public TopClass() {
                 b = loadImage("broome.jpg");
+                menAtWork.play(1, 5);
             }
             public Event foo() {
                 image(b, 0, 0, width, height);
@@ -1657,8 +1687,15 @@ public class Start extends PApplet {
                 noStroke();
                 rect(0, 0, width, height);
                 fill(255);
-                text("After minutes of pannel beating, you ascend into the air\nYou are the best panel beater in Broome!", width/2, height/2);
+                text("After minutes of panel beating, you ascend into the air\nYou have become the best panel beater in Broome!\n\n", width/2, height/2);
                 timer /= 1.001;
+                count++;
+                if (count > 60*7) {
+                    text("\n\nYour omnicient panel beating skills draw, and unite \n crowds of all kinds from all places", width/2, height/2);
+                }
+                if (count > 60*17) {
+                    return new Win();
+                }
                 return this;
             }
         }
@@ -1670,9 +1707,9 @@ public class Start extends PApplet {
                 fill(200);
                 text("click to beat\n", width/2, height/2);
                 if (timer > 5) {
-                    text("\nPannels beaten: " + timer, width/2, height/2);
+                    text("\npanels beaten: " + timer, width/2, height/2);
                 }
-                if (timer > 100) {
+                if (timer > 50) {
                     text("\n\n\ngeez", width/2, height/2);
                 }
                 if (mouseReleased) {
@@ -1680,7 +1717,7 @@ public class Start extends PApplet {
                     background(255);
                     timer++;
                 }
-                if (timer >= 2) {
+                if (timer > 69) {
                     return new TopClass();
                 }
                 return this;
@@ -1766,7 +1803,7 @@ public class Start extends PApplet {
                             return new theNorth();
                         }
                         else if (key == 'n') {
-                            //adelade
+                            return new Boring();
                         }
                     }
                 }
@@ -1803,12 +1840,12 @@ public class Start extends PApplet {
             this.s = s;
 
             // Normal text:
-            stext[0] = x+drunkedness*random(-sOffs,sOffs); 
+            stext[0] = x+drunkedness*random(-sOffs,sOffs);
             stext[1] = y+drunkedness*random(-sOffs,sOffs);
 
             // Chromatically abberated text:
             for (int i = 0; i < 3; i++) {
-                mtext[i][0] = x+drunkedness*random(-mOffs,mOffs); 
+                mtext[i][0] = x+drunkedness*random(-mOffs,mOffs);
                 mtext[i][1] = y+drunkedness*random(-mOffs,mOffs);
 
                 ltext[i][0] = x+drunkedness*random(-lOffs,lOffs);
@@ -1843,5 +1880,5 @@ public class Start extends PApplet {
 
         }
     }
-    
+
 }
