@@ -298,7 +298,19 @@ public class Start extends PApplet {
         public class courtCase extends Event {
             private boolean success;
             public Event foo() {
-                return new courtCase();
+                background(200, 100, 0);
+                textAlign(CENTER);
+                textSize(40);
+                draw_event("You are currently on trial./nWho is representing you?.",
+                        "Your Friend",
+                        "An Actual Lawyer");
+                if (get_mouse() == 0) {
+                    return new Released();
+                }
+                if (get_mouse() == 1) {
+                    return new Prison();
+                }
+                return this;
             }
         }
 
@@ -368,6 +380,25 @@ public class Start extends PApplet {
             }
         }
 
+        public void draw_event(String textone, String texttwo, String textthree) {
+            // background
+//            background(background);
+            textSize(40);
+            textAlign(CENTER);
+            text(textone, width / 2, 50);
+            text(texttwo, width / 4, height/2);
+            text(textthree, (width * 3 / 4), height/2);
+        }
+
+        public int get_mouse() {
+            if (mousePressed && (mouseX > width / 2)) {
+                return (1);
+            }
+            if (mousePressed && (mouseX <= width / 2)) {
+                return (0);
+            }
+            return(-1);
+        }
 
     }
 
