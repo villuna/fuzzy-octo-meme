@@ -376,7 +376,7 @@ public class Start extends PApplet {
                         return new courtCase();
                     }
                 }
-                return new courtCase();
+                return this;
             }
         }
 
@@ -466,7 +466,7 @@ public class Start extends PApplet {
             }
         }
 
-        public class Ending extends Event {
+        public class LinkA1 extends Event {
 
             public Event foo() {
                 text("Having found nothing interesting on reddit. You continue your education.", width/2, height/2);
