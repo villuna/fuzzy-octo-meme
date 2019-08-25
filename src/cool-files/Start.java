@@ -1348,27 +1348,6 @@ public class Start extends PApplet {
                 }
             }
         }
-
-<<<<<<< HEAD
-    public class J0el extends Bruh {
-        public class DropOut extends Event {
-            BackgroundGen bg;
-            public DropOut() {
-                bg = new BackgroundGen();
-                bg.newPollynomial(2);
-                bg.newGoal(120, 165, 70);
-            }
-            public Event foo() {
-                background(200, 100, 0);
-                textAlign(CENTER);
-                textSize(40);
-                text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/2);
-                if (keyPressed) {
-                    if (key == 'y') {
-                    }
-                    else if (key == 'n') {
-=======
-
     public class J0el extends Bruh {
         public class DropOut extends Event {
             BackgroundGen bg;
