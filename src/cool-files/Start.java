@@ -34,7 +34,7 @@ public class Start extends PApplet {
     public void settings() {
         fullScreen();
         b = new Boreee();
-        currentEvent = b.new Crawl();
+        currentEvent = b.new FadeIn();
         startupSound = new SoundFile(this, "wexp.mp3");
 
 
@@ -766,11 +766,11 @@ public class Start extends PApplet {
                 fill(255);
                 textAlign(CENTER);
                 textSize(25);
-                text("You may be seething with leftist rage, but you're smart. Studious.\nOne day you'll show 'em.\nYou finally graduate and now you must make the big choices in life. Here comes one right now!\nDo you:", width/2, height/10);
+                text("You may be seething with leftist rage, but you're smart. Studious.\nOne day you'll show 'em.\nYou finally graduate and now you must make the big choices in life. Here comes one right now!\nDo you:", width/2, height/12);
 
                 stroke(255);
                 strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
+                line(width/2, height/3.5f, width/2, 5*height/6);
 
                 textSize(40);
                 text("Smoke Crack", width/4, height/2);
@@ -841,11 +841,9 @@ public class Start extends PApplet {
                 if (timer >= 800) {
                     textSize(40);
                     text("YOU JUST GOT PRANKED BY THE PRANK PATROL", width/2, height/2);
-
-                    if (mousePressed && timer < 999) timer = 999;
                 }
 
-                if (timer >= 1000 && mousePressed)
+                if (timer >= 800 && mousePressed)
                     return new PrankdChoice(bg);
 
                 timer++;
@@ -870,7 +868,7 @@ public class Start extends PApplet {
 
                     stroke(255);
                     strokeWeight(5);
-                    line(width/2, height/5, width/2, 4*height/5);
+                    line(width/2, height/4, width/2, 4*height/5);
 
                     textSize(40);
 
@@ -901,6 +899,8 @@ public class Start extends PApplet {
 
                     textSize(20);
                     text("You move to a nice town called Svalbarðsstrandarhreppur.\n However, upon realising you have to learn how to pronounce Icelandic you are hit with a bout of depression. Do you:", width/2, height/10);
+
+                    textSize(40);
                     
                     text("Take a language course", width/4, height/2);
                     text("Drown your sorrows", 3*width/4, height/2);
@@ -929,19 +929,26 @@ public class Start extends PApplet {
             }
 
             public class Pub extends Event {
-                DrunkText[] texts = new DrunkText[3];
+                DrunkText drink;
+                float drunkedness = 0;
 
                 public Pub() {
-                    texts[0] = new DrunkText("Testing, testing", width/2, height/4, 0.25f);
-                    texts[1] = new DrunkText("Testing again", width/2, height/2, 0.5f);
-                    texts[2] = new DrunkText("final test", width/2, 3*height/4, 0.75f);
+                    drink = new DrunkText("Press D to drink", width/2, height/10, 0);
                 }
 
                 public Event foo() {
-                    background(125, 50, 0);
-                    for (int i = 0; i < 3; i++) texts[i].update();
+                    background(0, 0, 200 * (1-drunkedness));
 
-                    filter(BLUR, 1);
+                    if (keyPressed) {
+                        if (key == 'd') {
+                            drunkedness += 0.1;
+                            drink = new DrunkText("Press D to drink", width/2, height/10, drunkedness);
+
+                            filter(BLUR, 1);
+                        }
+                    }
+
+                    drink.update();
                     
                     return this;
                 }
