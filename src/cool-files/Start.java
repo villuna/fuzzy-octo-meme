@@ -1,4 +1,5 @@
 import processing.core.*;
+import processing.sound.*;
 
 public class Start extends PApplet {
     boolean censored = true;
@@ -8,6 +9,7 @@ public class Start extends PApplet {
     boolean keyPressed = false;
     boolean keyReleased = false;
 
+    SoundFile startupSound;
     String playerName = "";
     Event currentEvent;
     Boreee b;
@@ -27,7 +29,9 @@ public class Start extends PApplet {
     public void settings() {
         fullScreen();
         b = new Boreee();
-        currentEvent = b.new Crawl();
+        currentEvent = b.new FadeIn();
+        startupSound = new SoundFile(this, "wexp.mp3");
+
     }
 
     public void draw_question(String question, int r, int g, int b) {
@@ -140,23 +144,23 @@ public class Start extends PApplet {
 	    Button left = new Button(0,0, width/2, height);
 	    Button right = new Button(width/2,0, width/2, height);
 	    fill(255);
-	    
+
 	    draw_question("You meet a new friend. It is lunch time now, what do you want to talk about?\n Left: Do you want to establish World Communism with me?\n Right: Do you not want to establish World Communism with me?", 255, 255, 0);
-	    println(left.clicked()); 
+	    println(left.clicked());
 	    if (left.clicked()) {
 	      clicked_left = true;
 	    } else if (clicked_right) {
 	      clicked_right = true;
-	    } 
-	    
+	    }
+
 
 	    if (clicked_left) {
 	      // Establishing World Communism
 	      background(255,255,0);
-	      String response = playerName + "... You are 5 years old... Whatever.";  
+	      String response = playerName + "... You are 5 years old... Whatever.";
 	      textAlign(CENTER);
 	      text(response, width/2, height/2);
-	      
+
 	      return new Communism();
 
 	    } else if (clicked_right) {
@@ -167,7 +171,7 @@ public class Start extends PApplet {
 
 	      return this;
 	    }
-	    
+
 	    return this;
 	  }
 	}
@@ -176,17 +180,17 @@ public class Start extends PApplet {
 	public Event foo() {
 	    Button left = new Button(0,0, width/2, height);
 	    Button right = new Button(width/2,0, width/2, height);
-	    PFont f; 
+	    PFont f;
 	    f = createFont("Arial", 16, true);
 	    fill(255);
-	    
+
 	    draw_question("Your friend aggres with your plan. He shakes you hand and utters his full name. \n Joseph Stalin. \n Obviously as a 5 year old this means nothing to you. Click on the: \n Left - Continue hanging out with Joseph \n Right - Make new friends", 255, 0 ,255);
 
-	    	    
+
 	    return this;
 
 	}
-      }	
+      }
   }
 	  /*
 	  boolean clicked = false;
@@ -387,6 +391,9 @@ public class Start extends PApplet {
                 background(bg);
 
                 bg++;
+                if (bg == 50) {
+                    startupSound.play();
+                }
 
                 if (bg >= 255) {
                     return new Birth();
@@ -405,7 +412,7 @@ public class Start extends PApplet {
                 text("You are born", width / 2, height / 2);
 
                 if (mousePressed) {
-//                   Boreee is = new Start();
+//                   Boreee is = new Start()
                     return new AfterBorn();
                 } else {
                     return this;
@@ -623,7 +630,7 @@ public class Start extends PApplet {
             }
         }
 
-            
+
         public class FinishHighSchool extends Event {
             public Event foo() {
                 background(200, 100, 0);
@@ -684,7 +691,7 @@ public class Start extends PApplet {
                 image(bg.goal, 0, 0);
                 textAlign(CENTER);
                 textSize(30);
-                
+
 
                 text("The walls rise into the air, lights come out of nowhere, fog seeps into your room.", width/2, height/10);
 
