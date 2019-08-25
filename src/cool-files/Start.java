@@ -596,7 +596,7 @@ public class Start extends PApplet {
 
             public CrawlLeft() {
                 bg = new BackgroundGen();
-                bg.newGoal(0, 57, 100);
+                bg.newGoal(0, 57, 40);
             }
 
             public Event foo() {
@@ -611,7 +611,7 @@ public class Start extends PApplet {
 
                 stroke(255);
                 strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
+                line(width/2, height/4, width/2, 4*height/5);
 
                 if (mousePressed) {
                     if (mouseX <= width/2) {
@@ -1289,6 +1289,13 @@ public class Start extends PApplet {
                     background(255);
                     timer++;
                 }
+                return this;
+            }
+        }
+
+        public class cairns extends Event {
+            public Event foo() {
+                background(0);
                 return this;
             }
         }
