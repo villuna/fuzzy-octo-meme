@@ -142,23 +142,23 @@ public class Start extends PApplet {
 	    Button left = new Button(0,0, width/2, height);
 	    Button right = new Button(width/2,0, width/2, height);
 	    fill(255);
-	    
+
 	    draw_question("You meet a new friend. It is lunch time now, what do you want to talk about?\n Left: Do you want to establish World Communism with me?\n Right: Do you not want to establish World Communism with me?", 255, 255, 0);
-	    println(left.clicked()); 
+	    println(left.clicked());
 	    if (left.clicked()) {
 	      clicked_left = true;
 	    } else if (clicked_right) {
 	      clicked_right = true;
-	    } 
-	    
+	    }
+
 
 	    if (clicked_left) {
 	      // Establishing World Communism
 	      background(255,255,0);
-	      String response = playerName + "... You are 5 years old... Whatever.";  
+	      String response = playerName + "... You are 5 years old... Whatever.";
 	      textAlign(CENTER);
 	      text(response, width/2, height/2);
-	      
+
 	      return new Communism();
 
 	    } else if (clicked_right) {
@@ -169,7 +169,7 @@ public class Start extends PApplet {
 
 	      return this;
 	    }
-	    
+
 	    return this;
 	  }
 	}
@@ -178,17 +178,17 @@ public class Start extends PApplet {
 	public Event foo() {
 	    Button left = new Button(0,0, width/2, height);
 	    Button right = new Button(width/2,0, width/2, height);
-	    PFont f; 
+	    PFont f;
 	    f = createFont("Arial", 16, true);
 	    fill(255);
-	    
+
 	    draw_question("Your friend aggres with your plan. He shakes you hand and utters his full name. \n Joseph Stalin. \n Obviously as a 5 year old this means nothing to you. Click on the: \n Left - Continue hanging out with Joseph \n Right - Make new friends", 255, 0 ,255);
 
-	    	    
+
 	    return this;
 
 	}
-      }	
+      }
   }
 	  /*
 	  boolean clicked = false;
@@ -625,7 +625,7 @@ public class Start extends PApplet {
             }
         }
 
-            
+
         public class FinishHighSchool extends Event {
             public Event foo() {
                 background(200, 100, 0);
@@ -1241,10 +1241,83 @@ public class Start extends PApplet {
                 text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/5);
                 if (keyPressed) {
                     if (key == 'y') {
+                        return new Smoke();
                     }
                     else if (key == 'n') {
+                        return new Boring();
                     }
                 }
+                return this;
+            }
+        }
+
+        public class Boring extends Event {
+            int timer = 0;
+            public Event foo() {
+                background(50);
+                fill(200);
+                text("Seeing as you have no sense of adventure,\nyou decide to become a pannel beater.\nYou move to broom to enhance your job prospects", width/2,height/2);
+                if (timer > 60*3) {
+                    text("\n\n\n\nclick to beat pannels", width/2, height/2);
+                }
+                if (mouseReleased) {
+                    return new Beat();
+                }
+                timer++;
+                return this;
+            }
+        }
+
+        public class Beat extends Event {
+            int timer = 0;
+            public Event foo() {
+                background(50);
+                fill(200);
+                text("click to beat\n", width/2, height/2);
+                if (timer > 5) {
+                    text("\nPannels beaten: " + timer, width/2, height/2);
+                }
+                if (timer > 100) {
+                    text("\n\n\ngeez", width/2, height/2);
+                }
+                if (mouseReleased) {
+                    background(255);
+                    timer++;
+                }
+                return this;
+            }
+        }
+
+        public class Smoke extends Event {
+            int timer = 0;
+            public Event foo() {
+                fill(0, 0, 0, 20);
+                noStroke();
+                rect(0, 0, width, height);
+                //background(200, 100, 0);
+                textAlign(CENTER, CENTER);
+                textSize(40);
+                fill(random(255), random(255), random(255));
+                if (timer >= 15*60) {
+                    if (keyPressed) {
+                        if (key == 'y') {
+                            //the north
+                        }
+                        else if (key == 'n') {
+                            //adelade
+                        }
+                    }
+                }
+                if (timer >= 22*60) {
+                    text("(that's a [y/n] situation my dude)", mouseX, mouseY);
+                } else if (timer >= 15*60) {
+                    text("How does tropical north sound?", mouseX, mouseY);
+                } else if (timer >= 5*60) {
+                    text("Seeing as we're all one\nI think its time to move away from Darwin", mouseX, mouseY);
+                } else {
+                    text("woah dude", mouseX, mouseY);
+                }
+                timer++;
                 return this;
             }
         }
