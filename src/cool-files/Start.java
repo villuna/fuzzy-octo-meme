@@ -9,7 +9,11 @@ public class Start extends PApplet {
     boolean keyPressed = false;
     boolean keyReleased = false;
 
+    TrippyOsc saw;
+    TrippyOsc sawt;
+    TrippyOsc sawtt;
     SoundFile startupSound;
+    SoundFile[] greatestHits;
     String playerName = "";
     Event currentEvent;
     Boreee b;
@@ -26,12 +30,24 @@ public class Start extends PApplet {
         PApplet.main(appletArgs);
     }
 
+
     public void settings() {
         fullScreen();
         b = new Boreee();
         currentEvent = b.new Crawl();
         startupSound = new SoundFile(this, "wexp.mp3");
 
+
+        greatestHits = new SoundFile[4];
+        greatestHits[0] = new SoundFile(this, "hit1.mp3");
+        greatestHits[1] = new SoundFile(this, "hit2.mp3");
+        greatestHits[2] = new SoundFile(this, "hit3.mp3");
+        greatestHits[3] = new SoundFile(this, "hit 4.mp3");
+    }
+
+    public void play_hit() {
+        int num = (int)random(0,4);
+        greatestHits[num].play();
     }
 
     public void draw_question(String question, int r, int g, int b) {
@@ -55,10 +71,80 @@ public class Start extends PApplet {
         mouseReleased = false;
         keyPressed = false;
         keyReleased = false;
+
     }
 
     public void keyReleased() {
         keyReleased = true;
+    }
+
+    class TrippyOsc extends Bruh {
+
+        /*
+        saw = new TrippyOsc(this);
+        sawt = new TrippyOsc(this);
+        sawtt = new TrippyOsc(this);
+        saw.setup(20, 1000, 2, 500);
+        sawt.setup(20, 1000, 2, 100);
+        sawtt.setup(20, 1000, 2, 100);
+        saw.play();
+        sawt.play();
+        sawtt.play();
+         */
+
+        // Put thises in main draw loop
+        //        saw.update();
+        //        sawt.update();
+        //        sawtt.update();
+
+        int fre = 100;
+        float pan = 0;
+        int upperBound = 2000;
+        int lowerBound = 20;
+        int panAmount = 0;
+        int walkAmount = 0;
+        SinOsc osc;
+
+        public TrippyOsc(PApplet thingy) {
+            osc = new SinOsc(thingy);
+        }
+
+        public void setup(int lowerbound, int upperbound, int panamount, int walkamount) {
+            lowerBound = lowerbound;
+            upperBound = upperbound;
+            panAmount = panamount;
+            walkAmount = walkamount;
+        }
+
+        void play() {
+            osc.play();
+        }
+
+        void stop() {
+            osc.stop();
+        }
+
+        void update() {
+            // applies randomisation
+            osc.freq(fre);
+            osc.pan(0);
+            if ( (int)(random(panAmount)) == 1 ){
+                if (random(panAmount) > (panAmount/2)) {
+                    osc.pan((float)1.0);
+                } else
+                    osc.pan((float)0.0);
+            }
+            if ((int)(random(walkAmount)) > 1) {
+                fre += random(-1*walkAmount, walkAmount);
+                if (fre > upperBound) {
+                    fre= upperBound;
+                }
+                if (fre < lowerBound) {
+                    fre = lowerBound;
+                }
+            }
+            osc.freq(fre);
+        }
     }
 
     public void keyPressed() {
@@ -74,7 +160,6 @@ public class Start extends PApplet {
         mouseReleased = true;
         mouseDown = false;
     }
-
 
     public class Screen {
         int border = 32;
@@ -323,7 +408,7 @@ public class Start extends PApplet {
                 line(80, 0, 80, height);
                 textAlign(CENTER);
                 textSize(40);
-                text("You have been sentenced for your crimes. Now serve two years in jail. Press Enter", width/2, height/2);
+                text("You have been sentenced for your crimes. Now serve forty-five years in jail. Press Enter", width/2, height/2);
                 if (keyPressed) {
                     if (key == ENTER) {
                         return new Attacked();
@@ -347,7 +432,7 @@ public class Start extends PApplet {
                 line(80, 0, 80, height);
                 textAlign(CENTER);
                 textSize(40);
-                text("You are being attacked. Quickly mash d.", width/2, height/2);
+                text("You are being attacked. Quickly Mash Enter.", width/2, height/2);
                 if (keyPressed) {
                     if (key == ENTER) {
                         success = success + 1;
@@ -375,10 +460,22 @@ public class Start extends PApplet {
 
         public class Released extends Event {
             public Event foo() {
+                text("You have just been released from jail/n However your long time in prison has made old and uncapable./n Thus your lose sight of your goal/n and live the rest of your miserable life with a family. /n Game Over", width/2, height/2);
                 exit();
-                return new Attacked();
+                return this;
             }
         }
+
+        public class Ending extends Event {
+
+            public Event foo() {
+                text("Having found nothing interesting on reddit. You continue your education.", width/2, height/2);
+                AlStory al = new AlStory();
+                return al.new School();
+            }
+        }
+
+
 
         public void draw_event(String textone, String texttwo, String textthree) {
             // background
@@ -628,7 +725,7 @@ public class Start extends PApplet {
 
             public CrawlLeft() {
                 bg = new BackgroundGen();
-                bg.newGoal(0, 57, 100);
+                bg.newGoal(0, 57, 40);
             }
 
             public Event foo() {
@@ -643,7 +740,7 @@ public class Start extends PApplet {
 
                 stroke(255);
                 strokeWeight(5);
-                line(width/2, height/5, width/2, 4*height/5);
+                line(width/2, height/4, width/2, 4*height/5);
 
                 if (mousePressed) {
                     if (mouseX <= width/2) {
@@ -1423,30 +1520,109 @@ public class Start extends PApplet {
                 }
             }
         }
-
-
-        public class J0el extends Bruh {
-            public class DropOut extends Event {
-                BackgroundGen bg;
-                public DropOut() {
-                    bg = new BackgroundGen();
-                    bg.newPollynomial(2);
-                    bg.newGoal(120, 165, 70);
+    public class J0el extends Bruh {
+        public class DropOut extends Event {
+            BackgroundGen bg;
+            public DropOut() {
+                bg = new BackgroundGen();
+                bg.newPollynomial(4);
+                bg.newGoal(120, 165, 70);
+            }
+            public Event foo() {
+                image(bg.goal, 0, 0);
+                //background(200, 100, 0);
+                textAlign(CENTER, CENTER);
+                textSize(40);
+                text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/5);
+                if (keyPressed) {
+                    if (key == 'y') {
+                        return new Smoke();
+                    }
+                    else if (key == 'n') {
+                        return new Boring();
+                    }
                 }
-                public Event foo() {
-                    background(200, 100, 0);
-                    textAlign(CENTER);
-                    textSize(40);
-                    text("Fair shout. You'll show em.\nHeck the government dude.\nyoyo\nKeen to get into the good stuff tho?\n\n[y/n]", width/2, height/2);
+                return this;
+            }
+        }
+
+        public class Boring extends Event {
+            int timer = 0;
+            public Event foo() {
+                background(50);
+                fill(200);
+                text("Seeing as you have no sense of adventure,\nyou decide to become a pannel beater.\nYou move to broom to enhance your job prospects", width/2,height/2);
+                if (timer > 60*3) {
+                    text("\n\n\n\nclick to beat pannels", width/2, height/2);
+                }
+                if (mouseReleased) {
+                    return new Beat();
+                }
+                timer++;
+                return this;
+            }
+        }
+
+        public class Beat extends Event {
+            int timer = 0;
+            public Event foo() {
+                background(50);
+                fill(200);
+                text("click to beat\n", width/2, height/2);
+                if (timer > 5) {
+                    text("\nPannels beaten: " + timer, width/2, height/2);
+                }
+                if (timer > 100) {
+                    text("\n\n\ngeez", width/2, height/2);
+                }
+                if (mouseReleased) {
+                    background(255);
+                    timer++;
+                }
+                return this;
+            }
+        }
+
+        public class cairns extends Event {
+            public Event foo() {
+                background(0);
+                return this;
+            }
+        }
+
+        public class Smoke extends Event {
+            int timer = 0;
+            public Event foo() {
+                fill(0, 0, 0, 20);
+                noStroke();
+                rect(0, 0, width, height);
+                //background(200, 100, 0);
+                textAlign(CENTER, CENTER);
+                textSize(40);
+                fill(random(255), random(255), random(255));
+                if (timer >= 15*60) {
                     if (keyPressed) {
                         if (key == 'y') {
+                            //the north
                         }
                         else if (key == 'n') {
+                            //adelade
                         }
                     }
-                    return this;
                 }
+                if (timer >= 22*60) {
+                    text("(that's a [y/n] situation my dude)", mouseX, mouseY);
+                } else if (timer >= 15*60) {
+                    text("How does tropical north sound?", mouseX, mouseY);
+                } else if (timer >= 5*60) {
+                    text("Seeing as we're all one\nI think its time to move away from Darwin", mouseX, mouseY);
+                } else {
+                    text("woah dude", mouseX, mouseY);
+                }
+                timer++;
+                return this;
             }
+        }
     }
 
     public class DrunkText {
