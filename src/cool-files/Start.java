@@ -18,6 +18,7 @@ public class Start extends PApplet {
     String playerName = "";
     Event currentEvent;
     Boreee b;
+    PFont fnt;
 
     // Important function: don't delete or everything will break
     // I'm not sure why
@@ -45,6 +46,12 @@ public class Start extends PApplet {
         greatestHits[1] = new SoundFile(this, "hit2.mp3");
         greatestHits[2] = new SoundFile(this, "hit3.mp3");
         greatestHits[3] = new SoundFile(this, "hit 4.mp3");
+
+    }
+
+    public void setup() {
+        fnt = createFont("rockwen.ttf", 10);
+        textFont(fnt);
     }
 
     public void play_hit() {
@@ -509,7 +516,6 @@ public class Start extends PApplet {
             int bg = 0;
             boolean debug = false;
 
-
             public Event foo() {
                 if (debug == true) {
                     // jump to point in story;
@@ -932,7 +938,7 @@ public class Start extends PApplet {
                     sf.update();
 
                     textSize(20);
-                    text("You move to a nice town called Svalbarðsstrandarhreppur.\n However, upon realising you have to learn how to pronounce Icelandic you are hit with a bout of depression. Do you:", width/2, height/10);
+                    text("You move to a nice town called Svalbardsstrandarhreppur.\n However, upon realising you have to learn how to pronounce Icelandic you are hit with a bout of depression. Do you:", width/2, height/10);
 
                     textSize(40);
 
