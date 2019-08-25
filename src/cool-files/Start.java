@@ -9,7 +9,6 @@ public class Start extends PApplet {
     boolean keyPressed = false;
     boolean keyReleased = false;
 
-    TrippyOsc saw;
     SoundFile startupSound;
     SoundFile[] greatestHits;
     String playerName = "";
@@ -33,19 +32,7 @@ public class Start extends PApplet {
         fullScreen();
         b = new Boreee();
         currentEvent = b.new FadeIn();
-        startupSound = new SoundFile(this, "wexp.mp3");
-
-        saw = new TrippyOsc(this);
-        saw.setup(20, 1000, 100, 1);
-        saw.play();
-
-        greatestHits = new SoundFile[4];
-        greatestHits[0] = new SoundFile(this, "hit1.mp3");
-        greatestHits[1] = new SoundFile(this, "hit2.mp3");
-        greatestHits[2] = new SoundFile(this, "hit3.mp3");
-        greatestHits[3] = new SoundFile(this, "hit 4.mp3");
-
-
+        
     }
 
     public void play_hit() {
@@ -67,6 +54,35 @@ public class Start extends PApplet {
       text(question, 1920/5, 100, 3*(1920/5), 500);
     }
 
+    public void continue_prompt (int time, String type, int x_pos, int y_pos) {
+      PFont f;
+      f = createFont("Arial", 14, true);
+
+      boolean continue_prompt = false;
+
+
+      textAlign(CENTER);
+      if (type == "ENTER"){	
+	textFont(f, 14);
+	if (frameCount % (time*60) == 0) {
+	  continue_prompt = true;
+	}
+	if (continue_prompt) {
+	  text("Press ENTER to continue", x_pos, y_pos);
+	}
+
+	} else if (type == "CLICK") {
+	    textFont(f, 14);
+	    if (frameCount % (time *60) == 0) {
+	      continue_prompt = true;
+	    }
+	    if (continue_prompt) {
+	      text("Please RIGHT-CLICK to continue", x_pos, y_pos);
+	    }
+	  }
+      }
+    
+
     public void draw() {
         currentEvent = currentEvent.foo();
 
@@ -74,49 +90,11 @@ public class Start extends PApplet {
         mouseReleased = false;
         keyPressed = false;
         keyReleased = false;
-
-        saw.update();
     }
 
     public void keyReleased() {
         keyReleased = true;
-    }
-
-    class TrippyOsc extends SawOsc {
-
-        int fre = 100;
-        float pan = 0;
-        int upperBound = 2000;
-        int lowerBound = 20;
-        int panAmount = 0;
-        int walkAmount = 0;
-
-        void setup(int lowerbound, int upperbound, int panamount, int walkamount) {
-            lowerBound = lowerbound;
-            upperBound = upperbound;
-            panAmount = panamount;
-            walkAmount = walkamount;
-        }
-
-        void update() {
-            if ( (int)(random(panAmount)) == 1 ){
-                if (random(panAmount) > (panAmount/2)) {
-                    this.pan((float)1.0);
-                } else
-                    this.pan((float)0.0);
-            }
-            if ((int)(random(walkAmount)) > 1) {
-                fre += random(-1*walkAmount, walkAmount);
-                if (fre > upperBound) {
-                    fre= upperBound;
-                }
-                if (fre < lowerBound) {
-                    fre = lowerBound;
-                }
-            }
-            this.fre(freq);
-        }
-    }
+    } 
 
     public void keyPressed() {
         keyPressed = true;
